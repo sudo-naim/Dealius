@@ -37,10 +37,12 @@ namespace Dealius.Pages
             Assert.Equal(BRMonths, s);
         }
 
-        public void Check
+        public void dd()
+        {
+            DateTime daterangestart = new DateTime()
+            var dateinput = dt.ToString("yyyy-MM-dd");
 
-
-
+        }
 
         public String getVal(IWebElement webElement)
         {

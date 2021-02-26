@@ -2,6 +2,7 @@
 using System;
 using OpenQA.Selenium.Support.UI;
 using Dealius.Utils;
+using System.Globalization;
 
 namespace Dealius.Pages
 {
@@ -65,7 +66,9 @@ namespace Dealius.Pages
 
         public void InputCalculationStartDate()
         {
-            Method.Input(wait, StartDateInput, "01.01,2021" + Keys.Enter);
+            DateTime StartDate = DateTime.ParseExact("01.01.2021", "dd.MM.yyyy", CultureInfo.InvariantCulture);
+            
+            Method.Input(wait, StartDateInput, StartDate.ToString("MM/dd/yyyy") + Keys.Enter);
         }
 
         public void InputLeaseType()

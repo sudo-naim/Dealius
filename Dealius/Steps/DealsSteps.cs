@@ -63,6 +63,5 @@ namespace Dealius.Steps
             leaseRateCalculatorPage.CheckBaseRentMonthsResult(BaseRentMonths);
         }
 
-
     }
 }
