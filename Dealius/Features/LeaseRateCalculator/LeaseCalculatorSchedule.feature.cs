@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Dealius.Features
+namespace Dealius.Features.LeaseRateCalculator
 {
     using TechTalk.SpecFlow;
     using System;
@@ -19,7 +19,7 @@ namespace Dealius.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class DealsFeature : object, Xunit.IClassFixture<DealsFeature.FixtureData>, System.IDisposable
+    public partial class LeaseCalculatorScheduleFeature : object, Xunit.IClassFixture<LeaseCalculatorScheduleFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Dealius.Features
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "Deals.feature"
+#line 1 "LeaseCalculatorSchedule.feature"
 #line hidden
         
-        public DealsFeature(DealsFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public LeaseCalculatorScheduleFeature(LeaseCalculatorScheduleFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace Dealius.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Deals", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator", "LeaseCalculatorSchedule", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -89,23 +89,15 @@ namespace Dealius.Features
             this.TestTearDown();
         }
         
-        [Xunit.SkippableTheoryAttribute(DisplayName="Verify")]
-        [Xunit.TraitAttribute("FeatureTitle", "Deals")]
-        [Xunit.TraitAttribute("Description", "Verify")]
-        [Xunit.InlineDataAttribute("12", "", "", "", "", "", "", new string[0])]
-        public virtual void Verify(string baseRentMonths, string ratePerSF, string freeRentMonths, string baseRateMonthlyRate, string totalLease, string commissionRatesRep, string grossCommissionHouse, string[] exampleTags)
+        [Xunit.SkippableFactAttribute(DisplayName="User generates schedule for specific Rate Per SF")]
+        [Xunit.TraitAttribute("FeatureTitle", "LeaseCalculatorSchedule")]
+        [Xunit.TraitAttribute("Description", "User generates schedule for specific Rate Per SF")]
+        public virtual void UserGeneratesScheduleForSpecificRatePerSF()
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("Base Rent Months", baseRentMonths);
-            argumentsOfScenario.Add("Rate per SF", ratePerSF);
-            argumentsOfScenario.Add("Free Rent Months", freeRentMonths);
-            argumentsOfScenario.Add("Base Rate Monthly Rate", baseRateMonthlyRate);
-            argumentsOfScenario.Add("Total Lease", totalLease);
-            argumentsOfScenario.Add("Commission Rates Rep", commissionRatesRep);
-            argumentsOfScenario.Add("Gross Commission House", grossCommissionHouse);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 6
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("User generates schedule for specific Rate Per SF", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -128,17 +120,64 @@ this.ScenarioInitialize(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line hidden
-#line 7
- testRunner.Given("a user opens the Lease Rate Calculator for that deal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 8
- testRunner.When("the user enters 15$ for the Rate per SF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("a user opens the Lease Rate Calculator for that deal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
+ testRunner.When("the user enters the Rate per SF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 11
  testRunner.And("generates schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 10
- testRunner.Then(string.Format("the the first row results are {0}{1}{2}{3}{4}{5}{6}", baseRentMonths, ratePerSF, freeRentMonths, baseRateMonthlyRate, totalLease, commissionRatesRep, grossCommissionHouse), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 12
+ testRunner.Then("all columns of the first row are correct", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Base rate is calculated automatically when users input Rate per SF")]
+        [Xunit.TraitAttribute("FeatureTitle", "LeaseCalculatorSchedule")]
+        [Xunit.TraitAttribute("Description", "Base rate is calculated automatically when users input Rate per SF")]
+        public virtual void BaseRateIsCalculatedAutomaticallyWhenUsersInputRatePerSF()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base rate is calculated automatically when users input Rate per SF", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 14
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line hidden
+#line 15
+ testRunner.And("a user opens the Lease Rate Calculator for that deal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 16
+ testRunner.When("the user enters the Rate per SF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 17
+ testRunner.And("presses tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 18
+ testRunner.Then("the rate input field is filled in automatically", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -151,12 +190,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                DealsFeature.FeatureSetup();
+                LeaseCalculatorScheduleFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                DealsFeature.FeatureTearDown();
+                LeaseCalculatorScheduleFeature.FeatureTearDown();
             }
         }
     }

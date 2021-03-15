@@ -23,8 +23,8 @@ namespace Dealius
 
         public void Login()
         {
-            Method.Input(wait, LoginInput, "naim+officeadmin@upeodev.com");
-            Method.Input(wait, PasswordInput, "1");
+            Method.Input(wait, LoginInput, "user-officeadmin@dealius.com");
+            Method.Input(wait, PasswordInput, "123");
             Method.WaitElementToBeClickable(wait, SignIn).Click();
         }
 

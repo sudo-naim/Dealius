@@ -9,13 +9,33 @@ namespace Dealius.Utils
     {
         public static void Input(WebDriverWait wait, By selector, string text)
         {
-            var element = WaitElement(wait, selector);
+            var element = WaitForElement(wait, selector);
             element.SendKeys(Keys.Control + 'a');
             element.SendKeys(Keys.Backspace);
             element.SendKeys(text);
         }
 
-        public static IWebElement WaitElement(DefaultWait<IWebDriver> wait, By locator)
+        public static double GetElementValueDouble(WebDriverWait wait,By locator)
+        {
+            IWebElement e = WaitForElement(wait, locator);
+            double value = string.IsNullOrEmpty(e.GetAttribute("value")) ? 0 : Double.Parse(e.GetAttribute("value"));
+            return value;
+        }
+
+        public static void WaitUrlContains(WebDriverWait wait, string text)
+        {
+            try
+            {
+                
+                wait.Until(drv => drv.Url.Contains($"{text}"));
+            }
+            catch
+            {
+                throw new ArgumentException($"string:'{text}' not found in the URL");
+            }
+        }
+
+        public static IWebElement WaitForElement(DefaultWait<IWebDriver> wait, By locator)
         {
             try
             {
@@ -92,6 +112,14 @@ namespace Dealius.Utils
         //    {
         //        throw new WebDriverTimeoutException($"Timeout while waiting for {locator}");
         //    }
+        //}
+
+        //public String GetElementValueByCssSelector(string selector)
+        //{
+        //    IJavaScriptExecutor e = (IJavaScriptExecutor)driver;
+        //    return (String)e.ExecuteScript(String.Format($"return $(\"{selector}\").val();"));
+        //  //return (String)e.ExecuteScript(String.Format("return $(\"input[name = 'Rents[0][Months]']\").val();", webElement.GetAttribute("name")));
+
         //}
     }
 }

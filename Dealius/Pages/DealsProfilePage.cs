@@ -8,8 +8,6 @@ namespace Dealius.Pages
 {
     class DealsProfilePage
     {
-        IWebDriver driver;
-        WebDriverWait wait;
         #region Locators
         By DealNameInput = By.Name("DealName");
         By ClientName = By.Id("ClientName");
@@ -26,28 +24,35 @@ namespace Dealius.Pages
         By SpaceRequiredInput = By.Name("RequestedSpace");
         By ContinueButton = By.XPath("//button[contains(text(),'CONTINUE')]");
         #endregion
+        IWebDriver driver;
+        WebDriverWait wait;
+
+        public static int SpaceInSF { get; private set; }
+        public static DateTime StartDate { get; private set; }
+        public static int TermInMonths { get; private set; }
+
         public DealsProfilePage(IWebDriver driver)
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
 
-        public void InputDealName()
+        public void InputDealName(string DealName)
         {
-            Method.Input(wait, DealNameInput, "AutomationTest");
+            Method.Input(wait, DealNameInput, DealName);
         }
 
-        public void InputCompanyName()
+        public void InputCompanyName(string CompanyName)
         {
             Method.WaitElementToBeClickable(wait, ClientName).Click();
             Method.WaitElementToBeClickable(wait, AddNew).Click();
-            Method.Input(wait, NameInput, "ANewCompany");
+            Method.Input(wait, NameInput, CompanyName);
             Method.WaitElementToBeClickable(wait, SaveFormButton).Click();
         }
 
-        public void InputEstimatedCloseDate()
+        public void InputEstimatedCloseDate(string Date)
         {
-            Method.Input(wait, EstimatedCloseDate, "03.20.2021" + Keys.Enter);
+            Method.Input(wait, EstimatedCloseDate, Date + Keys.Enter);
         }
 
         public void ClickSave()
@@ -64,28 +69,30 @@ namespace Dealius.Pages
             Method.WaitElementToBeClickable(wait, CalculateButton).Click();
         }
 
-        public void InputCalculationStartDate()
+        public void InputCalculationStartDate(DateTime StartDate)
         {
-            DateTime StartDate = DateTime.ParseExact("01.01.2021", "dd.MM.yyyy", CultureInfo.InvariantCulture);
-            
+            //StartDate = DateTime.ParseExact(Date, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+            //Method.Input(wait, StartDateInput, StartDate.ToString("MM/dd/yyyy") + Keys.Enter);
             Method.Input(wait, StartDateInput, StartDate.ToString("MM/dd/yyyy") + Keys.Enter);
         }
 
-        public void InputLeaseType()
+        public void InputLeaseType(string LeaseType)
         {
             Method.WaitElementToBeClickable(wait, LeasTypeSelect).Click();
-            Method.WaitElementToBeClickable(wait, By.XPath("//button/following::span[contains(text(),'Assignment')][2]")).Click();
+            Method.WaitElementToBeClickable(wait, By.XPath($"//button/following::span[contains(text(),'{LeaseType}')][2]")).Click();
         }
         
-        public void InputTerm()
+        public void InputTerm(int months)
         {
-            driver.FindElements(By.XPath("//input[@name='Term']"))[1].SendKeys("12"+Keys.Enter);
+            TermInMonths = months;
+            driver.FindElements(TermInput)[1].SendKeys(months.ToString()+Keys.Enter);
             //Method.Input(wait, TermInput, "12");
         }
 
-        public void InputSpaceRequired()
+        public void InputSpaceRequired(int SpaceinSF)
         {
-            Method.Input(wait, SpaceRequiredInput, "500");
+            SpaceInSF = SpaceinSF;
+            Method.Input(wait, SpaceRequiredInput, SpaceInSF.ToString());
         }
 
         public void ClickContinue()

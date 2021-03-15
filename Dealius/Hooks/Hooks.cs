@@ -11,7 +11,7 @@ namespace Dealius.Hooks
         private IWebDriver driver;
         private IObjectContainer objcontainer;
         private DealiusPage dealiusPage;
-        protected string URL = "https://staging.dealius.com/";
+        protected string URL = "https://dealius-dev-tests.azurewebsites.net/";
         public Hooks(IObjectContainer objcontainer)
         {
             this.objcontainer = objcontainer;
