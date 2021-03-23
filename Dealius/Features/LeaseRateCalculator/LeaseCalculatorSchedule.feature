@@ -1,5 +1,6 @@
 ﻿Feature: LeaseCalculatorSchedule
-
+#----------------------
+#----------------------
 Background: 
 	Given a user adds a new lease deal
 
@@ -10,6 +11,8 @@ Scenario: User generates schedule for specific Rate Per SF
 	#When the user enters 15$ for the Rate per SF
 	And generates schedule
 	Then all columns of the first row are correct
+
+
 
 Scenario: Base rate is calculated automatically when users input Rate per SF
 	And a user opens the Lease Rate Calculator for that deal

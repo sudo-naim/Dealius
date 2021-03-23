@@ -64,7 +64,7 @@ namespace Dealius.Steps
             dealsProfilePage.InputSpaceRequired(900);
             dealsProfilePage.ClickContinue();
         }
-
+        [Given(@"generates schedule")]
         [When(@"generates schedule")]
         public void WhenGeneratesSchedule()
         {
@@ -127,7 +127,7 @@ namespace Dealius.Steps
             leaseRateCalculatorPage.CheckLeaseCalculatorPageLanded();
         }
 
-        [Then(@"all Deal Information is displayed")]
+        [Then(@"all Deal Information is displayed correctly")]
         public void ThenAllDealInformationIsDisplayed()
         {
             leaseRateCalculatorPage.CheckLeaseType(deal.LeaseType);
@@ -136,5 +136,25 @@ namespace Dealius.Steps
             leaseRateCalculatorPage.CheckMonths(deal.Months);
             leaseRateCalculatorPage.CheckSquareFootage(deal.SpaceRequired);
         }
+
+        [Given(@"Rate Type option '(.*)' is selected")]
+        public void GivenRateTypeOptionIsSelected(string RateType)
+        {
+            leaseRateCalculatorPage.CheckRateType(RateType);
+        }
+
+        [Given(@"Base Rate column header displays '(.*)'")]
+        [Then(@"Base Rate column header displays '(.*)'")]
+        public void ThenBaseRateColumnHeaderDisplays(string BaseRateTitle)
+        {
+            leaseRateCalculatorPage.CheckBaseRateTitle(BaseRateTitle);
+        }
+
+        [When(@"the user selects Rate Type option '(.*)'")]
+        public void WhenTheUserSelectsRateTypeOption(string RateType)
+        {
+            leaseRateCalculatorPage.SelectRateType(RateType);
+        }
+
     }
 }

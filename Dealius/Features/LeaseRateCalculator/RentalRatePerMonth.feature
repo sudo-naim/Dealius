@@ -16,5 +16,3 @@ Scenario: Rental Rate recalculation by Rate
 	When the user enters the Rate
 	And generates schedule
 	Then the Rental Rate is recalculated accordingly
-
-Scenario: 

@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using Dealius.Utils;
 using Xunit;
+using System.Collections.Generic;
 
 namespace Dealius.Pages
 {
@@ -117,7 +118,6 @@ namespace Dealius.Pages
 
         public void CheckLeaseCommencement(DateTime StartDate)
         {
-
             string LeaseCommencement = driver.FindElement(LeaseStartDatetd).Text;
             Assert.Equal(StartDate.ToString("MM/dd/yyyy"), LeaseCommencement);
         }
@@ -141,11 +141,44 @@ namespace Dealius.Pages
             Assert.Equal(SquareFootageExpected, SquareFootage);
         }
 
-        public void CheckRentalRate()
+        public void CheckRateType(string RateTypeText)
         {
+            IWebElement RateTypeSelect = Method.WaitElementEnabled(wait, By.CssSelector("select[name='RateType']"));
+            SelectElement select = new SelectElement(RateTypeSelect);
 
+            //IList<IWebElement> options =  select.AllSelectedOptions;
+            //foreach (var optionn in options)
+            //{
+
+            //}
+            string option = select.SelectedOption.Text;
+            Assert.Equal(RateTypeText, option);
         }
         
+        public void CheckBaseRateTitle(string BaseRateTitle)
+        {
+            string BaseRateTitleText = Method.WaitElementEnabled(wait, By.XPath("//div[@id='rentsGrid']/descendant::th[contains(text(),'Monthly Rate')]")).Text;
+            //string BaseRateTitleText = Method.WaitForElement(wait, By.XPath("//div[@id='rentsGrid']/descendant::th[13]")).Text;
+            Assert.Equal(BaseRateTitle, BaseRateTitleText);
+            Assert.
+        }
+
+        public void SelectRateType(string RateTypeOption)
+        {
+            IWebElement RateTypeSelect = Method.WaitElementEnabled(wait, By.CssSelector("select[name='RateType']"));
+            SelectElement select = new SelectElement(RateTypeSelect);
+
+            switch (RateTypeOption)
+            {
+                case "Per Month":
+                    select.SelectByValue("1");
+                    break;
+                case "Per Year":
+                    select.SelectByValue("2");
+                    break;
+            }
+
+        }
     }
 }
 

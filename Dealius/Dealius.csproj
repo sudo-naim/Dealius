@@ -135,7 +135,7 @@
     <None Include="app.config" />
     <None Include="Features\LeaseRateCalculator\DealInformation.feature" />
     <None Include="Features\LeaseRateCalculator\LeaseCalculatorSchedule.feature" />
-    <None Include="Features\LeaseRateCalculator\RentalPerSF.feature" />
+    <None Include="Features\LeaseRateCalculator\RateType.feature" />
     <None Include="Features\LeaseRateCalculator\RentalRatePerMonth.feature" />
     <None Include="packages.config" />
   </ItemGroup>

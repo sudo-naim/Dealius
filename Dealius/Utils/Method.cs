@@ -88,6 +88,33 @@ namespace Dealius.Utils
             }
         }
 
+        public static IWebElement WaitElementEnabled(DefaultWait<IWebDriver> wait, By locator)
+        {
+
+            try
+            {
+                IWebElement element = wait.Until(drv =>
+                {
+                    try
+                    {
+                        var el = drv.FindElement(locator);
+                        return el.Enabled ? el : null;
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is NoSuchElementException || e is StaleElementReferenceException)
+                            return null;
+                        throw;
+                    }
+                });
+                return element;
+            }
+            catch (Exception e)
+            {
+                throw new WebDriverTimeoutException($"Timeout while waiting for {locator}");
+            }
+        }
+
         //public static IList<IWebElement> WaitElementsToBeClickable(WebDriverWait wait, By locator)
         //{
         //    try

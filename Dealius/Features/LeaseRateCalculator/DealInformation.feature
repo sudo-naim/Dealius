@@ -10,4 +10,4 @@ Scenario: The Lease Rate Calculator displays deal information table
 	And enters lease deal information
 	And the user clicks continue
 	Then the lease rate calculator page is opened
-	And all Deal Information is displayed
+	And all Deal Information is displayed correctly
