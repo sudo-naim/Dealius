@@ -6,7 +6,7 @@ using OpenQA.Selenium.Chrome;
 namespace Dealius.Hooks
 {
     [Binding]
-    class Hooks
+    class Hooks 
     {
         private IWebDriver driver;
         private IObjectContainer objcontainer;
@@ -29,8 +29,8 @@ namespace Dealius.Hooks
             dealiusPage = new DealiusPage(driver);
         }
 
-        
         [AfterScenario]
+        //[AfterTestRun]
         public void DisposeDriverAfterScenario()
         {
             driver.Quit();

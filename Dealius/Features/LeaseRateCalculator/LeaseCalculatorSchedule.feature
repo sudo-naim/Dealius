@@ -7,8 +7,8 @@ Background:
 
 Scenario: User generates schedule for specific Rate Per SF
 	And a user opens the Lease Rate Calculator for that deal
+	And the user selects Rate Type option 'Per Month'
 	When the user enters the Rate per SF
-	#When the user enters 15$ for the Rate per SF
 	And generates schedule
 	Then all columns of the first row are correct
 

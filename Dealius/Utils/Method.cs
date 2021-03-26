@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Dealius.Utils
 {
-    static class Method
+    static class Method 
     {
         public static void Input(WebDriverWait wait, By selector, string text)
         {

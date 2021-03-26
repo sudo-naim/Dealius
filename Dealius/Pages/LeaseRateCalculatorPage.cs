@@ -31,7 +31,7 @@ namespace Dealius.Pages
         #endregion
         IWebDriver driver;
         WebDriverWait wait;
-        double RatePerSF { get; set; }
+        //double RatePerSF { get; set; } to be removed
         int MonthlyRate { get; set; }
         int TotalLeasePerRow { get; set; }
         public LeaseRateCalculatorPage(IWebDriver driver)
@@ -42,7 +42,7 @@ namespace Dealius.Pages
 
         public void InputRatePerSF(double RatePerSF)
         {
-            this.RatePerSF = RatePerSF;
+            //this.RatePerSF = RatePerSF; to be removed
             Method.Input(wait, RatePerSFInput, RatePerSF + Keys.Enter);
         }
 
@@ -59,18 +59,20 @@ namespace Dealius.Pages
             Assert.Equal(numberOfRowsExpected, numberOfRows);
         }
 
-        public void CheckRentMonths(int rowIndex)
+        public void CheckRentMonths(int TermInMonths,int numberOfRows,int rowIndex)
         {
-            double Months = Method.GetElementValueDouble(wait, BaseRentMonthsInput(rowIndex));
-            int numberOfRows = (int)Math.Ceiling((double)DealsProfilePage.TermInMonths / 12);
+
+            double Months = Method.GetElementValueDouble(wait, BaseRentMonthsInput(rowIndex)); //gets the months that are displayed on the first row
+
             if (rowIndex == 0)
-                Assert.Equal(DealsProfilePage.TermInMonths - ((numberOfRows - 1) * 12), Months);
+                // asserts and calculates the result of the first row since it can be lower than 12 months
+                Assert.Equal(TermInMonths - ((numberOfRows - 1) * 12), Months);
             else
             {
                 Assert.Equal(12, Months);
             }
         }
-        public void CheckMonthlyRatePerSf(int rowIndex)
+        public void CheckMonthlyRatePerSf(double RatePerSF, int rowIndex)
         {
             Assert.Equal(RatePerSF, Method.GetElementValueDouble(wait, MonthlyRatePerSF(rowIndex)));
         }
@@ -81,17 +83,18 @@ namespace Dealius.Pages
             Assert.Equal(0, Method.GetElementValueDouble(wait, FreeMonthInput(rowIndex)));
         }
 
-        public void CheckRentPerMonthAmount(int rowIndex)
+        public void CheckRentPerMonthAmount(int SpaceInSF, double RatePerSF, int rowIndex)
         {
-            MonthlyRate = (int)(DealsProfilePage.SpaceInSF * RatePerSF);
+            double MonthlyRate = SpaceInSF * RatePerSF; // calculate rate per month
             Assert.Equal(MonthlyRate, Method.GetElementValueDouble(wait, RentPerMonthAmountInput(rowIndex)));
 
         }
 
-        public void CheckTotalLeaseAmount(int rowIndex)
+        //need to update/refactor
+        public void CheckTotalLeaseAmount(int SpaceInSF, double RatePerSF, int rowIndex)
         {
-            double TotalLeaseRow = Method.GetElementValueDouble(wait, BaseRentMonthsInput(rowIndex)) * MonthlyRate;
-            Assert.Equal(Method.GetElementValueDouble(wait, TotalLeaseAmountPerRowInput(rowIndex)), TotalLeaseRow);
+            double TotalLeaseOfRow = Method.GetElementValueDouble(wait, BaseRentMonthsInput(rowIndex)) * SpaceInSF * RatePerSF;
+            Assert.Equal(TotalLeaseOfRow, Method.GetElementValueDouble(wait, TotalLeaseAmountPerRowInput(rowIndex)));
         }
         public void CheckDateRange(int rowIndex)
         {
@@ -160,7 +163,7 @@ namespace Dealius.Pages
             string BaseRateTitleText = Method.WaitElementEnabled(wait, By.XPath("//div[@id='rentsGrid']/descendant::th[contains(text(),'Monthly Rate')]")).Text;
             //string BaseRateTitleText = Method.WaitForElement(wait, By.XPath("//div[@id='rentsGrid']/descendant::th[13]")).Text;
             Assert.Equal(BaseRateTitle, BaseRateTitleText);
-            Assert.
+            //Assert.
         }
 
         public void SelectRateType(string RateTypeOption)
