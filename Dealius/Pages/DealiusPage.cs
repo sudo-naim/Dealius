@@ -2,9 +2,11 @@
 using OpenQA.Selenium.Support.UI;
 using System;
 using Dealius.Utils;
+using Dealius.Pages;
+
 namespace Dealius
 {
-    public class DealiusPage
+    public class DealiusPage : BasePage
     {
         #region Locators
         By LoginInput = By.Name("login");
@@ -13,25 +15,18 @@ namespace Dealius
         By SignIn = By.CssSelector("button[type='submit']");
         #endregion
 
-        IWebDriver driver;
-        private WebDriverWait wait;
-        public DealiusPage(IWebDriver driver)
-        {
-            this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-        }
+        public DealiusPage(IWebDriver driver) : base(driver) { }
 
         public void Login()
         {
-            Method.Input(wait, LoginInput, "user-officeadmin@dealius.com");
-            Method.Input(wait, PasswordInput, "123");
-            Method.WaitElementToBeClickable(wait, SignIn).Click();
+            Input(LoginInput, "user-officeadmin@dealius.com");
+            Input(PasswordInput, "123");
+            WaitElementToBeClickable(SignIn).Click();
         }
 
         public void ClickDeals()
         {
-            Method.WaitElementToBeClickable(wait, Deals).Click();
-
+            WaitElementToBeClickable(Deals).Click();
         }
     }
 }

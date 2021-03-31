@@ -4,15 +4,15 @@
 	monthly rate of the rent in accordance to user deal input information
 
 	Background: 
-	Given a user adds a new lease deal
-	And a user opens the Lease Rate Calculator for that deal
+	Given a Tenant Rep Deal is created
+	And the Lease calculator is opened
 
 Scenario: Rental Rate recalculation by Rate Per SF
-	When the user enters the Rate per SF
-	And generates schedule
+	And Rate per SF is entered
+	When the user generates schedule
 	Then the Rental Rate is recalculated accordingly
 
 Scenario: Rental Rate recalculation by Rate
-	When the user enters the Rate
-	And generates schedule
+	And Rate per SF is entered
+	When the user generates schedule
 	Then the Rental Rate is recalculated accordingly

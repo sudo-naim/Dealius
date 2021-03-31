@@ -12,5 +12,6 @@ namespace Dealius.Models
         public string LeaseType { get; set; }
         public int Months { get; set; }
         public int SpaceRequired { get; set; }
+
     }
 }

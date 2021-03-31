@@ -5,28 +5,22 @@ using Dealius.Utils;
 
 namespace Dealius.Pages
 {
-    class DealsPage
+    class DealsPage : BasePage
     {
         #region Locators
-        By AddDealButton = By.XPath("//a[contains(text(),'ADD DEAL')]");
-        By AddTenantRepDeal = By.XPath("//a[text()='TENANT REP']");
+        By AddDealButton = By.XPath("//div/a[contains(text(),'ADD DEAL')]");
+        By AddTenantRepDeal(string RepType) => By.XPath($"//li/a[text()='{RepType} REP']");
         #endregion
-        IWebDriver driver;
-        WebDriverWait wait;
-        public DealsPage(IWebDriver driver)
-        {
-            this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-        }
+        public DealsPage(IWebDriver driver) : base(driver) { }
 
         public void ClickAddDeal()
         {
-            Method.WaitElementToBeClickable(wait, AddDealButton).Click();
+            WaitElementToBeClickable(AddDealButton).Click();
         }
 
-        public void ClickTenantRep()
+        public void ClickRepType(string repType)
         {
-            Method.WaitElementToBeClickable(wait, AddTenantRepDeal).Click();
+            WaitElementToBeClickable(AddTenantRepDeal(repType.ToUpper())).Click();
         }
         
     }

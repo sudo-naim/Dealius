@@ -1,186 +1,213 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
-using Dealius.Utils;
-using Xunit;
-using System.Collections.Generic;
+using System.CodeDom;
+using System.Collections.ObjectModel;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Assert = Xunit.Assert;
 
 namespace Dealius.Pages
 {
-    class LeaseRateCalculatorPage
+    public class LeaseRateCalculatorPage : BasePage
     {
         #region Locators
-        By GenerateScheduleButton = By.XPath("//a[text()='Generate Schedule']");
-        By DateRange = By.CssSelector("div[data-bind='text: datesRange']");
-        By RatePerSFInput = By.Name("BaseRatePerSf");
-        By RentAbatementMonths = By.Name("RentAbatementMonths");
-        By LeaseStartDatetd = By.CssSelector("td[data-name='DealInfoLeaseStartDate']");
-        By LeaseExpirationDatetd = By.CssSelector("td[data-name='DealInfoLeaseTermDate']");
-        By LeaseTypetd = By.CssSelector("td[data-name='DealInfoLeaseType']");
-        By TermMonthstd = By.CssSelector("td[data-name='DealInfoTerm']");
-        By SquareFootagetd = By.CssSelector("td[data-name='DealInfoSquareFootage']");
-        By RentalRatetd = By.CssSelector("td[data-name='DealInfoRentalRate']");
-        By BaseRentMonthsInput(int i) => By.CssSelector($"input[name = 'Rents[{i}][Months]']");
-        By FreeMonthInput(int i) => By.Name($"Rents[{i}][FreeMonths]");
-        By MonthlyRatePerSF(int i) => By.Name($"Rents[{i}][MonthlyRatePerSf]");
-        By RentPerMonthAmountInput(int i) => By.Name($"Rents[{i}][RentPerMonthAmount]");
-        By TotalLeaseAmountPerRowInput(int i) => By.Name($"Rents[{i}][TotalLeaseAmount]");
-        By TotalLeaseAmountRow(int i) => By.CssSelector($"input[name='Rents[{i}][TotalLeaseAmount]']");
-        private IWebElement _TotalLeaseRow(int row) => driver.FindElement(TotalLeaseAmountRow(row));
-        private IWebElement _DateRange => driver.FindElement(DateRange);
+        private static readonly By GenerateScheduleButton = By.XPath("//a[text()='Generate Schedule']");
+        private static readonly By DateRange = By.CssSelector("div[data-bind='text: datesRange']");
+        private static readonly By RentAbatementMonths = By.Name("RentAbatementMonths");
+        private static readonly By RatePerSfInput = By.Name("BaseRatePerSf");
+        private static readonly By LeaseStartDatetd = By.CssSelector("td[data-name='DealInfoLeaseStartDate']");
+        private static readonly By LeaseExpirationDatetd = By.CssSelector("td[data-name='DealInfoLeaseTermDate']");
+        private static readonly By LeaseTypetd = By.CssSelector("td[data-name='DealInfoLeaseType']");
+        private static readonly By TermMonthstd = By.CssSelector("td[data-name='DealInfoTerm']");
+        private static readonly By SquareFootagetd = By.CssSelector("td[data-name='DealInfoSquareFootage']");
+        private static readonly By tdRentalRate = By.CssSelector("td[data-name='DealInfoRentalRate']");
+        private static readonly By TableBodyRows = By.CssSelector("body > tr");
+        private static readonly By RentsGridTable =
+            By.CssSelector("#rentsGrid > div.k-grid-content > table");
+        private static readonly By RateTypeSelect = By.CssSelector("select[name='RateType']");
+        //====================================================================
+        private static By tdMonthsInput = By.XPath(".//input[(contains(@name,'[Months]'))]");
+        private static By tdRentPerSfInput = By.XPath(".//input[(contains(@name,'[MonthlyRatePerSf]'))]");
+        private static By tdFreeMonthsInput = By.XPath(".//input[(contains(@name,'[FreeMonths]'))]");
+        private static By tdRentPerMonthAmountInput = By.XPath(".//input[(contains(@name,'[RentPerMonthAmount]'))]");
+        private static By tdTotalLeaseAmountInput = By.XPath(".//input[(contains(@name,'[TotalLeaseAmount]'))]");
+        //=====================================================================
+        /*private static By BaseRentMonthsInput(int i) => By.CssSelector($"input[name = 'Rents[{i-1}][Months]']");
+        private static By FreeMonthInput(int i) => By.Name($"Rents[{i-1}][FreeMonths]");
+        private static By MonthlyRatePerSf(int i) => By.Name($"Rents[{i-1}][MonthlyRatePerSf]");
+        private static By RentPerMonthAmountInput(int i) => By.Name($"Rents[{i-1}][RentPerMonthAmount]");
+        //private static By TotalLeaseAmountPerRowInput(int i) => By.Name($"Rents[{i-1}][TotalLeaseAmount]"); */
         #endregion
-        IWebDriver driver;
-        WebDriverWait wait;
-        //double RatePerSF { get; set; } to be removed
-        int MonthlyRate { get; set; }
-        int TotalLeasePerRow { get; set; }
-        public LeaseRateCalculatorPage(IWebDriver driver)
-        {
-            this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-        }
+        public LeaseRateCalculatorPage(IWebDriver driver) :base(driver) { }
 
-        public void InputRatePerSF(double RatePerSF)
+        public void InputRatePerSf(double ratePerSf)
         {
-            //this.RatePerSF = RatePerSF; to be removed
-            Method.Input(wait, RatePerSFInput, RatePerSF + Keys.Enter);
+           Input(RatePerSfInput, ratePerSf + Keys.Enter);
         }
 
         public void ClickGenerateScheduleButton()
         {
-            Method.WaitElementToBeClickable(wait, GenerateScheduleButton).Click();
-        }
-        //======================================================================================
-        public void CheckNumberOfRows(int rowIndex)
-        {
-            //"//div[@class='k-grid-content']/following::tbody[@role='rowgroup']/tr"
-            int numberOfRows = driver.FindElements(By.XPath("//div[@class='k-grid-content']/following::tbody[@role='rowgroup']/tr")).Count;
-            int numberOfRowsExpected = (int)Math.Ceiling((double)DealsProfilePage.TermInMonths / 12);
-            Assert.Equal(numberOfRowsExpected, numberOfRows);
+            WaitElementToBeClickable(GenerateScheduleButton).Click();
         }
 
-        public void CheckRentMonths(int TermInMonths,int numberOfRows,int rowIndex)
+        public void CheckAllRowsAreDisplayed(int Months)
         {
+            var NumberOfScheduleRows = (Months/12)+1;
 
-            double Months = Method.GetElementValueDouble(wait, BaseRentMonthsInput(rowIndex)); //gets the months that are displayed on the first row
+            Assert.True(AllRelativeElementsDisplayed(RentsGridTable, TableBodyRows), // throws an exception if all rows are not displayed
+                "Not all rows are displayed"); 
+            Assert.Equal(NumberOfScheduleRows, GetRentsGridTableRows().Count); // asserts the number of rows is correct
+        }
 
-            if (rowIndex == 0)
-                // asserts and calculates the result of the first row since it can be lower than 12 months
-                Assert.Equal(TermInMonths - ((numberOfRows - 1) * 12), Months);
+        public void CheckInputFieldsForRow(DateTime d, int Months,  int spaceInSf, double ratePerSf)
+        {
+            var tablerows = GetRentsGridTableRows().Skip(1);
+            foreach (var row in tablerows)
+            {
+                CheckRentMonths(row);
+                CheckMonthlyRatePerSf(row, ratePerSf);
+                CheckFreeRentMonths(row);
+                CheckRentPerMonthAmount(row, spaceInSf, ratePerSf);
+                CheckTotalLeaseAmount(row, spaceInSf, ratePerSf);
+            }
+            
+        }
+
+        public void CheckRentMonthsFirstRow(IWebElement row, int termInMonths, int numberOfRows)
+        {
+            var monthsExpectedFirstRow = 12 - ((numberOfRows * 12) - termInMonths);
+            var months = GetElementValueDouble(Find(row, tdMonthsInput)); //gets the months that are displayed on the first row
+
+            Assert.Equal(monthsExpectedFirstRow, months);
+
+        }
+
+        //tdrow 1
+        public void CheckRentMonths(IWebElement row)
+        {
+            var months = GetElementValueDouble(Find(row,tdMonthsInput));
+            Assert.Equal(12, months);
+        }
+
+        //tdrow 2
+        public void CheckMonthlyRatePerSf(IWebElement row, double RatePerSF)
+        {
+            Assert.Equal(RatePerSF, GetElementValueDouble(Find(row, tdRentPerSfInput)));
+        }
+
+        //tdrow 3
+        public void CheckFreeRentMonths(IWebElement row)
+        {
+            if (GetPseudoElementCSSContentValue().Contains("no")) 
+                Assert.Equal(0,GetElementValueDouble(Find(row, tdFreeMonthsInput)));
+        }
+        //tdrow 4
+        public void CheckRentPerMonthAmount(IWebElement row, int spaceInSf, double ratePerSf)
+        {
+            double MonthlyRate = spaceInSf * ratePerSf; // calculate rate per month
+            Assert.Equal(MonthlyRate, GetElementValueDouble(Find(row, tdRentPerMonthAmountInput)));
+        }
+
+        //tdrow 5
+        public void CheckTotalLeaseAmount(IWebElement row, int spaceInSf, double ratePerSf)
+        {
+            double totalLeaseOfRow = (ratePerSf * spaceInSf)*12;
+            Assert.Equal(totalLeaseOfRow, GetElementValueDouble(Find(row, tdTotalLeaseAmountInput)));
+        }
+
+        // column 6
+        public void CheckDateRange(int termInMonths, DateTime startDate, int numberOfRows,int row)
+        {
+            var TableRow = Find(RentsGridTable).FindElements(By.CssSelector("body > tr"));
+            var dateRange = TableRow[0].FindElement(DateRange).Text;
+            if (row == 1)
+            {
+                dateRange = TableRow[row-1].FindElement(DateRange).Text;
+                var months = 12 - ((numberOfRows * 12) - termInMonths);
+                var DateRangeExpected = $"{startDate:MM/dd/yyyy} - {startDate.AddMonths(months).AddDays(-1):MM/dd/yyyy}";
+                Assert.Equal(DateRangeExpected, dateRange);
+            }
+
             else
             {
-                Assert.Equal(12, Months);
+                Assert.Equal(12, 12);
             }
-        }
-        public void CheckMonthlyRatePerSf(double RatePerSF, int rowIndex)
-        {
-            Assert.Equal(RatePerSF, Method.GetElementValueDouble(wait, MonthlyRatePerSF(rowIndex)));
-        }
-
-        public void CheckFreeRentMonths(int rowIndex)
-        {
-            Assert.Equal(Method.GetElementValueDouble(wait, FreeMonthInput(rowIndex)), Method.GetElementValueDouble(wait, RentAbatementMonths));
-            Assert.Equal(0, Method.GetElementValueDouble(wait, FreeMonthInput(rowIndex)));
-        }
-
-        public void CheckRentPerMonthAmount(int SpaceInSF, double RatePerSF, int rowIndex)
-        {
-            double MonthlyRate = SpaceInSF * RatePerSF; // calculate rate per month
-            Assert.Equal(MonthlyRate, Method.GetElementValueDouble(wait, RentPerMonthAmountInput(rowIndex)));
-
-        }
-
-        //need to update/refactor
-        public void CheckTotalLeaseAmount(int SpaceInSF, double RatePerSF, int rowIndex)
-        {
-            double TotalLeaseOfRow = Method.GetElementValueDouble(wait, BaseRentMonthsInput(rowIndex)) * SpaceInSF * RatePerSF;
-            Assert.Equal(TotalLeaseOfRow, Method.GetElementValueDouble(wait, TotalLeaseAmountPerRowInput(rowIndex)));
-        }
-        public void CheckDateRange(int rowIndex)
-        {
-            double months = Method.GetElementValueDouble(wait, BaseRentMonthsInput(rowIndex));
-            string ExpectedRange = $"{DealsProfilePage.StartDate:MM/dd/yyyy} - {DealsProfilePage.StartDate.AddMonths((int)months).AddDays(-1):MM/dd/yyyy}";
-            Assert.Equal(ExpectedRange, _DateRange.Text);
         }
 
         public void CheckLeaseCalculatorPageLanded()
         {
-            Method.WaitUrlContains(wait, "calculate-rent");
-        }
-        /*
-        public void CheckHouseGrossCommission()
-        {
-
-        }
-        */
-        public void CheckLeaseType(string LeaseTypeExpected)
-        {
-            string LeaseType = driver.FindElement(LeaseTypetd).Text;
-            Assert.Equal(LeaseTypeExpected, LeaseType);
+            WaitUrlContains("calculate-rent");
         }
 
-        public void CheckLeaseCommencement(DateTime StartDate)
+        public void CheckLeaseType(string leaseTypeExpected)
         {
-            string LeaseCommencement = driver.FindElement(LeaseStartDatetd).Text;
-            Assert.Equal(StartDate.ToString("MM/dd/yyyy"), LeaseCommencement);
+            string leaseType = driver.FindElement(LeaseTypetd).Text;
+            Assert.Equal(leaseTypeExpected, leaseType);
         }
 
-        public void CheckLeaseExpiration(DateTime StartDate, int TermMonths)
+        public void CheckLeaseCommencement(DateTime startDate)
         {
-            string LeaseExpirationDateExpected = StartDate.AddMonths((int)TermMonths).AddDays(-1).ToString("MM/dd/yyyy");
-            string LeaseExpirationDate = driver.FindElement(LeaseExpirationDatetd).Text;
-            Assert.Equal(LeaseExpirationDateExpected, LeaseExpirationDate);
+            string leaseCommencement = driver.FindElement(LeaseStartDatetd).Text;
+            Assert.Equal(startDate.ToString("MM/dd/yyyy"), leaseCommencement);
         }
 
-        public void CheckMonths(int MonthsExpected)
+        public void CheckLeaseExpiration(DateTime startDate, int termMonths)
+        {
+            string leaseExpirationDateExpected = startDate.AddMonths((int)termMonths).AddDays(-1).ToString("MM/dd/yyyy");
+            string leaseExpirationDate = driver.FindElement(LeaseExpirationDatetd).Text;
+            Assert.Equal(leaseExpirationDateExpected, leaseExpirationDate);
+        }
+
+        public void CheckMonths(int monthsExpected)
         {
             double months = double.Parse(driver.FindElement(TermMonthstd).Text);
-            Assert.Equal(MonthsExpected, months);
+            Assert.Equal(monthsExpected, months);
         }
 
-        public void CheckSquareFootage(int SquareFootageExpected)
+        public void CheckSquareFootage(int squareFootageExpected)
         {
-            double SquareFootage = double.Parse(driver.FindElement(SquareFootagetd).Text);
-            Assert.Equal(SquareFootageExpected, SquareFootage);
-        }
-
-        public void CheckRateType(string RateTypeText)
-        {
-            IWebElement RateTypeSelect = Method.WaitElementEnabled(wait, By.CssSelector("select[name='RateType']"));
-            SelectElement select = new SelectElement(RateTypeSelect);
-
-            //IList<IWebElement> options =  select.AllSelectedOptions;
-            //foreach (var optionn in options)
-            //{
-
-            //}
-            string option = select.SelectedOption.Text;
-            Assert.Equal(RateTypeText, option);
+            double squareFootage = double.Parse(driver.FindElement(SquareFootagetd).Text);
+            Assert.Equal(squareFootageExpected, squareFootage);
         }
         
-        public void CheckBaseRateTitle(string BaseRateTitle)
+        public void CheckHeaderUnderBaseRateIsDisplayed(string headerTitle)
         {
-            string BaseRateTitleText = Method.WaitElementEnabled(wait, By.XPath("//div[@id='rentsGrid']/descendant::th[contains(text(),'Monthly Rate')]")).Text;
-            //string BaseRateTitleText = Method.WaitForElement(wait, By.XPath("//div[@id='rentsGrid']/descendant::th[13]")).Text;
-            Assert.Equal(BaseRateTitle, BaseRateTitleText);
-            //Assert.
+            var element = Find(RentsGridTable, By.XPath("descendant::th[contains(text(),'{baseRateTitle}')]"));           
+            Assert.True(element.Displayed);
         }
 
-        public void SelectRateType(string RateTypeOption)
+        public void SelectRateType(string rateTypeOption)
         {
-            IWebElement RateTypeSelect = Method.WaitElementEnabled(wait, By.CssSelector("select[name='RateType']"));
-            SelectElement select = new SelectElement(RateTypeSelect);
-
-            switch (RateTypeOption)
+            
+            var select = new SelectElement(WaitElementEnabled(RateTypeSelect));
+            string option = select.SelectedOption.Text;
+            if (rateTypeOption == option);
+            else
             {
-                case "Per Month":
-                    select.SelectByValue("1");
-                    break;
-                case "Per Year":
-                    select.SelectByValue("2");
-                    break;
+                switch (rateTypeOption)
+                {
+                    case "Per Month":
+                        select.SelectByValue("1");
+                        break;
+                    case "Per Year":
+                        select.SelectByValue("2");
+                        break;
+                }
             }
 
+        }
+
+        public void CheckHeaderUnderBaseRateIsNotDisplayed(string headertitle)
+        {
+            WaitElementDisappears(By.XPath("descendant::th[contains(text(),'{baseRateTitle}')]"));
+        }
+        //==================================================================
+        public ReadOnlyCollection<IWebElement> GetRentsGridTableRows()
+        {
+            var tableRowss = FindAll(RentsGridTable).FindElements(TableBodyRows);
+            var tableRows = FindAll(RentsGridTable).FindElements(By.TagName("tr"));
+            return tableRows;
         }
     }
 }

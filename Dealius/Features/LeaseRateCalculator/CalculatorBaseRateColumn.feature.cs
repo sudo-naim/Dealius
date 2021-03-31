@@ -19,7 +19,7 @@ namespace Dealius.Features.LeaseRateCalculator
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class RentalRatePerMonthFeature : object, Xunit.IClassFixture<RentalRatePerMonthFeature.FixtureData>, System.IDisposable
+    public partial class RateTypeFeature : object, Xunit.IClassFixture<RateTypeFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Dealius.Features.LeaseRateCalculator
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "RentalRatePerMonth.feature"
+#line 1 "CalculatorBaseRateColumn.feature"
 #line hidden
         
-        public RentalRatePerMonthFeature(RentalRatePerMonthFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public RateTypeFeature(RateTypeFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,9 +40,8 @@ namespace Dealius.Features.LeaseRateCalculator
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator", "RentalRatePerMonth", "\tRental Rate is a field under the Deal Information table which is \r\n\tlocated on t" +
-                    "he Lease Rate Calculator Page. It calculates the \r\n\tmonthly rate of the rent in " +
-                    "accordance to user deal input information", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator", "RateType", "\tWhen a user a changes the Rent Type then the \r\n\tcolumn title under Base Rate cha" +
+                    "nges to Monthly Rate\r\n\tor Annual Rate according to the Rent Type", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,7 +79,7 @@ namespace Dealius.Features.LeaseRateCalculator
         public virtual void FeatureBackground()
         {
 #line 6
- #line hidden
+#line hidden
 #line 7
  testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
@@ -94,14 +93,14 @@ namespace Dealius.Features.LeaseRateCalculator
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Rental Rate recalculation by Rate Per SF")]
-        [Xunit.TraitAttribute("FeatureTitle", "RentalRatePerMonth")]
-        [Xunit.TraitAttribute("Description", "Rental Rate recalculation by Rate Per SF")]
-        public virtual void RentalRateRecalculationByRatePerSF()
+        [Xunit.SkippableFactAttribute(DisplayName="Base Rate displays Annual Rate header column")]
+        [Xunit.TraitAttribute("FeatureTitle", "RateType")]
+        [Xunit.TraitAttribute("Description", "Base Rate displays Annual Rate header column")]
+        public virtual void BaseRateDisplaysAnnualRateHeaderColumn()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rental Rate recalculation by Rate Per SF", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base Rate displays Annual Rate header column", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 10
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -123,29 +122,29 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 6
- this.FeatureBackground();
+this.FeatureBackground();
 #line hidden
 #line 11
- testRunner.And("Rate per SF is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Rate Type option \'Per Year\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.When("the user generates schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("Base Rate column header displays \'Annual Rate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 13
- testRunner.Then("the Rental Rate is recalculated accordingly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Base Rate column header \'Monthly Rate\' is not displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Rental Rate recalculation by Rate")]
-        [Xunit.TraitAttribute("FeatureTitle", "RentalRatePerMonth")]
-        [Xunit.TraitAttribute("Description", "Rental Rate recalculation by Rate")]
-        public virtual void RentalRateRecalculationByRate()
+        [Xunit.SkippableFactAttribute(DisplayName="Base Rate displays Monthly Rate header column")]
+        [Xunit.TraitAttribute("FeatureTitle", "RateType")]
+        [Xunit.TraitAttribute("Description", "Base Rate displays Monthly Rate header column")]
+        public virtual void BaseRateDisplaysMonthlyRateHeaderColumn()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rental Rate recalculation by Rate", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base Rate displays Monthly Rate header column", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -167,16 +166,16 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 6
- this.FeatureBackground();
+this.FeatureBackground();
 #line hidden
 #line 16
- testRunner.And("Rate per SF is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Rate Type option \'Per Month\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
- testRunner.When("the user generates schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("Base Rate column header displays \'Monthly Rate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 18
- testRunner.Then("the Rental Rate is recalculated accordingly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Base Rate column header \'Monthly Rate\' is not displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -189,12 +188,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                RentalRatePerMonthFeature.FeatureSetup();
+                RateTypeFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                RentalRatePerMonthFeature.FeatureTearDown();
+                RateTypeFeature.FeatureTearDown();
             }
         }
     }

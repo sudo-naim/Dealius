@@ -121,6 +121,7 @@
     <Compile Include="Models\CalculatorDealInfo.cs" />
     <Compile Include="Models\LeaseVariables.cs" />
     <Compile Include="Models\Calculator.cs" />
+    <Compile Include="Pages\Base.cs" />
     <Compile Include="Pages\DealiusPage.cs" />
     <Compile Include="Hooks\Hooks.cs" />
     <Compile Include="Pages\DealsPage.cs" />
@@ -135,7 +136,7 @@
     <None Include="app.config" />
     <None Include="Features\LeaseRateCalculator\DealInformation.feature" />
     <None Include="Features\LeaseRateCalculator\LeaseCalculatorSchedule.feature" />
-    <None Include="Features\LeaseRateCalculator\RateType.feature" />
+    <None Include="Features\LeaseRateCalculator\CalculatorBaseRateColumn.feature" />
     <None Include="Features\LeaseRateCalculator\RentalRatePerMonth.feature" />
     <None Include="packages.config" />
   </ItemGroup>

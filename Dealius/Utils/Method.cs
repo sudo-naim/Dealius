@@ -18,7 +18,7 @@ namespace Dealius.Utils
         public static double GetElementValueDouble(WebDriverWait wait,By locator)
         {
             IWebElement e = WaitForElement(wait, locator);
-            double value = string.IsNullOrEmpty(e.GetAttribute("value")) ? 0 : Double.Parse(e.GetAttribute("value"));
+            double value = string.IsNullOrEmpty(e.GetAttribute("value")) ? 0 : double.Parse(e.GetAttribute("value"));
             return value;
         }
 
@@ -56,7 +56,7 @@ namespace Dealius.Utils
                 });
                 return element;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new WebDriverTimeoutException($"Timeout while waiting for {locator}");
             }
@@ -82,7 +82,7 @@ namespace Dealius.Utils
                 });
                 return element;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new WebDriverTimeoutException($"Timeout while waiting for {locator}");
             }
@@ -109,7 +109,7 @@ namespace Dealius.Utils
                 });
                 return element;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new WebDriverTimeoutException($"Timeout while waiting for {locator}");
             }

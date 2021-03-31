@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace Dealius.Pages
 {
-    class DealsProfilePage
+    class DealsProfilePage : BasePage
     {
         #region Locators
         By DealNameInput = By.Name("DealName");
@@ -24,80 +24,71 @@ namespace Dealius.Pages
         By SpaceRequiredInput = By.Name("RequestedSpace");
         By ContinueButton = By.XPath("//button[contains(text(),'CONTINUE')]");
         #endregion
-        IWebDriver driver;
-        WebDriverWait wait;
 
-        public static int SpaceInSF { get; private set; }
+        public static int SpaceInSf { get; private set; }
         public static DateTime StartDate { get; private set; }
         public static int TermInMonths { get; private set; }
 
-        public DealsProfilePage(IWebDriver driver)
+        public DealsProfilePage(IWebDriver driver) : base(driver) { }
+
+        public void InputDealName(string dealName)
         {
-            this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WaitDocumentReadyState();
+            Input(DealNameInput, dealName);
         }
 
-        public void InputDealName(string DealName)
+        public void InputCompanyName(string companyName)
         {
-            Method.Input(wait, DealNameInput, DealName);
+            WaitElementToBeClickable(ClientName).Click();
+            WaitElementToBeClickable(AddNew).Click();
+            Input(NameInput, companyName);
+            WaitElementToBeClickable(SaveFormButton).Click();
         }
 
-        public void InputCompanyName(string CompanyName)
+        public void InputEstimatedCloseDate(string date)
         {
-            Method.WaitElementToBeClickable(wait, ClientName).Click();
-            Method.WaitElementToBeClickable(wait, AddNew).Click();
-            Method.Input(wait, NameInput, CompanyName);
-            Method.WaitElementToBeClickable(wait, SaveFormButton).Click();
-        }
-
-        public void InputEstimatedCloseDate(string Date)
-        {
-            Method.Input(wait, EstimatedCloseDate, Date + Keys.Enter);
+            Input(EstimatedCloseDate, date + Keys.Enter);
         }
 
         public void ClickSave()
         {
-            Method.WaitElementToBeClickable(wait, SaveButton).Click();
+            WaitElementToBeClickable(SaveButton).Click();
         }
 
         public void ClickExpandAll()
         {
-            Method.WaitElementToBeClickable(wait, ExpandAllButton).Click();
+            WaitElementToBeClickable(ExpandAllButton).Click();
         }
         public void ClickCalculate()
         {
-            Method.WaitElementToBeClickable(wait, CalculateButton).Click();
+            WaitElementToBeClickable(CalculateButton).Click();
         }
 
-        public void InputCalculationStartDate(DateTime StartDate)
+        public void InputCalculationStartDate(DateTime startDate)
         {
-            //StartDate = DateTime.ParseExact(Date, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-            //Method.Input(wait, StartDateInput, StartDate.ToString("MM/dd/yyyy") + Keys.Enter);
-            Method.Input(wait, StartDateInput, StartDate.ToString("MM/dd/yyyy") + Keys.Enter);
+            Input(StartDateInput, startDate.ToString("MM/dd/yyyy") + Keys.Enter);
         }
 
-        public void InputLeaseType(string LeaseType)
+        public void InputLeaseType(string leaseType)
         {
-            Method.WaitElementToBeClickable(wait, LeasTypeSelect).Click();
-            Method.WaitElementToBeClickable(wait, By.XPath($"//button/following::span[contains(text(),'{LeaseType}')][2]")).Click();
+            WaitElementToBeClickable(LeasTypeSelect).Click();
+            WaitElementToBeClickable(By.XPath($"//button/following::span[contains(text(),'{leaseType}')][2]")).Click();
         }
         
         public void InputTerm(int months)
         {
             TermInMonths = months;
             driver.FindElements(TermInput)[1].SendKeys(months.ToString()+Keys.Enter);
-            //Method.Input(wait, TermInput, "12");
         }
 
-        public void InputSpaceRequired(int SpaceinSF)
+        public void InputSpaceRequired(int spaceInSf)
         {
-            SpaceInSF = SpaceinSF;
-            Method.Input(wait, SpaceRequiredInput, SpaceInSF.ToString());
+            Input(SpaceRequiredInput, spaceInSf.ToString());
         }
 
         public void ClickContinue()
         {
-            Method.WaitElementToBeClickable(wait, ContinueButton).Click();
+            WaitElementToBeClickable(ContinueButton).Click();
         }
     }
 }

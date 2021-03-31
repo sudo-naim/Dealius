@@ -80,7 +80,7 @@ namespace Dealius.Features.LeaseRateCalculator
 #line 5
 #line hidden
 #line 6
- testRunner.Given("a user adds a new lease deal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         

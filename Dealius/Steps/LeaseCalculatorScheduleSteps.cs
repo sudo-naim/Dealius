@@ -2,6 +2,7 @@
 using Dealius.Pages;
 using OpenQA.Selenium;
 using System;
+using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Dealius.Steps
@@ -42,21 +43,21 @@ namespace Dealius.Steps
             };
         }
 
-        [Given(@"a user adds a new lease deal")]
-        public void GivenAUserAddsALeaseDeal()
+        [Given(@"a (.*) Rep Deal is created")]
+        public void GivenAUserAddsALeaseDeal(string repType)
         {
             dealiusPage.Login();
             dealiusPage.ClickDeals();
             dealsPage.ClickAddDeal();
-            dealsPage.ClickTenantRep();
-            dealsProfilePage.InputCompanyName("ANewCompany");
+            dealsPage.ClickRepType(repType);
             dealsProfilePage.InputDealName("AutomationTest");
+            dealsProfilePage.InputCompanyName("ANewCompany");
             dealsProfilePage.InputEstimatedCloseDate("03.20.2021");
             dealsProfilePage.ClickSave();
             dealsProfilePage.ClickExpandAll();
         }
 
-        [Given(@"a user opens the Lease Rate Calculator for that deal")]
+        [Given(@"the Lease calculator is opened")]
         public void GivenOpensTheLeaseRateCalculatorForThatDeal()
         {
             dealsProfilePage.ClickCalculate();
@@ -67,40 +68,35 @@ namespace Dealius.Steps
             dealsProfilePage.ClickContinue();
         }
         [Given(@"generates schedule")]
-        [When(@"generates schedule")]
+        [When(@"the user generates schedule")]
         public void WhenGeneratesSchedule()
         {
             leaseRateCalculatorPage.ClickGenerateScheduleButton();
         }
 
-        /* this is commented cause another step for this is written and
-         * is used only for reference purposes
-         [When(@"the user enters (.*)\$ for the Rate per SF")]
-        public void WhenTheUserEntersForTheRatePerSF(double RatePerSF)
-        {
-            leaseRateCalculatorPage.InputRatePerSF(RatePerSF);
-        } */
-
-        [When(@"the user enters the Rate per SF")]
+        [Given(@"Rate per SF is entered")]
         public void WhenTheUserEntersTheRatePerSF()
         {
-            leaseRateCalculatorPage.InputRatePerSF(leaseVariables.RatePerSF);
+            leaseRateCalculatorPage.InputRatePerSf(leaseVariables.RatePerSF);
         }
         
-        [Then(@"all columns of the first row are correct")]
-        public void ThenTheFirstRowResultsAreCorrect()
+        [Then(@"all the row input fields are displayed correctly")]
+        public void ThenAllTheRowInputFieldsAreDisplayedCorrectly()
         {
-            int numberOfRows = (int)Math.Ceiling((double)deal.Months / 12);
-            for (int rowIndex = 0; rowIndex <numberOfRows; rowIndex++)
-            {
-                leaseRateCalculatorPage.CheckRentMonths(deal.Months, numberOfRows, rowIndex);
-                leaseRateCalculatorPage.CheckMonthlyRatePerSf(leaseVariables.RatePerSF, rowIndex);
-                leaseRateCalculatorPage.CheckFreeRentMonths(rowIndex);
-                leaseRateCalculatorPage.CheckRentPerMonthAmount(deal.SpaceRequired, leaseVariables.RatePerSF, rowIndex);
-                leaseRateCalculatorPage.CheckTotalLeaseAmount(deal.SpaceRequired, leaseVariables.RatePerSF, rowIndex);
-                //leaseRateCalculatorPage.CheckDateRange(rowIndex);
-            }
+            leaseRateCalculatorPage.CheckInputFieldsForRow(
+                deal.Date,
+                deal.Months,
+                deal.SpaceRequired,
+                leaseVariables.RatePerSF
+                );
         }
+
+        [Then(@"all rows for the schedule generated are displayed")]
+        public void ThenAllRowsForTheScheduleGeneratedAreDisplayed()
+        {
+            leaseRateCalculatorPage.CheckAllRowsAreDisplayed(deal.Months);
+        }
+
 
         [When(@"the user clicks calculate on Transaction Information section")]
         [Given(@"the user clicks calculate on Transaction Information section")]
@@ -119,7 +115,7 @@ namespace Dealius.Steps
             dealsProfilePage.InputSpaceRequired(deal.SpaceRequired);
         }
 
-        [When(@"the user clicks continue")]
+        [When(@"clicks continue")]
         public void WhenTheUserClicksContinue()
         {
             dealsProfilePage.ClickContinue();
@@ -144,21 +140,20 @@ namespace Dealius.Steps
         [Given(@"Rate Type option '(.*)' is selected")]
         public void GivenRateTypeOptionIsSelected(string RateType)
         {
-            leaseRateCalculatorPage.CheckRateType(RateType);
+            leaseRateCalculatorPage.SelectRateType(RateType);
         }
 
         [Given(@"Base Rate column header displays '(.*)'")]
         [Then(@"Base Rate column header displays '(.*)'")]
-        public void ThenBaseRateColumnHeaderDisplays(string BaseRateTitle)
+        public void ThenBaseRateColumnHeaderDisplays(string HeaderUnderBaseRateTitle)
         {
-            leaseRateCalculatorPage.CheckBaseRateTitle(BaseRateTitle);
+            leaseRateCalculatorPage.CheckHeaderUnderBaseRateIsDisplayed(HeaderUnderBaseRateTitle);
         }
 
-        [Given(@"the user selects Rate Type option '(.*)'")]
-        [When(@"the user selects Rate Type option '(.*)'")]
-        public void WhenTheUserSelectsRateTypeOption(string RateType)
+        [Then(@"Base Rate column header '(.*)' is not displayed")]
+        public void ThenBaseRateColumnHeaderIsNotDisplayed(string HeaderUnderBaseRateTitle)
         {
-            leaseRateCalculatorPage.SelectRateType(RateType);
+            leaseRateCalculatorPage.CheckHeaderUnderBaseRateIsNotDisplayed(HeaderUnderBaseRateTitle);
         }
 
     }

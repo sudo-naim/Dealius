@@ -3,11 +3,11 @@
 	has provided.
 
 Background: 
-	Given a user adds a new lease deal
+	Given a Tenant Rep Deal is created
 
 Scenario: The Lease Rate Calculator displays deal information table
 	When the user clicks calculate on Transaction Information section
 	And enters lease deal information
-	And the user clicks continue
+	And clicks continue
 	Then the lease rate calculator page is opened
 	And all Deal Information is displayed correctly
