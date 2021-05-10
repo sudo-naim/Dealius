@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Dealius.Features.LeaseRateCalculator
+namespace Dealius.Features.LeaseRateCalculator.LeaseVariables.Toggles
 {
     using TechTalk.SpecFlow;
     using System;
@@ -19,7 +19,7 @@ namespace Dealius.Features.LeaseRateCalculator
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class LeaseCalculatorScheduleFeature : object, Xunit.IClassFixture<LeaseCalculatorScheduleFeature.FixtureData>, System.IDisposable
+    public partial class ExcludeARIfromCommissionToggleFeature : object, Xunit.IClassFixture<ExcludeARIfromCommissionToggleFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Dealius.Features.LeaseRateCalculator
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "LeaseCalculatorSchedule.feature"
+#line 1 "ExcludeARIfromCommission.feature"
 #line hidden
         
-        public LeaseCalculatorScheduleFeature(LeaseCalculatorScheduleFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public ExcludeARIfromCommissionToggleFeature(ExcludeARIfromCommissionToggleFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace Dealius.Features.LeaseRateCalculator
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator", "LeaseCalculatorSchedule", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator/LeaseVariables/Toggles", "ExcludeARIfromCommissionToggle", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -75,45 +75,29 @@ namespace Dealius.Features.LeaseRateCalculator
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
-        {
-#line 4
-#line hidden
-#line 5
- testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Start Date",
-                        "Lease Type",
-                        "Term",
-                        "Space Required"});
-            table3.AddRow(new string[] {
-                        "01/01/2020",
-                        "Assignment",
-                        "24",
-                        "100"});
-#line 6
- testRunner.And("deal information is entered", ((string)(null)), table3, "And ");
-#line hidden
-#line 9
- testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-        }
-        
         void System.IDisposable.Dispose()
         {
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="User generates Per Month schedule for specific Rate Per SF")]
-        [Xunit.TraitAttribute("FeatureTitle", "LeaseCalculatorSchedule")]
-        [Xunit.TraitAttribute("Description", "User generates Per Month schedule for specific Rate Per SF")]
-        public virtual void UserGeneratesPerMonthScheduleForSpecificRatePerSF()
+        [Xunit.SkippableTheoryAttribute(DisplayName="Exclude ARI")]
+        [Xunit.TraitAttribute("FeatureTitle", "ExcludeARIfromCommissionToggle")]
+        [Xunit.TraitAttribute("Description", "Exclude ARI")]
+        [Xunit.InlineDataAttribute("01/01/2020", "Assignment", "24", "100", "10", "5", "5", "50", new string[0])]
+        public virtual void ExcludeARI(string startDate, string leaseType, string term, string spaceRequired, string ratePerSf, string annualIncrease, string percentage, string house, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("User generates Per Month schedule for specific Rate Per SF", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 11
+            argumentsOfScenario.Add("Start Date", startDate);
+            argumentsOfScenario.Add("Lease Type", leaseType);
+            argumentsOfScenario.Add("Term", term);
+            argumentsOfScenario.Add("Space Required", spaceRequired);
+            argumentsOfScenario.Add("Rate Per Sf", ratePerSf);
+            argumentsOfScenario.Add("Annual Increase %", annualIncrease);
+            argumentsOfScenario.Add("Percentage", percentage);
+            argumentsOfScenario.Add("House", house);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Exclude ARI", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 4
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -133,23 +117,35 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 4
-this.FeatureBackground();
+#line 5
+ testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 6
+ testRunner.And(string.Format("deal info {0} {1} {2} {3} is entered", startDate, leaseType, term, spaceRequired), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 7
+ testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 8
+ testRunner.And(string.Format("user enters {0} for Rates Per Sf", ratePerSf), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 9
+ testRunner.And(string.Format("Annual % Increase {0} is entered", annualIncrease), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 10
+ testRunner.And(string.Format("Tenant Rep Fee {0}% is entered", percentage), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 11
+ testRunner.When("the user clicks the ExcludeARI toggle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 12
- testRunner.And("Rate Type option \'Per Month\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the user generates schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
- testRunner.And("Rate per SF is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then(string.Format("1st row of RentsGrid table has ${0} House", house), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 14
- testRunner.When("the user generates schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 15
- testRunner.Then("all rows for the schedule generated are displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 16
- testRunner.And("all the rows data are displayed correctly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("2nd row of RentsGrid table has ${0} House", house), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -162,12 +158,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                LeaseCalculatorScheduleFeature.FeatureSetup();
+                ExcludeARIfromCommissionToggleFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                LeaseCalculatorScheduleFeature.FeatureTearDown();
+                ExcludeARIfromCommissionToggleFeature.FeatureTearDown();
             }
         }
     }

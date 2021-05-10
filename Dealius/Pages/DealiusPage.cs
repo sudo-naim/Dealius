@@ -12,6 +12,7 @@ namespace Dealius
         By LoginInput = By.Name("login");
         By PasswordInput = By.Name("password");
         By Deals = By.XPath("//a[text() = 'Deals']");
+        By Accounting = By.XPath("//a[text() = 'Accounting']");
         By SignIn = By.CssSelector("button[type='submit']");
         #endregion
 
@@ -27,6 +28,11 @@ namespace Dealius
         public void ClickDeals()
         {
             WaitElementToBeClickable(Deals).Click();
+        }
+
+        public void ClickAccounting()
+        {
+            click(Accounting);
         }
     }
 }

@@ -19,11 +19,11 @@ namespace Dealius.Pages
         public BasePage(IWebDriver driver) 
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
             js = driver as IJavaScriptExecutor;
         }
 
-        public void visit(String URL) { driver.Navigate().GoToUrl(URL); }
+        public void Visit(String URL) { driver.Navigate().GoToUrl(URL); }
 
         public ReadOnlyCollection<IWebElement> FindElements(By locator)
         {
@@ -32,11 +32,9 @@ namespace Dealius.Pages
 
         public IWebElement Find(By locator) { return driver.FindElement(locator); }
 
-        public IWebElement FindAll(By locator) { return driver.FindElement(locator); }
-
-        public IWebElement Find(IWebElement parent, By Locator)
+        public IWebElement Find(IWebElement parent, By locator)
         {
-            return WaitForElement(parent.FindElement(Locator));
+            return WaitForElement(parent.FindElement(locator));
         }
 
         public IWebElement Find(By parent, By Locator)
@@ -44,7 +42,9 @@ namespace Dealius.Pages
             return WaitForElement(Find(parent).FindElement(Locator));
         }
 
-        public void click(By locator) { Find(locator).Click(); }
+        public void click(By locator) { WaitElementToBeClickable(locator).Click(); }
+
+        //public void click(IWebElement element) { WaitElementToBeClickable(element).Click();}
 
         public void Input(By locator, string text)
         {
@@ -60,7 +60,7 @@ namespace Dealius.Pages
 
         public double GetElementValueDouble(IWebElement element)
         {
-            IWebElement e = WaitForElement(element);
+            IWebElement e = WaitElementEnabled(element);
             double value = string.IsNullOrEmpty(e.GetAttribute("value")) ? 0 : Double.Parse(e.GetAttribute("value"));
             return value;
         }
@@ -131,16 +131,16 @@ namespace Dealius.Pages
             }
         }
 
-        public void WaitElementDisplayed(By locator)
+        public IWebElement WaitElementDisplayed(By locator)
         {
             try
             {
-                wait.Until(drv =>
+                var element = wait.Until(drv =>
                 {
                     try
                     {
                         var el = Find(locator);
-                        return el.Displayed && el.Enabled ? el : null;
+                        return el.Displayed ? el : null;
                     }
                     catch (Exception e)
                     {
@@ -149,6 +149,7 @@ namespace Dealius.Pages
                         throw;
                     }
                 });
+                return element;
             }
             catch (Exception e)
             {
@@ -179,7 +180,60 @@ namespace Dealius.Pages
             }
             catch (Exception e)
             {
-                throw new WebDriverTimeoutException($"Timeout while waiting for {locator} to be displayed");
+                throw new WebDriverTimeoutException($"Timeout while waiting for {locator} to be NOT displayed");
+            }
+        }
+
+        public void WaitElementDisappearsRelative(By parentLocator, By childLocator)
+        {
+            try
+            {
+                wait.Until(drv =>
+                {
+                    try
+                    {
+                        var el = Find(parentLocator).FindElement(childLocator);
+                        return !el.Displayed;
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is NoSuchElementException)
+                            return true;
+                        if (e is StaleElementReferenceException)
+                            return false;
+                        throw;
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                throw new WebDriverTimeoutException($"Timeout while waiting for {parentLocator} {childLocator} to be NOT displayed");
+            }
+        }
+
+        public void WaitElementDisappears(IWebElement element)
+        {
+            try
+            {
+                wait.Until(drv =>
+                {
+                    try
+                    {
+                        return !element.Displayed;
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is NoSuchElementException)
+                            return true;
+                        if (e is StaleElementReferenceException)
+                            return false;
+                        throw;
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                throw new WebDriverTimeoutException($"Timeout while waiting for {element} to be NOT displayed");
             }
         }
 
@@ -236,6 +290,32 @@ namespace Dealius.Pages
             }
         }
 
+        public IWebElement WaitElementEnabled(IWebElement el)
+        {
+
+            try
+            {
+                IWebElement element = wait.Until(drv =>
+                {
+                    try
+                    {
+                        return el.Enabled ? el : null;
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is NoSuchElementException || e is StaleElementReferenceException)
+                            return null;
+                        throw;
+                    }
+                });
+                return element;
+            }
+            catch (Exception e)
+            {
+                throw new WebDriverTimeoutException($"Timeout while waiting for {el}");
+            }
+        }
+
         public ReadOnlyCollection<IWebElement> FindAllTableBodyRows(By tableBodyLocator)
         {
             return Find(tableBodyLocator).FindElements(By.CssSelector("tr"));
@@ -274,12 +354,13 @@ namespace Dealius.Pages
                 .Equals("complete"));
         }
 
-        public string GetPseudoElementCSSContentValue()
+        /*public string GetPseudoElementCSSContentValue()
         {
             const string script = "return window.getComputedStyle(document.querySelector('input[name=\"AmortizeFreeRent\"] + span'),':before').getPropertyValue('content');";
             var result = (string)js
                 .ExecuteScript(script);
             return result;
-        }
+        } */
+        
     }
 }

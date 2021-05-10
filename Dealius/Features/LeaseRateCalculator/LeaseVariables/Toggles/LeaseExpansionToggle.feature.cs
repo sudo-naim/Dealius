@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Dealius.Features.LeaseRateCalculator
+namespace Dealius.Features.LeaseRateCalculator.LeaseVariables.Toggles
 {
     using TechTalk.SpecFlow;
     using System;
@@ -19,7 +19,7 @@ namespace Dealius.Features.LeaseRateCalculator
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class RateTypeFeature : object, Xunit.IClassFixture<RateTypeFeature.FixtureData>, System.IDisposable
+    public partial class LeaseExpansionToggleFeature : object, Xunit.IClassFixture<LeaseExpansionToggleFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Dealius.Features.LeaseRateCalculator
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "CalculatorBaseRateColumn.feature"
+#line 1 "LeaseExpansionToggle.feature"
 #line hidden
         
-        public RateTypeFeature(RateTypeFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public LeaseExpansionToggleFeature(LeaseExpansionToggleFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,8 +40,7 @@ namespace Dealius.Features.LeaseRateCalculator
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator", "RateType", "\tWhen a user a changes the Rent Type then the \r\n\tcolumn title under Base Rate cha" +
-                    "nges to Monthly Rate\r\n\tor Annual Rate according to the Rent Type", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator/LeaseVariables/Toggles", "LeaseExpansionToggle", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -76,45 +75,28 @@ namespace Dealius.Features.LeaseRateCalculator
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
-        {
-#line 6
-#line hidden
-#line 7
- testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Start Date",
-                        "Lease Type",
-                        "Term",
-                        "Space Required"});
-            table1.AddRow(new string[] {
-                        "01/01/2020",
-                        "Assignment",
-                        "24",
-                        "100"});
-#line 8
- testRunner.And("deal information is entered", ((string)(null)), table1, "And ");
-#line hidden
-#line 11
- testRunner.And("the lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-        }
-        
         void System.IDisposable.Dispose()
         {
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Base Rate displays Annual Rate header column")]
-        [Xunit.TraitAttribute("FeatureTitle", "RateType")]
-        [Xunit.TraitAttribute("Description", "Base Rate displays Annual Rate header column")]
-        public virtual void BaseRateDisplaysAnnualRateHeaderColumn()
+        [Xunit.SkippableTheoryAttribute(DisplayName="When Lease Expansion toggle is on, it displays Square footage column to the Rents" +
+            "Grid table")]
+        [Xunit.TraitAttribute("FeatureTitle", "LeaseExpansionToggle")]
+        [Xunit.TraitAttribute("Description", "When Lease Expansion toggle is on, it displays Square footage column to the Rents" +
+            "Grid table")]
+        [Xunit.InlineDataAttribute("01/01/2020", "Assignment", "24", "100", new string[0])]
+        public virtual void WhenLeaseExpansionToggleIsOnItDisplaysSquareFootageColumnToTheRentsGridTable(string startDate, string leaseType, string term, string spaceRequired, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base Rate displays Annual Rate header column", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 13
+            argumentsOfScenario.Add("Start Date", startDate);
+            argumentsOfScenario.Add("Lease Type", leaseType);
+            argumentsOfScenario.Add("Term", term);
+            argumentsOfScenario.Add("Space Required", spaceRequired);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When Lease Expansion toggle is on, it displays Square footage column to the Rents" +
+                    "Grid table", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 4
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -134,30 +116,41 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 5
+ testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
 #line 6
-this.FeatureBackground();
+ testRunner.And(string.Format("deal info {0} {1} {2} {3} is entered", startDate, leaseType, term, spaceRequired), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 14
- testRunner.And("Rate Type option \'Per Year\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 7
+ testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
- testRunner.Then("Base Rate column header displays \'Annual Rate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 8
+ testRunner.When("the user clicks the LeaseExpansion toggle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 16
- testRunner.And("Base Rate column header \'Monthly Rate\' is not displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 9
+ testRunner.Then("Square Footage Column shows on RentsGrid table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Base Rate displays Monthly Rate header column")]
-        [Xunit.TraitAttribute("FeatureTitle", "RateType")]
-        [Xunit.TraitAttribute("Description", "Base Rate displays Monthly Rate header column")]
-        public virtual void BaseRateDisplaysMonthlyRateHeaderColumn()
+        [Xunit.SkippableTheoryAttribute(DisplayName="When Lease Expansion toggle is turned off, it hides the Square Footage column fro" +
+            "m the RentsGrid table")]
+        [Xunit.TraitAttribute("FeatureTitle", "LeaseExpansionToggle")]
+        [Xunit.TraitAttribute("Description", "When Lease Expansion toggle is turned off, it hides the Square Footage column fro" +
+            "m the RentsGrid table")]
+        [Xunit.InlineDataAttribute("01/01/2020", "Assignment", "24", "100", new string[0])]
+        public virtual void WhenLeaseExpansionToggleIsTurnedOffItHidesTheSquareFootageColumnFromTheRentsGridTable(string startDate, string leaseType, string term, string spaceRequired, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base Rate displays Monthly Rate header column", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            argumentsOfScenario.Add("Start Date", startDate);
+            argumentsOfScenario.Add("Lease Type", leaseType);
+            argumentsOfScenario.Add("Term", term);
+            argumentsOfScenario.Add("Space Required", spaceRequired);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When Lease Expansion toggle is turned off, it hides the Square Footage column fro" +
+                    "m the RentsGrid table", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -178,17 +171,23 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 6
-this.FeatureBackground();
-#line hidden
 #line 19
- testRunner.And("Rate Type option \'Per Month\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 20
- testRunner.Then("Base Rate column header displays \'Monthly Rate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And(string.Format("deal info {0} {1} {2} {3} is entered", startDate, leaseType, term, spaceRequired), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 21
- testRunner.And("Base Rate column header \'Annual Rate\' is not displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 22
+ testRunner.And("the LeaseExpansion toggle is clicked", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 23
+ testRunner.When("the user clicks the LeaseExpansion toggle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 24
+ testRunner.Then("Square Footage Column hides away", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -201,12 +200,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                RateTypeFeature.FeatureSetup();
+                LeaseExpansionToggleFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                RateTypeFeature.FeatureTearDown();
+                LeaseExpansionToggleFeature.FeatureTearDown();
             }
         }
     }

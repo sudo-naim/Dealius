@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,12 @@ namespace Dealius.Models
 {
      class CalculatorDealInfo
     {
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
         public string LeaseType { get; set; }
-        public int Months { get; set; }
+        public int Term { get; set; }
         public int SpaceRequired { get; set; }
 
+        public double RatePerSf { get; set; }
+        public int TenantRepFee { get; set; }
     }
 }

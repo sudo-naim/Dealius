@@ -12,6 +12,7 @@ namespace Dealius.Hooks
         private IObjectContainer objcontainer;
         private DealiusPage dealiusPage;
         protected string URL = "https://dealius-dev-tests.azurewebsites.net/";
+        //protected string URL = "https://staging.dealius.com/";
         public Hooks(IObjectContainer objcontainer)
         {
             this.objcontainer = objcontainer;
@@ -34,7 +35,6 @@ namespace Dealius.Hooks
         public void DisposeDriverAfterScenario()
         {
             driver.Quit();
-            driver.Dispose();
         }
     }
 }

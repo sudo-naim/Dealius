@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Xunit;
 
 [assembly: AssemblyTitle("Dealius")]
 [assembly: AssemblyDescription("")]
@@ -12,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
-
+[assembly: CollectionBehavior(MaxParallelThreads = 2)]
 [assembly: Guid("7941f03f-dbd5-4367-b0d1-f7872aac0f29")]
 
 // [assembly: AssemblyVersion("1.0.*")]

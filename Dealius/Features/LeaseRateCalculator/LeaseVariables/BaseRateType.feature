@@ -5,7 +5,10 @@
 
 Background: 
 	Given a Tenant Rep Deal is created
-	And the Lease calculator is opened
+	And deal information is entered
+	| Start Date | Lease Type | Term | Space Required |
+	| 01/01/2020 | Assignment | 24   | 100            |
+	And lease rate calculator page is opened
 
 Scenario: Base Rate displays Annual Rate header column
 	And Rate Type option 'Per Year' is selected
@@ -15,4 +18,4 @@ Scenario: Base Rate displays Annual Rate header column
 Scenario: Base Rate displays Monthly Rate header column
 	And Rate Type option 'Per Month' is selected
 	Then Base Rate column header displays 'Monthly Rate'
-	And Base Rate column header 'Monthly Rate' is not displayed
+	And Base Rate column header 'Annual Rate' is not displayed

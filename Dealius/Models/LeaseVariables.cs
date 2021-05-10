@@ -8,7 +8,8 @@ namespace Dealius.Models
 {
     class LeaseVariables
     {
-        public double RatePerSF { get; set; }
+        public string RateType { get; set; }
+        public double RatePerSf { get; set; }
         public double Rate { get; set; }
         public double AnnualPercentageIncrease { get; set; }
         public int RentAbatement { get; set; }

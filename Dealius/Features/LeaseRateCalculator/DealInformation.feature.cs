@@ -123,16 +123,23 @@ this.FeatureBackground();
 #line 9
  testRunner.When("the user clicks calculate on Transaction Information section", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Start Date",
+                            "Lease Type",
+                            "Term",
+                            "Space Required"});
+                table2.AddRow(new string[] {
+                            "01/01/2020",
+                            "Assignment",
+                            "24",
+                            "100"});
 #line 10
- testRunner.And("enters lease deal information", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 11
- testRunner.And("the user clicks continue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 12
- testRunner.Then("the lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("deal information is entered", ((string)(null)), table2, "And ");
 #line hidden
 #line 13
+ testRunner.Then("the lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 14
  testRunner.And("all Deal Information is displayed correctly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
