@@ -80,8 +80,16 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
         {
 #line 5
 #line hidden
+            TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Company Name",
+                        "DealName",
+                        "EstCloseDate"});
+            table20.AddRow(new string[] {
+                        "NewCompany",
+                        "AutoDeal",
+                        "03.20.2021"});
 #line 6
- testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), table20, "Given ");
 #line hidden
         }
         
@@ -98,7 +106,7 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The Lease Rate Calculator displays deal information table", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 8
+#line 10
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -121,26 +129,23 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 9
- testRunner.When("the user clicks calculate on Transaction Information section", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-                TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
                             "Start Date",
                             "Lease Type",
                             "Term",
                             "Space Required"});
-                table20.AddRow(new string[] {
+                table21.AddRow(new string[] {
                             "01/01/2020",
                             "Assignment",
                             "24",
                             "100"});
-#line 10
- testRunner.And("deal information is entered", ((string)(null)), table20, "And ");
-#line hidden
-#line 13
- testRunner.Then("the lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.And("deal transaction information is entered", ((string)(null)), table21, "And ");
 #line hidden
 #line 14
+ testRunner.Then("the lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 15
  testRunner.And("all Deal Information is displayed correctly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }

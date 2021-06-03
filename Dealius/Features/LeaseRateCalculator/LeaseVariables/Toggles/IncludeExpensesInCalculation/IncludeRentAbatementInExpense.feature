@@ -3,6 +3,8 @@
 
 Scenario Outline: Rent abatement is included in expenses when IncludeRentAbatementInExpense toggle is YES
 	Given a Tenant Rep Deal is created
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
 	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
 	And lease rate calculator page is opened
 	And Rent Abatement Months <Months> is entered

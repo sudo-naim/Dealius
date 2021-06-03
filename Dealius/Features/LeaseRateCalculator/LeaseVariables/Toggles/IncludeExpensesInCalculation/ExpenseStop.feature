@@ -3,6 +3,8 @@
 
 Scenario Outline: Expense is added to the Rents Grid table rows when user enters Expense Stop
 	Given a Tenant Rep Deal is created
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
 	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
 	And lease rate calculator page is opened
 	And $/SF Tenant Rep fee type is selected

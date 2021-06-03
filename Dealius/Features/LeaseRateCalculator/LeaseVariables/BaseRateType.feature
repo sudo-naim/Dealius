@@ -5,7 +5,9 @@
 
 Background: 
 	Given a Tenant Rep Deal is created
-	And deal information is entered
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
+	And deal transaction information is entered
 	| Start Date | Lease Type | Term | Space Required |
 	| 01/01/2020 | Assignment | 24   | 100            |
 	And lease rate calculator page is opened

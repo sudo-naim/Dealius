@@ -34,8 +34,8 @@ namespace Dealius.Steps
             _rentCalculationPage = new RentCalculationPage(driver);
         }
 
-        [Given(@"deal information is entered")]
-        [When(@"deal information is entered")]
+        [Given(@"deal transaction information is entered")]
+        [When(@"deal transaction information is entered")]
         public void GivenDealInformationIsEntered(Table table)
         {
             Deal = table.CreateInstance<CalculatorDealInfo>();
@@ -88,15 +88,17 @@ namespace Dealius.Steps
 
 
         [Given(@"a (.*) Rep Deal is created")]
-        public void GivenAUserAddsALeaseDeal(string repType)
+        public void GivenAUserAddsALeaseDeal(string repType, Table table)
         {
+            dynamic Deal = table.CreateDynamicInstance();
+
             dealiusPage.Login();
             dealiusPage.ClickDeals();
             dealsPage.ClickAddDeal();
             dealsPage.ClickRepType(repType);
-            dealsProfilePage.InputCompanyName("ANewCompany");
-            dealsProfilePage.InputDealName("AutomationTest");
-            dealsProfilePage.InputEstimatedCloseDate("03.20.2021");
+            dealsProfilePage.InputCompanyName(Deal.CompanyName);
+            dealsProfilePage.InputDealName(Deal.DealName);
+            dealsProfilePage.InputEstimatedCloseDate(Deal.EstCloseDate.ToString("MM/dd/yyyy"));
             dealsProfilePage.ClickSave();
             dealsProfilePage.ClickExpandAll();
         }
@@ -185,14 +187,6 @@ namespace Dealius.Steps
         {
             Deal = sct.Get<CalculatorDealInfo>("Deal");
             _rentCalculationPage.CheckAllRowsAreDisplayed(Deal.Term);
-        }
-
-
-        [When(@"the user clicks calculate on Transaction Information section")]
-        [Given(@"the user clicks calculate on Transaction Information section")]
-        public void GivenClicksCalculateOnTransactionInformationSection()
-        {
-           
         }
 
         [When(@"enters lease deal information")]

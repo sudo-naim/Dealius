@@ -3,6 +3,8 @@
 
 Background: 
 	Given a Buyer Rep Deal is created
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
 
 Scenario: create a new buyer rep deal
 	And property information are entered

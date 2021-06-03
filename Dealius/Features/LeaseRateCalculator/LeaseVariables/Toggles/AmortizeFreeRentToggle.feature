@@ -3,6 +3,8 @@
 
 Scenario Outline: When Amortize Free Rent toggle is on, it spreads the Rent Abatement Months eaqually 
 	Given a Tenant Rep Deal is created
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
 	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
 	And lease rate calculator page is opened
 	When the user enters Rent Abatement Months <Months>

@@ -2,6 +2,8 @@
 
 Scenario Outline: When rate is entered, Rate Per Sf is calculated automatically
 	Given a Tenant Rep Deal is created
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
 	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
 	And lease rate calculator page is opened
 	When the user enters Rate: <Rate> and presses tab
