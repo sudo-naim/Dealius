@@ -1,4 +1,4 @@
-﻿Feature: AddReceipt
+﻿ Feature: DeletePayment
 
 
 Background: 
@@ -12,6 +12,13 @@ Background:
 	And payment is added
 	And the deal is closed
 	And Accounting page is opened
+	And Receivables tab is opened
 
-Scenario: some title
-	Given Receivables tab is opened
+Scenario: Delete Receivable payment
+	And the closed Deal is filtered out
+	And receipt for payment is added
+	| Amount |
+	| 100    |
+	When a user deletes payment
+	Then Deal is shown under Open Receivables list
+	And Amount Received is empty

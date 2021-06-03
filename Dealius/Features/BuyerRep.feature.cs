@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
+namespace Dealius.Features
 {
     using TechTalk.SpecFlow;
     using System;
@@ -19,7 +19,7 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class AnnualIncreaseFeature : object, Xunit.IClassFixture<AnnualIncreaseFeature.FixtureData>, System.IDisposable
+    public partial class BuyerRepFeature : object, Xunit.IClassFixture<BuyerRepFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "AnnualIncrease.feature"
+#line 1 "BuyerRep.feature"
 #line hidden
         
-        public AnnualIncreaseFeature(AnnualIncreaseFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public BuyerRepFeature(BuyerRepFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator/LeaseVariables", "AnnualIncrease", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "BuyerRep", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -75,29 +75,29 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 4
+#line hidden
+#line 5
+ testRunner.Given("a Buyer Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         void System.IDisposable.Dispose()
         {
             this.TestTearDown();
         }
         
-        [Xunit.SkippableTheoryAttribute(DisplayName="When rate is entered, Rate Per Sf is calculated automatically")]
-        [Xunit.TraitAttribute("FeatureTitle", "AnnualIncrease")]
-        [Xunit.TraitAttribute("Description", "When rate is entered, Rate Per Sf is calculated automatically")]
-        [Xunit.InlineDataAttribute("01/01/2020", "Assignment", "36", "100", "5", "10", "10.5", "11.025", new string[0])]
-        public virtual void WhenRateIsEnteredRatePerSfIsCalculatedAutomatically(string startDate, string leaseType, string term, string spaceRequired, string annualIncrease, string ratePerSf, string ratePerSfRow1, string ratePerSfRow2, string[] exampleTags)
+        [Xunit.SkippableFactAttribute(DisplayName="create a new buyer rep deal")]
+        [Xunit.TraitAttribute("FeatureTitle", "BuyerRep")]
+        [Xunit.TraitAttribute("Description", "create a new buyer rep deal")]
+        public virtual void CreateANewBuyerRepDeal()
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("Start Date", startDate);
-            argumentsOfScenario.Add("Lease Type", leaseType);
-            argumentsOfScenario.Add("Term", term);
-            argumentsOfScenario.Add("Space Required", spaceRequired);
-            argumentsOfScenario.Add("Annual Increase", annualIncrease);
-            argumentsOfScenario.Add("Rate Per Sf", ratePerSf);
-            argumentsOfScenario.Add("RatePerSfRow1", ratePerSfRow1);
-            argumentsOfScenario.Add("RatePerSfRow2", ratePerSfRow2);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When rate is entered, Rate Per Sf is calculated automatically", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 4
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("create a new buyer rep deal", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -117,29 +117,29 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 5
- testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 6
- testRunner.And(string.Format("deal info {0} {1} {2} {3} is entered", startDate, leaseType, term, spaceRequired), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 7
- testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 4
+this.FeatureBackground();
 #line hidden
 #line 8
- testRunner.And(string.Format("user enters {0} for Rates Per Sf", ratePerSf), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("property information are entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
- testRunner.When(string.Format("the user enters Annual % Increase {0}", annualIncrease), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("seller commpany name is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And("the user generates schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("a house broker is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
+                TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
+                            "PurchasePrice",
+                            "BuyerRepFee"});
+                table19.AddRow(new string[] {
+                            "200000",
+                            "5"});
 #line 11
- testRunner.Then(string.Format("the \'2\'nd Annual Year (row) Rate Per Sf is {0}", ratePerSfRow1), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("financial details are added", ((string)(null)), table19, "And ");
 #line hidden
-#line 12
- testRunner.And(string.Format("the \'3\'d Annual Year (row) Rate Per Sf is {0}", ratePerSfRow2), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 14
+ testRunner.And("buyer rep deal payment is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -152,12 +152,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                AnnualIncreaseFeature.FeatureSetup();
+                BuyerRepFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                AnnualIncreaseFeature.FeatureTearDown();
+                BuyerRepFeature.FeatureTearDown();
             }
         }
     }

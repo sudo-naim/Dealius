@@ -15,11 +15,12 @@ namespace Dealius.Pages
         protected IWebDriver driver;
         private IJavaScriptExecutor js;
         protected WebDriverWait wait;
-
+        protected WebDriverWait waitImmediate;
         public BasePage(IWebDriver driver) 
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+            waitImmediate = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
             js = driver as IJavaScriptExecutor;
         }
 
@@ -49,6 +50,11 @@ namespace Dealius.Pages
         public void Input(By locator, string text)
         {
             WaitForElement(locator).SendKeys(text);
+        }
+
+        public void Input(IWebElement el, string text)
+        {
+            WaitForElement(el).SendKeys(text);
         }
 
         public double GetElementValueDouble(By locator)
@@ -136,6 +142,33 @@ namespace Dealius.Pages
             try
             {
                 var element = wait.Until(drv =>
+                {
+                    try
+                    {
+                        var el = Find(locator);
+                        return el.Displayed ? el : null;
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is NoSuchElementException || e is StaleElementReferenceException)
+                            return null;
+                        throw;
+                    }
+                });
+                return element;
+            }
+            catch (Exception e)
+            {
+                throw new WebDriverTimeoutException($"Timeout while waiting for {locator} to be displayed");
+            }
+        }
+
+        public IWebElement WaitElementDisplayedImmediate(By locator)
+        {
+            try
+            {
+
+                var element = waitImmediate.Until(drv =>
                 {
                     try
                     {
@@ -251,6 +284,40 @@ namespace Dealius.Pages
                     catch (Exception e)
                     {
                         if (e is NoSuchElementException || e is StaleElementReferenceException)
+                            return null;
+                        throw;
+                    }
+                });
+                return element;
+            }
+            catch (Exception e)
+            {
+                throw new WebDriverTimeoutException($"Timeout while waiting for {locator}");
+            }
+        }
+
+        public IWebElement WaitElementAndClick(By locator)
+        {
+            try
+            {
+                IWebElement element = wait.Until(drv =>
+                {
+                    try
+                    {
+                        var el = Find(locator);
+                        if (el.Displayed && el.Enabled)
+                        {
+                            el.Click();
+                            return el;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is NoSuchElementException || e is StaleElementReferenceException || e is ElementClickInterceptedException)
                             return null;
                         throw;
                     }

@@ -15,3 +15,4 @@ Scenario Outline: Rent abatement is included in expenses when IncludeRentAbateme
 Examples: 
 	| Start Date | Lease Type | Term | Space Required | Months | Expense Stop | Expense |
 	| 01/01/2020 | Assignment | 24   | 100            | 3      | 5            | 375     |
+

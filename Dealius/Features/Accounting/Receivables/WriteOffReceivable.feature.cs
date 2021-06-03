@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Dealius.Features.LeaseRateCalculator.DealInformation
+namespace Dealius.Features.Accounting.Receivables
 {
     using TechTalk.SpecFlow;
     using System;
@@ -19,7 +19,7 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class DealInformationFeature : object, Xunit.IClassFixture<DealInformationFeature.FixtureData>, System.IDisposable
+    public partial class WriteOffReceivableFeature : object, Xunit.IClassFixture<WriteOffReceivableFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "DealInformation.feature"
+#line 1 "WriteOffReceivable.feature"
 #line hidden
         
-        public DealInformationFeature(DealInformationFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public WriteOffReceivableFeature(WriteOffReceivableFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,8 +40,7 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator/Deal Information", "DealInformation", "\tA table that displays deal information that the user\r\n\thas provided on the Deal " +
-                    "Profile.", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Accounting/Receivables", "WriteOffReceivable", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,10 +77,48 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
         
         public virtual void FeatureBackground()
         {
-#line 5
+#line 4
 #line hidden
-#line 6
+#line 5
  testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Start Date",
+                        "Lease Type",
+                        "Term",
+                        "Space Required",
+                        "Rate Per Sf",
+                        "TenantRepFee%"});
+            table17.AddRow(new string[] {
+                        "01.01.2020",
+                        "Assignment",
+                        "24",
+                        "100",
+                        "10",
+                        "5"});
+#line 6
+ testRunner.And("transaction information are entered", ((string)(null)), table17, "And ");
+#line hidden
+#line 9
+ testRunner.And("property information are entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 10
+ testRunner.And("landlord company name is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 11
+ testRunner.And("a house broker is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+ testRunner.And("payment is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 13
+ testRunner.And("the deal is closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 14
+ testRunner.And("Accounting page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 15
+ testRunner.And("Receivables tab is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -90,15 +127,15 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="The Lease Rate Calculator displays deal information table")]
-        [Xunit.TraitAttribute("FeatureTitle", "DealInformation")]
-        [Xunit.TraitAttribute("Description", "The Lease Rate Calculator displays deal information table")]
-        public virtual void TheLeaseRateCalculatorDisplaysDealInformationTable()
+        [Xunit.SkippableFactAttribute(DisplayName="Clear Open Balance when open balance is a positive number")]
+        [Xunit.TraitAttribute("FeatureTitle", "WriteOffReceivable")]
+        [Xunit.TraitAttribute("Description", "Clear Open Balance when open balance is a positive number")]
+        public virtual void ClearOpenBalanceWhenOpenBalanceIsAPositiveNumber()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The Lease Rate Calculator displays deal information table", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 8
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clear Open Balance when open balance is a positive number", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 17
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -118,30 +155,27 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 5
+#line 4
 this.FeatureBackground();
 #line hidden
-#line 9
- testRunner.When("the user clicks calculate on Transaction Information section", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.And("the closed Deal is filtered out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Start Date",
-                            "Lease Type",
-                            "Term",
-                            "Space Required"});
-                table20.AddRow(new string[] {
-                            "01/01/2020",
-                            "Assignment",
-                            "24",
-                            "100"});
-#line 10
- testRunner.And("deal information is entered", ((string)(null)), table20, "And ");
+                TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Amount"});
+                table18.AddRow(new string[] {
+                            "50"});
+#line 19
+ testRunner.And("receipt for payment is added", ((string)(null)), table18, "And ");
 #line hidden
-#line 13
- testRunner.Then("the lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 22
+ testRunner.When("a user marks receivable as write off", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 14
- testRunner.And("all Deal Information is displayed correctly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 23
+ testRunner.Then("Amount Received is 0$", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 24
+ testRunner.And("Open Balance is $0.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -154,12 +188,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                DealInformationFeature.FeatureSetup();
+                WriteOffReceivableFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                DealInformationFeature.FeatureTearDown();
+                WriteOffReceivableFeature.FeatureTearDown();
             }
         }
     }

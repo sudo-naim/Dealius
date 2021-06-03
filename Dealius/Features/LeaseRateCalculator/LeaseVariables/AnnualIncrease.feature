@@ -14,4 +14,4 @@ Scenario Outline: When rate is entered, Rate Per Sf is calculated automatically
 
 Examples: 
 	| Start Date | Lease Type | Term | Space Required | Annual Increase | Rate Per Sf | RatePerSfRow1 | RatePerSfRow2 |
-	| 01/01/2020 | Assignment | 36   | 100            | 5               | 10          | 10.5          | 11.03         |
+	| 01/01/2020 | Assignment | 36   | 100            | 5               | 10          | 10.5          | 11.025        |

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
+namespace Dealius.Features.Accounting.Payables
 {
     using TechTalk.SpecFlow;
     using System;
@@ -19,7 +19,7 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class RateTypeFeature : object, Xunit.IClassFixture<RateTypeFeature.FixtureData>, System.IDisposable
+    public partial class DeletePaymentFeature : object, Xunit.IClassFixture<DeletePaymentFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "BaseRateType.feature"
+#line 1 "DeletePaymentPayables.feature"
 #line hidden
         
-        public RateTypeFeature(RateTypeFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public DeletePaymentFeature(DeletePaymentFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,8 +40,7 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator/LeaseVariables", "RateType", "\tWhen a user a changes the Rent Type then the \r\n\tcolumn title under Base Rate cha" +
-                    "nges to Monthly Rate\r\n\tor Annual Rate according to the Rent Type", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Accounting/Payables", "DeletePayment", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,26 +77,48 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
         
         public virtual void FeatureBackground()
         {
-#line 6
+#line 3
 #line hidden
-#line 7
+#line 4
  testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-            TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                         "Start Date",
                         "Lease Type",
                         "Term",
-                        "Space Required"});
-            table22.AddRow(new string[] {
-                        "01/01/2020",
+                        "Space Required",
+                        "Rate Per Sf",
+                        "TenantRepFee%"});
+            table7.AddRow(new string[] {
+                        "01.01.2020",
                         "Assignment",
                         "24",
-                        "100"});
+                        "100",
+                        "10",
+                        "5"});
+#line 5
+ testRunner.And("transaction information are entered", ((string)(null)), table7, "And ");
+#line hidden
 #line 8
- testRunner.And("deal information is entered", ((string)(null)), table22, "And ");
+ testRunner.And("property information are entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 9
+ testRunner.And("landlord company name is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 10
+ testRunner.And("a house broker is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("payment is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+ testRunner.And("the deal is closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 13
+ testRunner.And("Accounting page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 14
+ testRunner.And("Receivables tab is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -106,59 +127,18 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Base Rate displays Annual Rate header column")]
-        [Xunit.TraitAttribute("FeatureTitle", "RateType")]
-        [Xunit.TraitAttribute("Description", "Base Rate displays Annual Rate header column")]
-        public virtual void BaseRateDisplaysAnnualRateHeaderColumn()
+        [Xunit.SkippableFactAttribute(DisplayName="Deleting a payment on payables tab clears payment amount paid, method, reference " +
+            "and date")]
+        [Xunit.TraitAttribute("FeatureTitle", "DeletePayment")]
+        [Xunit.TraitAttribute("Description", "Deleting a payment on payables tab clears payment amount paid, method, reference " +
+            "and date")]
+        public virtual void DeletingAPaymentOnPayablesTabClearsPaymentAmountPaidMethodReferenceAndDate()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base Rate displays Annual Rate header column", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 13
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 6
-this.FeatureBackground();
-#line hidden
-#line 14
- testRunner.And("Rate Type option \'Per Year\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 15
- testRunner.Then("Base Rate column header displays \'Annual Rate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deleting a payment on payables tab clears payment amount paid, method, reference " +
+                    "and date", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 16
- testRunner.And("Base Rate column header \'Monthly Rate\' is not displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Base Rate displays Monthly Rate header column")]
-        [Xunit.TraitAttribute("FeatureTitle", "RateType")]
-        [Xunit.TraitAttribute("Description", "Base Rate displays Monthly Rate header column")]
-        public virtual void BaseRateDisplaysMonthlyRateHeaderColumn()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base Rate displays Monthly Rate header column", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -178,17 +158,32 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 6
+#line 3
 this.FeatureBackground();
+#line hidden
+#line 17
+ testRunner.And("receipt is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 18
+ testRunner.When("a user makes the payment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
- testRunner.And("Rate Type option \'Per Month\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("delets payment of payee \'User Broker\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 20
- testRunner.Then("Base Rate column header displays \'Monthly Rate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("refreshes the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 21
- testRunner.And("Base Rate column header \'Annual Rate\' is not displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("Amount Paid for payee \'User Broker\' is cleared", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 22
+ testRunner.And("Payment Method for payee \'User Broker\' is cleared", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 23
+ testRunner.And("Payment Reference for payee \'User Broker\' is cleared", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 24
+ testRunner.And("Payment Date for payee \'User Broker\' is cleared", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -201,12 +196,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                RateTypeFeature.FeatureSetup();
+                DeletePaymentFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                RateTypeFeature.FeatureTearDown();
+                DeletePaymentFeature.FeatureTearDown();
             }
         }
     }

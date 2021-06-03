@@ -11,6 +11,7 @@ namespace Dealius.Pages
         #region Locators
         private By DealNameInput = By.Name("DealName");
         private By ClientName = By.Id("ClientName");
+        private By OppositeSideName = By.Id("OppositeSideName");
         private By AddNew = By.XPath("//a[text()='Add new']");
         private By NameInput = By.Id("Name");
         private By EstimatedCloseDate = By.Name("EstimatedCloseDate");
@@ -28,9 +29,12 @@ namespace Dealius.Pages
         private By PropertyName = By.Name("Property[PropertyName]");
         private By LandlordCompanyName = By.Id("OppositeSideName");
         private By AddHouseBrokerButton = By.XPath("//span[contains(text(),'Add House Broker')]");
+        private By PurchasePriceInput = By.CssSelector("input[name='PurchasePrice']");
+        private By BuyerRepFeeInput = By.CssSelector("input[name='ClientRepFee']");
         private By AddPaymentButton = By.XPath("//span[contains(text(),'Add Payment')]");
         private By BrokerName = By.Name("DealBrokers[0][BrokerName]");
         private By HouseReferralToggle = By.Name("IsHouseReferral");
+        private By PopUpYesButton = By.CssSelector("button.btn.btn-primary.js-yes");
         private By EstimatedPaymentDate(int index) => By.Name($"DealPayments[{index}][EstimatedPaymentDate]");
         private By DealPaymentCommissionFee(int index) => By.Name($"DealPayments[{index}][CommissionUi]");
 
@@ -144,7 +148,7 @@ namespace Dealius.Pages
 
         public void InputEstimatedPaymentDate(DateTime paymentDate)
         {
-            Input(EstimatedPaymentDate(0), paymentDate.ToString("MM/dd/yyyy"));
+            Input(EstimatedPaymentDate(0), paymentDate.ToString("MM/dd/yyyy")+ Keys.Enter);
         }
 
         public void InputPaymentCommissionFee(string percentage)
@@ -157,6 +161,7 @@ namespace Dealius.Pages
             click(By.XPath("//button[contains(@class,'btn-success')][text()='SAVE']"));
             WaitElementDisplayed(By.XPath("//button[text()='SAVING...']"));
             WaitElementDisappears(By.XPath("//button[text()='SAVING...']"));
+            WaitElementDisplayed(By.XPath("//span[contains(text(),'Deal updated')]"));
             WaitElementDisappears(By.XPath("//span[contains(text(),'Deal updated')]"));
         }
 
@@ -168,6 +173,35 @@ namespace Dealius.Pages
         public void ClickHouseReferralToggle()
         {
             Find(HouseReferralToggle, By.XPath("./following-sibling::span")).Click();
+        }
+
+        public void ClickPopUpYesButton()
+        {
+            click(PopUpYesButton);
+        }
+
+        public bool PopUpYesButtonIsDisplayed()
+        {
+            var el = wait.Until(drv => driver.FindElement(PopUpYesButton).Displayed);
+            return el;
+        }
+
+        public void InputPurchasePrice(double price)
+        {
+            Input(PurchasePriceInput, price.ToString());
+        }
+
+        public void InputBuyerRepFee(double price)
+        {
+            Input(BuyerRepFeeInput, price.ToString());
+        }
+
+        public void InputSellerInformation(string companyName)
+        {
+            Input(OppositeSideName, companyName);
+            WaitElementToBeClickable(AddNew).Click();
+            WaitElementToBeClickable(SaveFormButton).Click();
+            //WaitForElement(Find(By.CssSelector("a[title='Clear']")));
         }
     }
 }

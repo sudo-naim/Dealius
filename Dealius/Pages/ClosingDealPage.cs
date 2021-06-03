@@ -10,6 +10,7 @@ namespace Dealius.Pages
         private By PopupSubmitButton = By.XPath("//div[@id='popup-close-request']/descendant::button[contains(text(),'SUBMIT')]");
         private By ApproveButton = By.XPath("//button[contains(text(),'APPROVE')]");
         private By PopUpOKButton = By.CssSelector("button.btn.btn-primary.js-ok");
+        private By PopUpYesButton = By.CssSelector("button.btn.btn-primary.js-yes");
         #endregion
         public ClosingDealPage(IWebDriver driver) : base(driver) { }
 
@@ -32,6 +33,11 @@ namespace Dealius.Pages
         public void ClickPopUpOKButton()
         {
             click(PopUpOKButton);
+        }
+        
+        public void ClickPopUpYesButton()
+        {
+            click(PopUpYesButton);
         }
 
         public int DealID()

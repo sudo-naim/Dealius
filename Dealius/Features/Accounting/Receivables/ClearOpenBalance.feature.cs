@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
+namespace Dealius.Features.Accounting.Receivables
 {
     using TechTalk.SpecFlow;
     using System;
@@ -19,7 +19,7 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class RateTypeFeature : object, Xunit.IClassFixture<RateTypeFeature.FixtureData>, System.IDisposable
+    public partial class ClearOpenBalanceFeature : object, Xunit.IClassFixture<ClearOpenBalanceFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "BaseRateType.feature"
+#line 1 "ClearOpenBalance.feature"
 #line hidden
         
-        public RateTypeFeature(RateTypeFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public ClearOpenBalanceFeature(ClearOpenBalanceFeature.FixtureData fixtureData, Dealius_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,8 +40,7 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/LeaseRateCalculator/LeaseVariables", "RateType", "\tWhen a user a changes the Rent Type then the \r\n\tcolumn title under Base Rate cha" +
-                    "nges to Monthly Rate\r\n\tor Annual Rate according to the Rent Type", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Accounting/Receivables", "ClearOpenBalance", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,26 +77,48 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
         
         public virtual void FeatureBackground()
         {
-#line 6
+#line 4
 #line hidden
-#line 7
+#line 5
  testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-            TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                         "Start Date",
                         "Lease Type",
                         "Term",
-                        "Space Required"});
-            table22.AddRow(new string[] {
-                        "01/01/2020",
+                        "Space Required",
+                        "Rate Per Sf",
+                        "TenantRepFee%"});
+            table8.AddRow(new string[] {
+                        "01.01.2020",
                         "Assignment",
                         "24",
-                        "100"});
-#line 8
- testRunner.And("deal information is entered", ((string)(null)), table22, "And ");
+                        "100",
+                        "10",
+                        "5"});
+#line 6
+ testRunner.And("transaction information are entered", ((string)(null)), table8, "And ");
+#line hidden
+#line 9
+ testRunner.And("property information are entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 10
+ testRunner.And("landlord company name is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("a house broker is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+ testRunner.And("payment is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 13
+ testRunner.And("the deal is closed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 14
+ testRunner.And("Accounting page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 15
+ testRunner.And("Receivables tab is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -106,15 +127,15 @@ namespace Dealius.Features.LeaseRateCalculator.LeaseVariables
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Base Rate displays Annual Rate header column")]
-        [Xunit.TraitAttribute("FeatureTitle", "RateType")]
-        [Xunit.TraitAttribute("Description", "Base Rate displays Annual Rate header column")]
-        public virtual void BaseRateDisplaysAnnualRateHeaderColumn()
+        [Xunit.SkippableFactAttribute(DisplayName="Clear Open Balance when open balance is a positive number (underpayed)")]
+        [Xunit.TraitAttribute("FeatureTitle", "ClearOpenBalance")]
+        [Xunit.TraitAttribute("Description", "Clear Open Balance when open balance is a positive number (underpayed)")]
+        public virtual void ClearOpenBalanceWhenOpenBalanceIsAPositiveNumberUnderpayed()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base Rate displays Annual Rate header column", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 13
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clear Open Balance when open balance is a positive number (underpayed)", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 17
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -134,31 +155,38 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 6
+#line 4
 this.FeatureBackground();
 #line hidden
-#line 14
- testRunner.And("Rate Type option \'Per Year\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 18
+ testRunner.And("the closed Deal is filtered out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
- testRunner.Then("Base Rate column header displays \'Annual Rate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Amount"});
+                table9.AddRow(new string[] {
+                            "50"});
+#line 19
+ testRunner.And("receipt for payment is added", ((string)(null)), table9, "And ");
 #line hidden
-#line 16
- testRunner.And("Base Rate column header \'Monthly Rate\' is not displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 22
+ testRunner.When("user clears open Balance", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 23
+ testRunner.Then("Open Balance is $0.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Base Rate displays Monthly Rate header column")]
-        [Xunit.TraitAttribute("FeatureTitle", "RateType")]
-        [Xunit.TraitAttribute("Description", "Base Rate displays Monthly Rate header column")]
-        public virtual void BaseRateDisplaysMonthlyRateHeaderColumn()
+        [Xunit.SkippableFactAttribute(DisplayName="Clear Open Balance when open balance is a negative number (overpayed)")]
+        [Xunit.TraitAttribute("FeatureTitle", "ClearOpenBalance")]
+        [Xunit.TraitAttribute("Description", "Clear Open Balance when open balance is a negative number (overpayed)")]
+        public virtual void ClearOpenBalanceWhenOpenBalanceIsANegativeNumberOverpayed()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Base Rate displays Monthly Rate header column", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 18
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clear Open Balance when open balance is a negative number (overpayed)", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 25
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -178,17 +206,24 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 6
+#line 4
 this.FeatureBackground();
 #line hidden
-#line 19
- testRunner.And("Rate Type option \'Per Month\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 26
+ testRunner.And("the closed Deal is filtered out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 20
- testRunner.Then("Base Rate column header displays \'Monthly Rate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Amount"});
+                table10.AddRow(new string[] {
+                            "150"});
+#line 27
+ testRunner.And("receipt for over payment is added", ((string)(null)), table10, "And ");
 #line hidden
-#line 21
- testRunner.And("Base Rate column header \'Annual Rate\' is not displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 30
+ testRunner.When("user clears open Balance", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 31
+ testRunner.Then("Open Balance is $0.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -201,12 +236,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                RateTypeFeature.FeatureSetup();
+                ClearOpenBalanceFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                RateTypeFeature.FeatureTearDown();
+                ClearOpenBalanceFeature.FeatureTearDown();
             }
         }
     }
