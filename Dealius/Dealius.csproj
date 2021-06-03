@@ -148,7 +148,6 @@
     <Compile Include="Steps\DealProfileSteps.cs" />
     <Compile Include="Steps\LeaseCalculatorScheduleSteps.cs" />
     <Compile Include="Utils\GlobalVar.cs" />
-    <Compile Include="Utils\Method.cs" />
     <Compile Include="Utils\TableExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
