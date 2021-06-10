@@ -14,12 +14,12 @@
 
 Scenario: Rental Rate recalculation by Monthly Rate Per SF
 	And Rate Type option 'Per Month' is selected
-	And Rate per SF is entered
+	And Rate per SF of 50$ is entered
 	When the user generates schedule
-	Then the Rental Rate is calculated accordingly
+	Then the Rental Rate is $5000 per month
 
 Scenario: Rental Rate by Yearly Rate Per SF
 	And Rate Type option 'Per Year' is selected
-	And Rate per SF is entered
+	And Rate per SF of 50$ is entered
 	When the user generates schedule
-	Then the Rental Rate is calculated accordingly
+	Then the Rental Rate is $416.67 per month

@@ -19,6 +19,8 @@ Examples:
 
 Scenario Outline: When Lease Expansion toggle is turned off, it hides the Square Footage column from the RentsGrid table
 	Given a Tenant Rep Deal is created
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
 	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
 	And lease rate calculator page is opened
 	And the LeaseExpansion toggle is clicked

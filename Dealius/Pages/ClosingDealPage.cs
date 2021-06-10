@@ -26,6 +26,10 @@ namespace Dealius.Pages
         public void ClickApproveButton()
         {
             click(ApproveButton);
+        }
+
+        public void WaitForProcessingButtonToDissappear()
+        {
             WaitElementDisplayed(By.XPath("//button[text()='PROCESSING...']"));
             WaitElementDisappears(By.XPath("//button[text()='PROCESSING...']"));
         }

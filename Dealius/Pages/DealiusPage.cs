@@ -18,10 +18,10 @@ namespace Dealius
 
         public DealiusPage(IWebDriver driver) : base(driver) { }
 
-        public void Login()
+        public void Login(string email, string password)
         {
-            Input(LoginInput, "user-officeadmin@dealius.com");
-            Input(PasswordInput, "123");
+            Input(LoginInput, email);
+            Input(PasswordInput, password);
             WaitElementToBeClickable(SignIn).Click();
         }
 

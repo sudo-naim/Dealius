@@ -81,23 +81,31 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
         {
 #line 6
  #line hidden
+            TechTalk.SpecFlow.Table table35 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Company Name",
+                        "DealName",
+                        "EstCloseDate"});
+            table35.AddRow(new string[] {
+                        "NewCompany",
+                        "AutoDeal",
+                        "03.20.2021"});
 #line 7
- testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), table35, "Given ");
 #line hidden
-            TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table36 = new TechTalk.SpecFlow.Table(new string[] {
                         "Start Date",
                         "Lease Type",
                         "Term",
                         "Space Required"});
-            table22.AddRow(new string[] {
+            table36.AddRow(new string[] {
                         "01/01/2020",
                         "Assignment",
                         "24",
                         "100"});
-#line 8
- testRunner.And("deal transaction information is entered", ((string)(null)), table22, "And ");
+#line 10
+ testRunner.And("deal transaction information is entered", ((string)(null)), table36, "And ");
 #line hidden
-#line 11
+#line 13
  testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
@@ -115,7 +123,7 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rental Rate recalculation by Monthly Rate Per SF", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 13
+#line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -138,17 +146,17 @@ this.ScenarioInitialize(scenarioInfo);
 #line 6
  this.FeatureBackground();
 #line hidden
-#line 14
+#line 16
  testRunner.And("Rate Type option \'Per Month\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
- testRunner.And("Rate per SF is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 17
+ testRunner.And("Rate per SF of 50$ is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 16
+#line 18
  testRunner.When("the user generates schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 17
- testRunner.Then("the Rental Rate is calculated accordingly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
+ testRunner.Then("the Rental Rate is $5000 per month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -162,7 +170,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Rental Rate by Yearly Rate Per SF", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 19
+#line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -185,17 +193,17 @@ this.ScenarioInitialize(scenarioInfo);
 #line 6
  this.FeatureBackground();
 #line hidden
-#line 20
+#line 22
  testRunner.And("Rate Type option \'Per Year\' is selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 21
- testRunner.And("Rate per SF is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 23
+ testRunner.And("Rate per SF of 50$ is entered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 22
+#line 24
  testRunner.When("the user generates schedule", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 23
- testRunner.Then("the Rental Rate is calculated accordingly", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 25
+ testRunner.Then("the Rental Rate is $416.67 per month", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

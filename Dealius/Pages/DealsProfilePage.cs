@@ -3,7 +3,7 @@ using System;
 using OpenQA.Selenium.Support.UI;
 using Dealius.Utils;
 using System.Globalization;
-
+using OpenQA.Selenium.Interactions;
 namespace Dealius.Pages
 {
     class DealsProfilePage : BasePage
@@ -21,7 +21,8 @@ namespace Dealius.Pages
         private By CalculateButton = By.XPath("//button[contains(text(),'Calculate')]");
         private By ExpandAllButton = By.CssSelector("a[class='expand-all-link']");
         private By StartDateInput = By.Id("PopupStartDate");
-        private By LeasTypeSelect = By.CssSelector("button[data-id='PopupLeaseType']");
+        private By PopUpCalcution = By.Id("popup-calculation");
+        private By PopupLeaseTypeSelect = By.Id("PopupLeaseType");
         private By SpaceRequiredInput = By.Name("RequestedSpace");
         private By TermInput = By.XPath("//input[@name='Term']");
         private By ContinueButton = By.XPath("//button[contains(text(),'CONTINUE')]");
@@ -29,17 +30,25 @@ namespace Dealius.Pages
         private By PropertyName = By.Name("Property[PropertyName]");
         private By LandlordCompanyName = By.Id("OppositeSideName");
         private By AddHouseBrokerButton = By.XPath("//span[contains(text(),'Add House Broker')]");
+        private By AddOutsideBrokerButton = By.XPath("//span[contains(text(),'Add Outside Broker')]");
         private By PurchasePriceInput = By.CssSelector("input[name='PurchasePrice']");
         private By BuyerRepFeeInput = By.CssSelector("input[name='ClientRepFee']");
         private By AddPaymentButton = By.XPath("//span[contains(text(),'Add Payment')]");
         private By BrokerName = By.Name("DealBrokers[0][BrokerName]");
+        private By SecondBrokerName = By.Name("DealBrokers[1][BrokerName]");
         private By HouseReferralToggle = By.Name("IsHouseReferral");
+        private By CompanyName = By.Name("Company[Name]");
         private By PopUpYesButton = By.CssSelector("button.btn.btn-primary.js-yes");
+        private By PopUpNoButton = By.CssSelector("button.btn.btn-default.js-no");
+        private By AddNewContactSaveButton = By.XPath("//form[@id='form-contact-details']/descendant::button[contains(text(),'SAVE')]");
+
         private By EstimatedPaymentDate(int index) => By.Name($"DealPayments[{index}][EstimatedPaymentDate]");
         private By DealPaymentCommissionFee(int index) => By.Name($"DealPayments[{index}][CommissionUi]");
 
-        private By BrokerNameDropdownLi(string dataValue) => By.CssSelector("li[data-value='User Broker']");
+        private By BrokerNameDropdownLi(string brokerName) => By.CssSelector($"li[data-value='{brokerName}']");
+        private By CompanyNameDropdownLi(string companyName) => By.CssSelector($"li[data-value='{companyName}']");
         private By BrokerPercentage = By.Name("DealBrokers[0][Commission]");
+        private By SecondBrokerPercentage = By.Name("DealBrokers[1][Commission]");
         #endregion
 
         public static int SpaceInSf { get; private set; }
@@ -78,19 +87,26 @@ namespace Dealius.Pages
         }
         public void ClickCalculate()
         {
+            ScrollToElement(CalculateButton);
             WaitElementToBeClickable(CalculateButton).Click();
         }
 
+        public void WaitHalfASecond()
+        {
+            System.Threading.Thread.Sleep(500);
+        }
         public void InputCalculationStartDate(DateTime startDate)
         {
             var date = startDate.ToString("MM/dd/yyyy");
             Input(StartDateInput, date + Keys.Enter);
         }
-
-        public void InputLeaseType(string leaseType)
+        
+        public void SelectLeaseType(string leaseType)
         {
-            WaitElementToBeClickable(LeasTypeSelect).Click();
-            WaitElementToBeClickable(By.XPath($"//button/following::span[contains(text(),'{leaseType}')][2]")).Click();
+            //WaitForElement(Find(PopUpCalcution, ContinueButton));
+            //WaitForElement(Find(PopupLeaseTypeSelect).FindElement(By.XPath("./..")));
+            var select = new SelectElement(WaitElementEnabled(PopupLeaseTypeSelect));
+            select.SelectByText(leaseType);
         }
         
         public void InputTerm(int months)
@@ -127,7 +143,13 @@ namespace Dealius.Pages
 
         public void ClickAddHouseBrokerButton()
         {
+            WaitForElement(AddOutsideBrokerButton);
             click(AddHouseBrokerButton);
+        }
+        
+        public void ClickAddOutsideBrokerButton()
+        {
+            click(AddOutsideBrokerButton);
         }
 
         public void SelectBroker(string brokerName)
@@ -135,10 +157,37 @@ namespace Dealius.Pages
             Input(BrokerName,brokerName);
             click(BrokerNameDropdownLi(brokerName));
         }
+        
+        public void InputSecondBrokerName(string brokerName)
+        {
+            Input(SecondBrokerName, brokerName);
+        }
+
+        public void SelectCompanyName(string companyName)
+        {
+            Input(CompanyName, companyName+Keys.Enter);
+            //click(CompanyNameDropdownLi(companyName));
+            //pre-requisite used (need to create a company of type other to be used on outside broker)
+        }
+
+        public void ClickAddNew()
+        {
+            click(AddNew);
+        }
+
+        public void ClickFormContactDetailsSaveButton()
+        {
+            click(AddNewContactSaveButton);
+        }
 
         public void InputCommissionPercentage(string percentage)
         {
             Input(BrokerPercentage, percentage);
+        }
+        
+        public void InputCommissionPercentageForSecondBroker(string percentage)
+        {
+            Input(SecondBrokerPercentage, percentage);
         }
 
         public void ClickAddPaymentButton()
@@ -178,6 +227,11 @@ namespace Dealius.Pages
         public void ClickPopUpYesButton()
         {
             click(PopUpYesButton);
+        }
+        
+        public void ClickPopUpNoButton()
+        {
+            click(PopUpNoButton);
         }
 
         public bool PopUpYesButtonIsDisplayed()

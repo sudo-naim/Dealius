@@ -7,9 +7,8 @@ Scenario Outline: Expense is added to the Rents Grid table rows when user enters
 	| NewCompany   | AutoDeal | 03.20.2021   |
 	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
 	And lease rate calculator page is opened
-	And $/SF Tenant Rep fee type is selected
 	And the IncludeExpensesInCalculation toggle is clicked
-	When the user enters Expense Stop <Expense Stop>
+	When the user enters Expense Stop $<Expense Stop>
 	And the user generates schedule
 	Then 1st row of RentsGrid table has $<Expense> Expense
 	And 2nd row of RentsGrid table has $<Expense> Expense

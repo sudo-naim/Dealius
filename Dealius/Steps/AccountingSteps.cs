@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Dealius.Models;
 using Dealius.Pages;
 using OpenQA.Selenium;
@@ -49,10 +50,11 @@ namespace Dealius.Steps
 
             dealsProfilePage.ClickHouseReferralToggle();
             dealsProfilePage.ClickCalculate();
-            dealsProfilePage.InputLeaseType(Deal.LeaseType);
+            dealsProfilePage.WaitHalfASecond();
+            dealsProfilePage.InputSpaceRequired(Deal.SpaceRequired);
             dealsProfilePage.InputCalculationStartDate(Deal.StartDate);
             dealsProfilePage.InputTerm(Deal.Term);
-            dealsProfilePage.InputSpaceRequired(Deal.SpaceRequired);
+            dealsProfilePage.SelectLeaseType(Deal.LeaseType);
             dealsProfilePage.ClickContinue();
             rentCalculationPage.InputRatePerSf(Deal.RatePerSf);
             rentCalculationPage.InputRentClientRepFee(Deal.TenantRepFee);
@@ -74,20 +76,27 @@ namespace Dealius.Steps
         public void GivenAHouseBrokerIsAdded()
         {
             dealsProfilePage.ClickAddHouseBrokerButton();
-            dealsProfilePage.SelectBroker("User Broker");  //pre-requisite used
+            dealsProfilePage.SelectBroker(ConfigurationManager.AppSettings.Get("BrokerName"));  //pre-requisite used
             dealsProfilePage.InputCommissionPercentage("100");
         }
         
         [Given(@"payment is added")]
         public void GivenPaymentIsAdded()
         {
-            var Deal = sct.Get<CalculatorDealInfo>("Deal");
-            
             dealsProfilePage.ClickAddPaymentButton();
-            dealsProfilePage.InputEstimatedPaymentDate(Deal.StartDate.AddMonths(18));
+            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today);
             dealsProfilePage.InputPaymentCommissionFee("100");
         }
-        
+
+        [Given(@"payment is added on a day before todays date")]
+        public void GivenPaymentIsAddedOnThePastFromTodays()
+        {
+            dealsProfilePage.ClickAddPaymentButton();
+            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today.AddDays(-1));
+            dealsProfilePage.InputPaymentCommissionFee("100");
+        }
+
+
         [Given(@"the deal is closed")]
         public void GivenTheDealIsClosed()
         {
@@ -98,8 +107,10 @@ namespace Dealius.Steps
             //dealsProfilePage.ClickPopUpYesButton();
 
             closingDealPage.ClickSubmitButton();
+            //waitforCloseRequestDeatilsPopUp Proccessingbutton to dissappear
             closingDealPage.ClickPopupSubmitButton();
             closingDealPage.ClickApproveButton();
+            closingDealPage.WaitForProcessingButtonToDissappear();
             closingDealPage.ClickPopUpOKButton();
         }
 
@@ -127,6 +138,7 @@ namespace Dealius.Steps
             var DealId = sct.Get<int>("dealID").ToString();
             accountingPage.InputSearchTermInvoices(DealId);
             accountingPage.ClickFilterDateRangeAllInvoices();
+            accountingPage.WaitForLoadingImageToDissapear();
         }
 
         [Then(@"invoice status of that deal is (.*)")]
@@ -141,7 +153,7 @@ namespace Dealius.Steps
             accountingPage.ClickEmailInvoice();
             accountingPage.InputPopUpToEmail();
             accountingPage.ClickPopUpSendButton();
-            accountingPage.WaitForEmailSuccesfullySentMessage();
+            accountingPage.WaitForLoadingImageToDissapear();
         }
 
         [When(@"the user filters the closed Deal")]
@@ -190,6 +202,7 @@ namespace Dealius.Steps
             addReceiptPage.InputReference();
             addReceiptPage.InputAmount(receipt.Amount);
             addReceiptPage.ClickSaveButton();
+            accountingPage.WaitForLoadingImage();
         }
 
         [When(@"adds receipt for over payment")]

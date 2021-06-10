@@ -1,35 +1,36 @@
 ﻿Feature: TenantRepFee
 
-
-
-Scenario Outline: Tenant Rep column hides away if $/SF Tenant Rep Fee type is chosen
+Scenario: Tenant Rep column hides away if $/SF Tenant Rep Fee type is chosen
 	Given a Tenant Rep Deal is created
 	| Company Name | DealName | EstCloseDate |
 	| NewCompany   | AutoDeal | 03.20.2021   |
-	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
+	And deal transaction information is entered
+	| Start Date | Lease Type | Term | Space Required |
+	| 01.01.2020 | Assignment | 24   | 100            |
 	And lease rate calculator page is opened
 	When the user selects $/SF Tenant Rep fee type
 	Then Tenant Rep Column hides away
 
-Examples: 
-	| Start Date | Lease Type | Term | Space Required |
-	| 01/01/2020 | Assignment | 24   | 100            |
 
 Scenario Outline: Tenant Rep Fee is added to each annual year (row) if user enters a tenant rep fee in percentage 
 	Given a Tenant Rep Deal is created
-	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
+	And deal transaction information is entered
+	| Start Date | Lease Type | Term | Space Required |
+	| 01.01.2020 | Assignment | 24   | 100            |
 	And lease rate calculator page is opened
-	When the user enters <percentage> for Tenant Rep Fee
+	When the user enters 5 for Tenant Rep Fee
 	And the user generates schedule
-	Then all rows (Annual Years) have <percentage> added on the Tenant Rep Column
-
-Examples: 
-	| Start Date | Lease Type | Term | Space Required | percentage |
-	| 01/01/2020 | Assignment | 24   | 100            | 5          |
+	Then all rows (Annual Years) have 5 added on the Tenant Rep Column
 
 Scenario Outline: Tenant Rep Fee is added to each annual year (row) if user enters a tenant rep fee in $/SF
 	Given a Tenant Rep Deal is created
-	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
+	And deal transaction information is entered
+	| Start Date | Lease Type | Term | Space Required |
+	| 01.01.2020 | Assignment | 24   | 100            |
 	And lease rate calculator page is opened
 	When the user selects $/SF Tenant Rep fee type
 	And the user enters <price> $ per Sf for Tenant Rep Fee

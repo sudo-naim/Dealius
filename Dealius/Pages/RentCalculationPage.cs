@@ -27,7 +27,9 @@ namespace Dealius.Pages
         private static readonly By RentAbatementMonthsInput = By.Name("RentAbatementMonths");
         private static readonly By RentAbatementAmountInput = By.Name("RentAbatementAmount");
         private static readonly By RentClientRepFeePercentageInput = By.Name("RentClientRepFeeUi");
+        private static readonly By RentOppositeSideRepFeeInput = By.Name("RentOppositeSideRepFeeUi");
         private static readonly By RentClientRepFeePerSfInput = By.Name("RentClientRepFeePerSfUi");
+        private static readonly By RentOppositeSideRepFeePerSfInput = By.Name("RentOppositeSideRepFeePerSfUi");
         private static readonly By ExpenseStopInput = By.Name("ExpensesStopAmount");
         private static readonly By LeaseStartDatetd = By.CssSelector("td[data-name='DealInfoLeaseStartDate']");
         private static readonly By LeaseExpirationDatetd = By.CssSelector("td[data-name='DealInfoLeaseTermDate']");
@@ -40,11 +42,18 @@ namespace Dealius.Pages
             By.CssSelector("#rentsGrid > div.k-grid-content > table");
         private static readonly By RateTypeSelect = By.CssSelector("select[name='RateType']");
         private static readonly By RentClientRepFeeTypeSelect = By.Name("RentClientRepFeeTypeUi");
+        private static readonly By RentOppositeSideRepFeeSelect = By.Name("RentOppositeSideRepFeeTypeUi");
         private static readonly By RentAbatementTypeSelect = By.Name("RentAbatementType");
         private static readonly By AmortizeFreeRentToggle = By.CssSelector("input[name='AmortizeFreeRent']");
         private static By ToggleByName(string name) => By.Name(name);
         private static By RateTypeButton(string rateType) => By.CssSelector($"button[title='{rateType}']");
-
+        private static By EffectiveRate = By.CssSelector("span[data-bind='textMoney: effectiveRate']");
+        private static By FooterTotalMonths = By.CssSelector("span[data-name='RentsTotalMonths']");
+        private static By FooterFreeTotalMonths = By.CssSelector("td[data-name='RentsTotalFreeRentMonths']");
+        private static By FooterTotalClientRepAmount = By.CssSelector("td[data-name='RentsClientRepFeeAmount']");
+        private static By FooterTotalOppositeSideRepAmount = By.CssSelector("td[data-name='RentsTotalOppositeRepFeeAmount']");
+        private static By FooterTotalExpenses = By.CssSelector("td[data-name='RentsTotalExpensesAmount']");
+        private static By FooterTotalCommisionAmount = By.CssSelector("td[data-name='RentsTotalCommissionAmount']");
         private static By ColumnTitle(string title) => By.XPath($"//descendant::th[contains(text(),'{title}')][@data-bind]");
         //====================================================================
         private static By tdMonthsInput = By.XPath(".//input[(contains(@name,'[Months]'))]");
@@ -56,7 +65,9 @@ namespace Dealius.Pages
         private static By tdRentPerMonthAmountInput = By.XPath(".//input[(contains(@name,'[RentPerMonthAmount]'))]");
         private static By tdTotalLeaseAmountInput = By.XPath(".//input[(contains(@name,'[TotalLeaseAmount]'))]");
         private static By tdClientRepFeeInput = By.XPath(".//input[(contains(@name,'[ClientRepFee]'))]");
+        private static By tdOppositeSideRepFeeInput = By.XPath(".//input[(contains(@name,'[OppositeSideRepFee]'))]");
         private static By tdClientRepFeeAmountInput = By.XPath(".//input[(contains(@name,'[ClientRepFeeAmount]'))]");
+        private static By tdOppositeSideRepFeeAmountInput = By.XPath(".//input[(contains(@name,'[OppositeSideRepFeeAmount]'))]");
         private static By tdExpensesAmountInput = By.XPath(".//input[(contains(@name,'[ExpensesAmount]'))]");
         //=====================================================================
         /*private static By BaseRentMonthsInput(int i) => By.CssSelector($"input[name = 'Rents[{i-1}][Months]']");
@@ -145,7 +156,7 @@ namespace Dealius.Pages
 
         public void CheckLeaseType(string leaseTypeExpected)
         {
-            string leaseType = driver.FindElement(LeaseTypetd).Text;
+            string leaseType = WaitForElement(LeaseTypetd).Text;
             Assert.Equal(leaseTypeExpected, leaseType);
         }
 
@@ -216,6 +227,23 @@ namespace Dealius.Pages
                     break;
             }
         }
+        
+        public void SelectRentOpositeSideRepFee(string optionToSelect)
+        {
+            var select = new SelectElement(WaitElementEnabled(RentOppositeSideRepFeeSelect));
+            string optionSelected = select.SelectedOption.Text;
+
+            if (optionToSelect == optionSelected) ;
+            switch (optionToSelect.ToLower())
+            {
+                case "%":
+                    select.SelectByValue("1");
+                    break;
+                case "$/sf":
+                    select.SelectByValue("2");
+                    break;
+            }
+        }
 
         public void CheckTenantRepColumnIsNotDisplayed(string columnHeaderTitle)
         {
@@ -233,24 +261,11 @@ namespace Dealius.Pages
 
         }
 
-        public void CheckDealInfoRentalRate(double ratePerSf, int squareFootage)
+        public double RentalRateValue()
         {
-            double RentalRate;
-            double actualRentalRate = double.Parse(Find(tdRentalRate).Text.TrimStart('$')); //removes first character
-            var selectRentalRate = (WaitElementEnabled(RateTypeSelect));
-            int value = short.Parse(selectRentalRate.GetAttribute("value"));
+            var rentalRate = double.Parse(Find(tdRentalRate).Text.TrimStart('$')); ;
 
-        if (value == 1)
-            {
-                RentalRate = ratePerSf * squareFootage;
-                Assert.Equal(Math.Round(RentalRate, 2), actualRentalRate);
-            }
-            else
-            {
-                RentalRate = (ratePerSf/12)* squareFootage;
-                Assert.Equal(Math.Round(RentalRate,2), actualRentalRate);
-            }
-            
+            return rentalRate;
         }
 
         public void InputRate(double rate)
@@ -273,10 +288,19 @@ namespace Dealius.Pages
             return GetElementValueDouble(row.FindElement(tdClientRepFeeInput));
         }
 
+        public double TdOppositeSideRepFeeInput(IWebElement row)
+        {
+            return GetElementValueDouble(row.FindElement(tdOppositeSideRepFeeInput));
+        }
+
         public double TdClientRepFeeAmountInput(IWebElement row)
         {
             return GetElementValueDouble(row.FindElement(tdClientRepFeeAmountInput));
+        }
 
+        public double TdOppositeSideRepFeeAmountInput(IWebElement row)
+        {
+            return GetElementValueDouble(row.FindElement(tdOppositeSideRepFeeAmountInput));
         }
 
         public double TdExpenseInput(IWebElement row)
@@ -301,6 +325,7 @@ namespace Dealius.Pages
 
         public void ClickToggleByName(string toggleTitle)
         {
+            WaitElementEnabled(ToggleByName(toggleTitle));
             Find(ToggleByName(toggleTitle), By.XPath("./following-sibling::span")).Click();
         }
 
@@ -340,14 +365,24 @@ namespace Dealius.Pages
             Input(RentAbatementAmountInput, amount.ToString());
         }
 
-        public void InputRentClientRepFee(int percentage)
+        public void InputRentClientRepFee(double percentage)
         {
             Input(RentClientRepFeePercentageInput, percentage.ToString());
         }
 
-        public void InputRentClientRepFeePerSf(int amount)
+        public void InputRentOppositeSideRepFee(double percentage)
+        {
+            Input(RentOppositeSideRepFeeInput, percentage.ToString());
+        }
+
+        public void InputRentClientRepFeePerSf(double amount)
         {
             Input(RentClientRepFeePerSfInput, amount.ToString());
+        }
+        
+        public void InputRentOppositeSideRepFeePerSf(double amount)
+        {
+            Input(RentOppositeSideRepFeePerSfInput, amount.ToString());
         }
 
         public void InputExpenseStop(double expenseValue)
@@ -374,9 +409,70 @@ namespace Dealius.Pages
             return double.Parse(TotalClientRepFee);
         }
 
+        public double EffectiveRatePerSf()
+        {
+            var effectiveRate = Find(EffectiveRate).Text.TrimStart('$');
+
+            return double.Parse(effectiveRate);
+        }
+
+        public double FooterTotalMonthsRent()
+        {
+            var totalMonths = Find(FooterTotalMonths).Text.TrimStart('$');
+
+            return double.Parse(totalMonths);
+        }
+        
+        public double FooterFreeTotalMonthsRent()
+        {
+            var totalFreeMonths = Find(FooterFreeTotalMonths).Text.TrimStart('$');
+
+            return double.Parse(totalFreeMonths);
+        }
+        
+        public double FooterTotalClientRepFeeAmount()
+        {
+            var totalClientRepFeeAmount = Find(FooterTotalClientRepAmount).Text.TrimStart('$');
+
+            return double.Parse(totalClientRepFeeAmount);
+        }
+
+        public double FooterTotalOppositeSideRepFeeAmount()
+        {
+            var totalOppositeSideRepFeeAmount = Find(FooterTotalOppositeSideRepAmount).Text.TrimStart('$');
+
+            return double.Parse(totalOppositeSideRepFeeAmount);
+        }
+
+        public double FooterTotalCommissionAmount()
+        {
+            var totalCommissionAmount = Find(FooterTotalCommisionAmount).Text.TrimStart('$');
+
+            return double.Parse(totalCommissionAmount);
+        }
+
+        public double FooterTotalExpensesAmount()
+        {
+            var totalExpenses = Find(FooterTotalExpenses).Text.TrimStart('$');
+
+            return double.Parse(totalExpenses);
+        }
+
         public void ClickAddRent()
         {
             click(AddRentButton);
+        }
+        
+        public void ClickAddExpansion(IWebElement row)
+        {
+            row.FindElement(By.XPath("./descendant::a[@title='Add Expansion']")).Click();
+        }
+        
+        public bool CheckExpansionRowIsDisplayed(IWebElement row)
+        {
+            var expansionRow = row.FindElement(By.XPath("./following-sibling::tr[@class='expansion']"));
+
+            return expansionRow.Displayed;
         }
         //==================================================================
         public ReadOnlyCollection<IWebElement> GetRentsGridTableRows()
@@ -384,7 +480,5 @@ namespace Dealius.Pages
             var tableRows = Find(RentsGridTable).FindElements(By.TagName("tr"));
             return tableRows;
         }
-
-        
     }
 }

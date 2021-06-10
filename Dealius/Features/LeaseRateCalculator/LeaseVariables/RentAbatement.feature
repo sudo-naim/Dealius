@@ -18,6 +18,8 @@ Examples:
 
 Scenario Outline: Rent Abatement Months input field, adds Free Months to the first row (annual year) of the table
 	Given a Tenant Rep Deal is created
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
 	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
 	And lease rate calculator page is opened
 	When the user selects Months for Rent Abatement type
@@ -32,6 +34,8 @@ Examples:
 
 Scenario Outline: Rent Abatement Amount input field, adds Free Amount to the first row (annual year) of the table
 	Given a Tenant Rep Deal is created
+	| Company Name | DealName | EstCloseDate |
+	| NewCompany   | AutoDeal | 03.20.2021   |
 	And deal info <Start Date> <Lease Type> <Term> <Space Required> is entered
 	And lease rate calculator page is opened
 	And user enters <Rate Per Sf> for Rates Per Sf

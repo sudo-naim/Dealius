@@ -19,7 +19,7 @@ namespace Dealius.Pages
         public BasePage(IWebDriver driver) 
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(300));
             waitImmediate = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
             js = driver as IJavaScriptExecutor;
         }
@@ -421,6 +421,19 @@ namespace Dealius.Pages
                 .Equals("complete"));
         }
 
+        public void ScrollToElement(By locator)
+        {
+            try
+            {
+                const string script = "arguments[0].scrollIntoView({block: 'center', inline: 'center'})";
+                IJavaScriptExecutor js = driver as IJavaScriptExecutor;
+                js.ExecuteScript(script, Find(locator));
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException(e.Message);
+            }
+        }
         /*public string GetPseudoElementCSSContentValue()
         {
             const string script = "return window.getComputedStyle(document.querySelector('input[name=\"AmortizeFreeRent\"] + span'),':before').getPropertyValue('content');";

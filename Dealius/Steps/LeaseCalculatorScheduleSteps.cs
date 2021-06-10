@@ -42,8 +42,9 @@ namespace Dealius.Steps
             sct.Add("Deal", Deal);
 
             dealsProfilePage.ClickCalculate();
-            dealsProfilePage.InputLeaseType(Deal.LeaseType);
+            dealsProfilePage.WaitHalfASecond();
             dealsProfilePage.InputCalculationStartDate(Deal.StartDate);
+            dealsProfilePage.SelectLeaseType(Deal.LeaseType);
             dealsProfilePage.InputTerm(Deal.Term);
             dealsProfilePage.InputSpaceRequired(Deal.SpaceRequired);
             dealsProfilePage.ClickContinue();
@@ -54,7 +55,8 @@ namespace Dealius.Steps
         {
             
             dealsProfilePage.ClickCalculate();
-            dealsProfilePage.InputLeaseType(leaseType);
+            dealsProfilePage.WaitHalfASecond();
+            dealsProfilePage.SelectLeaseType(leaseType);
             dealsProfilePage.InputCalculationStartDate(DateTime.Parse(startDate));
             dealsProfilePage.InputTerm(term);
             dealsProfilePage.InputSpaceRequired(spaceRequired);
@@ -92,7 +94,7 @@ namespace Dealius.Steps
         {
             dynamic Deal = table.CreateDynamicInstance();
 
-            dealiusPage.Login();
+            //dealiusPage.Login();
             dealiusPage.ClickDeals();
             dealsPage.ClickAddDeal();
             dealsPage.ClickRepType(repType);
@@ -112,19 +114,26 @@ namespace Dealius.Steps
 
 
         [Given(@"Rate per SF is entered")]
-        public void WhenRatePerSFIsEntered()
+        public void WhenRatePerdFIsEntered()
         {
             leaseVariables.RatePerSf = new Random().Next(999);
             _rentCalculationPage.InputRatePerSf(leaseVariables.RatePerSf);
         }
-        
+
+        [Given(@"Rate per SF of (.*)\$ is entered")]
+        public void WhenRatePerSFIsEntered(double RatePerSf)
+        {
+            leaseVariables.RatePerSf = RatePerSf;
+            _rentCalculationPage.InputRatePerSf(RatePerSf);
+        }
+
         [Then(@"all the rows data are displayed correctly")]
         public void ThenAllTheRowInputFieldsAreDisplayedCorrectly()
         {
             var rentsGridBodyRows = _rentCalculationPage.GetRentsGridTableRows();
             var firstRow = rentsGridBodyRows[0]; 
             //we will first assert the first row since it can differ from the number of months
-            //first the expected results of the table cells are calculated
+            //below you can see that the expected results of the table cells are calculated
             var MonthsCell = 12 - (rentsGridBodyRows.Count * 12 - Deal.Term);
             var MonthlyRateCell = leaseVariables.RatePerSf * Deal.SpaceRequired;
 
@@ -173,13 +182,11 @@ namespace Dealius.Steps
                 Assert.Equal(0, _rentCalculationPage.FreeRentMonths(row));
             }
         }
-
-        [Then(@"Total Lease footer cell displays correct value")]
-        public void ThenTotalLeaseFooterCellDisplaysCorrectValue()
+        
+        [Then(@"footer Total Lease Amount cell is \$(.*)")]
+        public void ThenTotalLeaseFooterCellDisplaysCorrectValue(double totalLeaseAmount)
         {
-            var TotalLease = (int)((leaseVariables.RatePerSf * Deal.SpaceRequired)*Deal.Term);
-
-            Assert.Equal(TotalLease,_rentCalculationPage.FooterTotalLeaseAmount());
+            Assert.Equal(totalLeaseAmount, _rentCalculationPage.FooterTotalLeaseAmount());
         }
 
         [Then(@"all rows for the schedule generated are displayed")]
@@ -194,7 +201,7 @@ namespace Dealius.Steps
         public void GivenEntersLeaseDealInformation()
         {
             dealsProfilePage.InputCalculationStartDate(Deal.StartDate);
-            dealsProfilePage.InputLeaseType(Deal.LeaseType);
+            dealsProfilePage.SelectLeaseType(Deal.LeaseType);
             dealsProfilePage.InputTerm(Deal.Term);
             dealsProfilePage.InputSpaceRequired(Deal.SpaceRequired);
         }
@@ -209,7 +216,7 @@ namespace Dealius.Steps
         [Then(@"the lease rate calculator page is opened")]
         public void ThenTheLeaseRateCalculatorIsOpened()
         {
-            _rentCalculationPage.CheckLeaseCalculatorPageLanded();
+            //_rentCalculationPage.CheckLeaseCalculatorPageLanded();
         }
 
         [Then(@"all Deal Information is displayed correctly")]
@@ -245,10 +252,10 @@ namespace Dealius.Steps
                 CheckHeaderUnderBaseRateIsNotDisplayed(HeaderUnderBaseRateTitle);
         }
 
-        [Then(@"the Rental Rate is calculated accordingly")]
-        public void ThenTheRentalRateIsRecalculatedAccordingly()
+        [Then(@"the Rental Rate is \$(.*) per month")]
+        public void ThenTheRentalRateIsRecalculatedAccordingly(double rentalRate)
         {
-            _rentCalculationPage.CheckDealInfoRentalRate(leaseVariables.RatePerSf, Deal.SpaceRequired);
+            Assert.Equal(rentalRate, _rentCalculationPage.RentalRateValue());
         }
 
         [Given(@"(.*) Tenant Rep fee type is selected")]
@@ -256,6 +263,13 @@ namespace Dealius.Steps
         public void WhenTheUserSelectsSFTenantRepFeeType(string RentClientRepFeeType)
         {
             _rentCalculationPage.SelectRentClientRepFeeType(RentClientRepFeeType);
+        }
+
+        [Given(@"(.*) Landlord Rep fee type is selected")]
+        [When(@"the user selects (.*) Landlord Rep fee type")]
+        public void WhenTheUserSelectsSFLandlordRepFeeType(string RentClientRepFeeType)
+        {
+            _rentCalculationPage.SelectRentOpositeSideRepFee(RentClientRepFeeType);
         }
 
         [Then(@"(.*) Column hides away")]
@@ -310,6 +324,12 @@ namespace Dealius.Steps
             _rentCalculationPage.InputRentAbatementMonths(freeMonths);
         }
 
+        [Then(@"footer rent grid Total Free Months is (.*)")]
+        public void ThenFooterRentGridTotalFreeMonthsIs(double totalFreeMonths)
+        {
+            Assert.Equal(totalFreeMonths, _rentCalculationPage.FooterFreeTotalMonthsRent());
+        }
+
         [When(@"enters Rent Abatement Amount (.*)")]
         public void WhenEntersRentAbatementAmount(int Amount)
         {
@@ -336,18 +356,31 @@ namespace Dealius.Steps
 
         [Given(@"Tenant Rep Fee (.*)% is entered")]
         [When(@"the user enters (.*) for Tenant Rep Fee")]
-        public void WhenTheUserEntersForTenantRepFee(int percentage)
+        public void WhenTheUserEntersForTenantRepFee(double percentage)
         {
-            sct.Add("percentage",percentage);
+            sct.Add("tenantPercentage",percentage);
             _rentCalculationPage.InputRentClientRepFee(percentage);
         }
 
+        [Given(@"Landlord Rep Fee (.*)% is entered")]
+        [When(@"the user enters (.*) for Landlord Rep Fee")]
+        public void WhenTheUserEntersForLandlordRepFee(double percentage)
+        {
+            sct.Add("landlordPercentage", percentage);
+            _rentCalculationPage.InputRentOppositeSideRepFee(percentage);
+        }
+
         [When(@"the user enters (.*) \$ per Sf for Tenant Rep Fee")]
-        public void WhenTheUserEntersPerSfForTenantRepFee(int amount)
+        public void WhenTheUserEntersPerSfForTenantRepFee(double amount)
         {
             _rentCalculationPage.InputRentClientRepFeePerSf(amount);
         }
 
+        [When(@"the user enters (.*) \$ per Sf for Landlord Rep Fee")]
+        public void WhenTheUserEntersPerSfForLandlordRepFee(double amount)
+        {
+            _rentCalculationPage.InputRentOppositeSideRepFeePerSf(amount);
+        }
 
         [Then(@"all rows \(Annual Years\) have (.*) added on the Tenant Rep Column")]
         public void ThenForAllRentsGrid(double percentageExpected)
@@ -357,6 +390,17 @@ namespace Dealius.Steps
             foreach (var row in rentsGridBodyRows)
             {
                 Assert.Equal(percentageExpected, _rentCalculationPage.TdClientRepFeeInput(row));
+            }
+        }
+
+        [Then(@"all rows \(Annual Years\) have (.*) added on the Landlord Rep Column")]
+        public void ThenAllRowsAnnualYearsHaveAddedOnTheLandlordRepColumn(double percentageExpected)
+        {
+            var rentsGridBodyRows = _rentCalculationPage.GetRentsGridTableRows();
+
+            foreach (var row in rentsGridBodyRows)
+            {
+                Assert.Equal(percentageExpected, _rentCalculationPage.TdOppositeSideRepFeeInput(row));
             }
         }
 
@@ -371,13 +415,25 @@ namespace Dealius.Steps
             }
         }
 
+        [Then(@"all rows \(Annual Years\) show \$(.*) under the Outside column")]
+        public void ThenAllRowsAnnualYearsShowUnderTheOutsideColumn(double OppositeSideRepFeeAmount)
+        {
+            var rentsGridBodyRows = _rentCalculationPage.GetRentsGridTableRows();
+
+            foreach (var row in rentsGridBodyRows)
+            {
+                Assert.Equal(OppositeSideRepFeeAmount, _rentCalculationPage.TdOppositeSideRepFeeAmountInput(row));
+            }
+        }
+
+
         [Then(@"the (.*) is disabled")]
         public void ThenTheToggleIsDisabled(string toggleInputName)
         {
             Assert.False(_rentCalculationPage.ToggleInputByName(toggleInputName).Enabled);
         }
-
-        [When(@"the user enters Expense Stop (.*)")]
+        
+        [When(@"the user enters Expense Stop \$(.*)")]
         public void WhenTheUserEntersExpenseStop(double expenseValue)
         {
             _rentCalculationPage.InputExpenseStop(expenseValue);
@@ -438,6 +494,73 @@ namespace Dealius.Steps
             Assert.Equal(RowsExpected.Count-1, rentsGridBodyRows.Count);
         }
 
+        [Then(@"the Effective Rate is (.*)\$ per SF")]
+        public void ThenTheEffectiveRateIsPerSF(double effectiveRate)
+        {
+            Assert.Equal(_rentCalculationPage.EffectiveRatePerSf(), effectiveRate);
+        }
+
+        [Then(@"footer rent grid Total Months is (.*)")]
+        public void ThenFooterRentGridTotalMonthsIs(double totalMonths)
+        {
+            Assert.Equal(totalMonths, _rentCalculationPage.FooterTotalMonthsRent());
+        }
+
+        [Then(@"the footer Total Gross Commission is \$(.*)")]
+        public void ThenTheFooterTotalGrossCommissionIs(double totalGrossCommission)
+        {
+            Assert.Equal(totalGrossCommission, _rentCalculationPage.FooterTotalClientRepFeeAmount());
+        }
+
+        [Then(@"the footer total expense is \$(.*)")]
+        public void ThenTheFooterTotalExpenseIs(double totalExpenses)
+        {
+            Assert.Equal(totalExpenses, _rentCalculationPage.FooterTotalExpensesAmount());
+        }
+
+        [When(@"the user clicks the Add Expansion plus button on the (.*)st row")]
+        [When(@"the user clicks the Add Expansion plus button on the (.*)nd row")]
+        [When(@"the user clicks the Add Expansion plus button on the (.*)th row")]
+        public void WhenTheUserClicksTheAddExpansionPlusButtonOnTheStRow(int rowIndex)
+        {
+            var RentGridRow = _rentCalculationPage.GetRentsGridTableRows()[rowIndex - 1];
+            sct.Add("RentGridRow", RentGridRow);
+
+            _rentCalculationPage.ClickAddExpansion(RentGridRow);
+
+        }
+
+        [Then(@"an additional row for expansion is added under it")]
+        public void ThenAnAdditionalRowForExpansionIsAddedUnderIt()
+        {
+            var MainRow = sct.Get<IWebElement>("RentGridRow");
+            
+            Assert.True(_rentCalculationPage.CheckExpansionRowIsDisplayed(MainRow));
+        }
+
+        [Given(@"an outside broker is added that doesn\'t share internal broker\'s commission")]
+        public void GivenAnOutsideBrokerIsAddedThatDoesnSCommission()
+        {
+            dealsProfilePage.ClickAddOutsideBrokerButton();
+            dealsProfilePage.ClickPopUpNoButton();
+            dealsProfilePage.InputSecondBrokerName("Outside Broker");
+            dealsProfilePage.ClickAddNew();
+            dealsProfilePage.SelectCompanyName("RandCompany"); //pre-requisite
+            dealsProfilePage.InputCommissionPercentageForSecondBroker("100");
+            //dealsProfilePage.ClickFormContactDetailsSaveButton();
+        }
+
+        [Then(@"the footer Total Opposite Rep Fee Amount is \$(.*)")]
+        public void ThenTheFooterTotalOppositeRepFeeAmountIs(double totalOppositeSideRepFeeAmount)
+        {
+            Assert.Equal(totalOppositeSideRepFeeAmount, _rentCalculationPage.FooterTotalOppositeSideRepFeeAmount());
+        }
+
+        [Then(@"the footer Total \(Commission\) Amount is \$(.*)")]
+        public void ThenTheFooterTotalCommissionAmountIs(double totalCommission)
+        {
+            Assert.Equal(totalCommission, _rentCalculationPage.FooterTotalCommissionAmount());
+        }
 
     }
 }

@@ -1,7 +1,11 @@
 ﻿using BoDi;
-using TechTalk.SpecFlow;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
+using System;
+using System.Configuration;
+using System.Net;
+using TechTalk.SpecFlow;
 
 namespace Dealius.Hooks
 {
@@ -11,8 +15,7 @@ namespace Dealius.Hooks
         private IWebDriver driver;
         private IObjectContainer objcontainer;
         private DealiusPage dealiusPage;
-        protected string URL = "https://dealius-dev-tests.azurewebsites.net/";
-        //protected string URL = "https://staging.dealius.com/";
+        
         public Hooks(IObjectContainer objcontainer)
         {
             this.objcontainer = objcontainer;
@@ -21,17 +24,23 @@ namespace Dealius.Hooks
         [BeforeScenario(Order = 0)]
         public void DriverSetup()
         {
-            //var chromeOptions = new ChromeOptions();
-            //driver = new ChromeDriver(chromeOptions);
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
+            var URL = new Uri(ConfigurationManager.AppSettings.Get("UITestDriverURL"));
+            var email = ConfigurationManager.AppSettings.Get("UserEmailOfficeAdmin");
+            var password = ConfigurationManager.AppSettings.Get("UserPasswordOfficeAdmin");
+            var chromeOptions = new ChromeOptions();
+
+            chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("--disable-gpu");
+            chromeOptions.AddArguments("--window-size=1920,1080");
+            chromeOptions.AddArguments("start-maximized");
+            driver = new ChromeDriver(chromeOptions);
             objcontainer.RegisterInstanceAs(driver);
             driver.Navigate().GoToUrl(URL);
             dealiusPage = new DealiusPage(driver);
+            dealiusPage.Login(email, password);
         }
 
         [AfterScenario]
-        //[AfterTestRun]
         public void DisposeDriverAfterScenario()
         {
             driver.Quit();
