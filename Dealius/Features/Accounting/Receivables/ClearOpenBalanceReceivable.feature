@@ -21,13 +21,23 @@ Scenario: Clear Open Balance when open balance is a positive number (underpayed)
 	And receipt for payment is added
 	| Amount |
 	| 50     |
-	When user clears open Balance
+	When user clears open Balance for receivable
 	Then Open Balance is $0.00
 
 Scenario: Clear Open Balance when open balance is a negative number (overpayed)
 	And the closed Deal is filtered out
-	And receipt for over payment is added 
+	And receipt for over payment is added
 	| Amount |
 	| 150    |
-	When user clears open Balance
+	When user clears open Balance for receivable
 	Then Open Balance is $0.00
+
+Scenario: Check house Net Value after receivable Clear Open Balance
+	And the closed Deal is filtered out
+	And receipt for over payment is added
+	| Amount |
+	| 150    |
+	When user clears open Balance for receivable
+	And the user opens the Payables tab
+	And searches deal ID on payables tab
+	And 

@@ -19,7 +19,7 @@ namespace Dealius.Pages
         public BasePage(IWebDriver driver) 
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(300));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
             waitImmediate = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
             js = driver as IJavaScriptExecutor;
         }
@@ -44,6 +44,8 @@ namespace Dealius.Pages
         }
 
         public void click(By locator) { WaitElementToBeClickable(locator).Click(); }
+        public void click(IWebElement element) { WaitElementToBeClickable(element).Click(); }
+        public void click(IWebElement element, By locator) { WaitElementRelative(element, locator).Click(); }
 
         //public void click(IWebElement element) { WaitElementToBeClickable(element).Click();}
 
@@ -320,6 +322,31 @@ namespace Dealius.Pages
             catch (Exception e)
             {
                 throw new WebDriverTimeoutException($"Timeout while waiting for {locator}");
+            }
+        }
+
+        public IWebElement WaitElementToBeClickable(IWebElement element)
+        {
+            try
+            {
+                IWebElement e = wait.Until(drv =>
+                {
+                    try
+                    {
+                        return (element.Displayed && element.Enabled) ? element : null;
+                    }
+                    catch (Exception exception)
+                    {
+                        if (exception is NoSuchElementException || exception is StaleElementReferenceException)
+                            return null;
+                        throw;
+                    }
+                });
+                return e;
+            }
+            catch (Exception exception)
+            {
+                throw new WebDriverTimeoutException($"Timeout while waiting for {element.TagName} {element.Text}");
             }
         }
 

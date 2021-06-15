@@ -160,7 +160,7 @@
     <None Include="Features\Accounting\Payables\AmountPaid.feature" />
     <None Include="Features\Accounting\Payables\ClearOpenBalancePayable.feature" />
     <None Include="Features\Accounting\Payables\DeletePaymentPayables.feature" />
-    <None Include="Features\Accounting\Receivables\ClearOpenBalance.feature" />
+    <None Include="Features\Accounting\Receivables\ClearOpenBalanceReceivable.feature" />
     <None Include="Features\Accounting\Receivables\DeletePayment.feature" />
     <None Include="Features\Accounting\Receivables\ReceivableColumnsCellData.feature" />
     <None Include="Features\Accounting\Receivables\WriteOffReceivable.feature" />

@@ -17,7 +17,7 @@ namespace Dealius.Pages
         private static By PopUpConfirm = By.XPath("//button[contains(text(),'CONFIRM')]");
         private static By ViewButton = By.XPath("//a[@title='View']");
         private static By AddReceiptButton = By.CssSelector("a[title='Add Receipt']");
-        private static By ClearOpenBalanceButton = By.CssSelector("a[title='Clear Open Balance']");
+        private static By ClearOpenBalanceButton = By.CssSelector("td > a[title='Clear Open Balance']");
         private static By LoadingImage = By.XPath("//div[@class='k-loading-image']");
         private static By SearchTermInputReceivables = By.XPath("//form[@data-tab='receivables']/descendant::input[@name='SearchTerm']");
         private static By SearchTermInputPayables = By.XPath("//form[@data-tab='payables']/descendant::input[@name='SearchTerm']");
@@ -128,14 +128,12 @@ namespace Dealius.Pages
         public void InputSearchTermReceivables(string searchText)
         {
             WaitElementEnabled(SearchTermInputReceivables).SendKeys(searchText);
-            //WaitElementDisplayed(LoadingImage);
             WaitElementDisappears(LoadingImage);
         }
 
         public void InputSearchTermInvoices(string searchText)
         {
             WaitElementEnabled(SearchTermInputInvoices).SendKeys(searchText);
-            //WaitElementDisplayed(LoadingImage);
             WaitElementDisappears(LoadingImage);
         }
 
@@ -289,7 +287,13 @@ namespace Dealius.Pages
             return Find(trBroker(payee)).FindElement(tdOpenBalanceAmount).Text;
         }
 
-        public void ClickClearOpenBalance()
+        public void ClickClearOpenBalanceButtonForPayable(string payee)
+        {
+            var row = WaitForElement(trBroker(payee));
+            click(row, ClearOpenBalanceButton);
+        }
+
+        public void ClickFirstClearOpenBalanceButton()
         {
             click(ClearOpenBalanceButton);
         }

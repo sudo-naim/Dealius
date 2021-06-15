@@ -30,7 +30,7 @@ Scenario: Amount Due amount after receipt has Cleared Open Balance
 	And receipt for payment is added
 	| Amount |
 	| 50     |
-	When user clears open Balance
+	When user clears open Balance for receivable
 	And the user opens the Payables tab
 	And searches deal ID on payables tab
 	Then Amount Due for Payee 'User Broker' is 30.00$

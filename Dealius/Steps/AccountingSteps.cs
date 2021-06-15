@@ -315,17 +315,17 @@ namespace Dealius.Steps
             Assert.True(String.IsNullOrEmpty(accountingPage.AmountReceviedReceivableText()));
         }
 
-        [When(@"user clears open Balance")]
+        [When(@"user clears open Balance for receivable")]
         public void WhenUserClearsOpenBalance()
         {
-            accountingPage.ClickClearOpenBalance();
+            accountingPage.ClickFirstClearOpenBalanceButton();
             accountingPage.ClickPopUpConfirm();
         }
 
-        [When(@"user clears open Balance for payable")]
-        public void WhenUserClearsOpenBalanceForOverpayed()
+        [When(@"user clears open Balance payable for Payee '(.*)'")]
+        public void WhenUserClearsOpenBalanceForOverpayed(string payee)
         {
-            accountingPage.ClickClearOpenBalance();
+            accountingPage.ClickClearOpenBalanceButtonForPayable(payee);
             accountingPage.ClickYes();
         }
 

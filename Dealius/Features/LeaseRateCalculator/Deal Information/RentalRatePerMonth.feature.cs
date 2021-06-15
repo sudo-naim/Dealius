@@ -81,29 +81,29 @@ namespace Dealius.Features.LeaseRateCalculator.DealInformation
         {
 #line 6
  #line hidden
-            TechTalk.SpecFlow.Table table37 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table38 = new TechTalk.SpecFlow.Table(new string[] {
                         "Company Name",
                         "DealName",
                         "EstCloseDate"});
-            table37.AddRow(new string[] {
+            table38.AddRow(new string[] {
                         "NewCompany",
                         "AutoDeal",
                         "03.20.2021"});
 #line 7
- testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), table37, "Given ");
+ testRunner.Given("a Tenant Rep Deal is created", ((string)(null)), table38, "Given ");
 #line hidden
-            TechTalk.SpecFlow.Table table38 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table39 = new TechTalk.SpecFlow.Table(new string[] {
                         "Start Date",
                         "Lease Type",
                         "Term",
                         "Space Required"});
-            table38.AddRow(new string[] {
+            table39.AddRow(new string[] {
                         "01/01/2020",
                         "Assignment",
                         "24",
                         "100"});
 #line 10
- testRunner.And("deal transaction information is entered", ((string)(null)), table38, "And ");
+ testRunner.And("deal transaction information is entered", ((string)(null)), table39, "And ");
 #line hidden
 #line 13
  testRunner.And("lease rate calculator page is opened", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

@@ -19,7 +19,7 @@ Scenario: Clear open balance for payables payment when open balance is a negativ
 	And receipt is added
 	When a user enters payment details
 	And inputs amount 100$ for first payment
-	And user clears open Balance for payable
+	And user clears open Balance payable for Payee 'User Broker'
 	Then amount paid for Payee 'User Broker' is 100$
 	Then open expense for Payee 'User Broker' is $0.00
 
@@ -27,7 +27,7 @@ Scenario: Clear open balance for payables payment when open balance is a positiv
 	And receipt is added
 	When a user enters payment details
 	And inputs amount 20$ for first payment
-	And user clears open Balance for payable
+	And user clears open Balance payable for Payee 'User Broker'
 	Then amount paid for Payee 'User Broker' is 20$
 	Then open expense for Payee 'User Broker' is $0.00
 
