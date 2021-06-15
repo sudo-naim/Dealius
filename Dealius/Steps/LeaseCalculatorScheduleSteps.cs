@@ -1,4 +1,5 @@
-﻿using Dealius.Models;
+﻿using BoDi;
+using Dealius.Models;
 using Dealius.Pages;
 using OpenQA.Selenium;
 using System;
@@ -24,7 +25,8 @@ namespace Dealius.Steps
         // ---- TableCells
         private double MonthsCell { get; set; }
         // ---- Table Cells
-        public LeaseCalculatorScheduleSteps(IWebDriver driver, FeatureContext fct , ScenarioContext sct)
+        private IObjectContainer objectContainer;
+        public LeaseCalculatorScheduleSteps(IObjectContainer objectContainer,IWebDriver driver, FeatureContext fct , ScenarioContext sct)
         {
             this.sct = sct;
             this.fct = fct;
@@ -32,6 +34,8 @@ namespace Dealius.Steps
             dealsPage = new DealsPage(driver);
             dealsProfilePage = new DealsProfilePage(driver);
             _rentCalculationPage = new RentCalculationPage(driver);
+            this.objectContainer = objectContainer;
+            OutputLogger.Initialize(objectContainer);
         }
 
         [Given(@"deal transaction information is entered")]
@@ -224,7 +228,7 @@ namespace Dealius.Steps
         {
             var Deal = sct.Get<CalculatorDealInfo>("Deal");
 
-            _rentCalculationPage.CheckLeaseType(Deal.LeaseType);
+            _rentCalculationPage.CheckLeaseType(Deal.LeaseType); //testing screenshot
             _rentCalculationPage.CheckLeaseCommencement(Deal.StartDate);
             _rentCalculationPage.CheckLeaseExpiration(Deal.StartDate, Deal.Term);
             _rentCalculationPage.CheckMonths(Deal.Term);

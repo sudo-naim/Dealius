@@ -13,7 +13,7 @@ using Xunit;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
-[assembly: CollectionBehavior(MaxParallelThreads = 3)]
+//[assembly: CollectionBehavior(MaxParallelThreads = 3)]
 [assembly: Guid("7941f03f-dbd5-4367-b0d1-f7872aac0f29")]
 
 // [assembly: AssemblyVersion("1.0.*")]

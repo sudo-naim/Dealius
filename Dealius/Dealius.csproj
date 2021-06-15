@@ -134,6 +134,7 @@
     <Compile Include="Models\CalculatorDealInfo.cs" />
     <Compile Include="Models\LeaseVariables.cs" />
     <Compile Include="Models\RentsGridTable.cs" />
+    <Compile Include="Utils\OutputLogger.cs" />
     <Compile Include="Pages\Accounting\AccountingPage.cs" />
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\ClosingDealPage.cs" />

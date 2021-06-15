@@ -217,6 +217,33 @@ namespace Dealius.Pages
             }
         }
 
+        public IWebElement WaitElementRelative(IWebElement rel, By locator)
+        {
+            try
+            {
+                IWebElement element = wait.Until(drv =>
+                {
+                    try
+                    {
+
+                        var el = rel.FindElement(locator);
+                        return (el.Displayed && el.Enabled) ? el : null;
+                    }
+                    catch (Exception e)
+                    {
+                        if (e is NoSuchElementException || e is StaleElementReferenceException)
+                            return null;
+                        throw;
+                    }
+                });
+                return element;
+            }
+            catch (Exception e)
+            {
+                throw new WebDriverTimeoutException($"Timeout while waiting for {locator}");
+            }
+        }
+
         public void WaitElementDisappearsRelative(By parentLocator, By childLocator)
         {
             try

@@ -23,6 +23,7 @@ namespace Dealius.Pages
         private static By SearchTermInputPayables = By.XPath("//form[@data-tab='payables']/descendant::input[@name='SearchTerm']");
         private static By SearchTermInputInvoices = By.XPath("//form[@data-tab='invoices']/descendant::input[@name='SearchTerm']");
         private static By UlReceivablesTab = By.XPath("//ul[@id='tabs-general']/li/a[contains(text(),'Receivables')]");
+        private static By UlPayablesTab = By.XPath("//ul[@id='tabs-general']/li/a[contains(text(),'Payables')]");
         private static By FilterDateRangeAllReceivables = By.XPath("//form[@data-tab='receivables']/descendant::input[@name='DateRange']/..");
         private static By FilterDateRangeAllPayables = By.XPath("//form[@data-tab='payables']/descendant::input[@name='DateRange']/..");
         private static By FilterDateRangeAllInvoices = By.XPath("//form[@data-tab='invoices']/descendant::input[@name='DateRange']/..");
@@ -37,6 +38,7 @@ namespace Dealius.Pages
         private static By tdReference = By.CssSelector("td[data-column='PaymentReferenceNo']");
         private static By tdPaidDate = By.CssSelector("td[data-column='PaidDate']");
         private static By tdAmountRecevied = By.CssSelector("td[data-column='PaidAmount']");
+        private static By tdAmountDue = By.CssSelector("td[data-column='AmountDue']");
         private static By tdOpenBalanceAmount = By.CssSelector("td[data-column='OpenBalanceAmount']");
         private static By tdAmountPaid = By.XPath("//div[@data-tab='payables']/descendant::td[@data-column='PaidAmount']");
 
@@ -95,7 +97,7 @@ namespace Dealius.Pages
 
         public void ClickPayablesTab()
         {
-            click(PayablesTab);
+            click(UlPayablesTab);
         }
 
         public void ClickInvoicesTab()
@@ -249,6 +251,18 @@ namespace Dealius.Pages
         {
             WaitForElement(trBroker(payee));
             return Find(trBroker(payee)).FindElement(tdAmountRecevied).Text;
+        }
+
+        public string AmountDuePayablesText(string payee)
+        {
+            WaitForElement(trBroker(payee));
+            return Find(trBroker(payee)).FindElement(tdAmountRecevied).Text;
+        }
+
+        public double AmountDuePayables(string payee)
+        {
+            WaitForElement(trBroker(payee));
+            return double.Parse(Find(trBroker(payee)).FindElement(tdAmountDue).Text.TrimStart('$'));
         }
 
         public string PaymentMethodPayablesText(string payee)

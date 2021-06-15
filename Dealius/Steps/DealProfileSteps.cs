@@ -1,4 +1,5 @@
-﻿using Dealius.Models;
+﻿using BoDi;
+using Dealius.Models;
 using Dealius.Pages;
 using OpenQA.Selenium;
 using System;
@@ -11,7 +12,7 @@ using Xunit;
 namespace Dealius.Steps
 {
     [Binding]
-    class DealProfileSteps
+    public class DealProfileSteps
     {
         DealiusPage dealiusPage;
         DealsPage dealsPage;
@@ -21,8 +22,8 @@ namespace Dealius.Steps
         private LeaseVariables leaseVariables { get; set; } = new LeaseVariables();
         ScenarioContext sct { get; set; }
         FeatureContext fct { get; set; }
-
-        public DealProfileSteps(IWebDriver driver, FeatureContext fct, ScenarioContext sct)
+        private IObjectContainer objectContainer;
+        public DealProfileSteps(IObjectContainer objectContainer,IWebDriver driver, FeatureContext fct, ScenarioContext sct)
         {
             this.sct = sct;
             this.fct = fct;
@@ -30,6 +31,8 @@ namespace Dealius.Steps
             dealsPage = new DealsPage(driver);
             dealsProfilePage = new DealsProfilePage(driver);
             _rentCalculationPage = new RentCalculationPage(driver);
+            this.objectContainer = objectContainer;
+            OutputLogger.Initialize(objectContainer);
         }
 
         [Given(@"financial details are added")]

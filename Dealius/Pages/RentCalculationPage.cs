@@ -187,7 +187,7 @@ namespace Dealius.Pages
         
         public void CheckHeaderUnderBaseRateIsDisplayed(string headerTitle)
         {
-            var element = Find(RentsGridTable, By.XPath($"//th[contains(text(),'{headerTitle}')]"));           
+            var element = Find(RentsGridTable, By.XPath($"//th[contains(text(),'{headerTitle}')]"));          
             Assert.True(element.Displayed);
         }
 

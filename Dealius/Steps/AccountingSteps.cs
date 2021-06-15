@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using BoDi;
 using Dealius.Models;
 using Dealius.Pages;
 using OpenQA.Selenium;
@@ -21,8 +22,9 @@ namespace Dealius.Steps
         MakePaymentPage makePaymentPage;
         ScenarioContext sct { get; set; }
         FeatureContext fct { get; set; }
+        private IObjectContainer objectContainer;
 
-        public AccountingSteps(IWebDriver driver, FeatureContext fct, ScenarioContext sct)
+        public AccountingSteps(IObjectContainer objectContainer, IWebDriver driver, FeatureContext fct, ScenarioContext sct)
         {
             this.sct = sct;
             this.fct = fct;
@@ -33,6 +35,8 @@ namespace Dealius.Steps
             accountingPage = new AccountingPage(driver);
             addReceiptPage = new AddReceiptPage(driver);
             makePaymentPage = new MakePaymentPage(driver);
+            this.objectContainer = objectContainer;
+            OutputLogger.Initialize(objectContainer);
         }
 
         [Given(@"property information are entered")]
@@ -107,8 +111,9 @@ namespace Dealius.Steps
             //dealsProfilePage.ClickPopUpYesButton();
 
             closingDealPage.ClickSubmitButton();
-            //waitforCloseRequestDeatilsPopUp Proccessingbutton to dissappear
             closingDealPage.ClickPopupSubmitButton();
+            //closingDealPage.WaitPopUpCloseProcessingButtonToDissapear();
+            closingDealPage.ClickPopUpOKButton();
             closingDealPage.ClickApproveButton();
             closingDealPage.WaitForProcessingButtonToDissappear();
             closingDealPage.ClickPopUpOKButton();
@@ -118,12 +123,18 @@ namespace Dealius.Steps
         public void GivenAccountingPageIsOpened()
         {
             dealiusPage.ClickAccounting();
-        }
+       }
 
         [Given(@"Receivables tab is opened")]
         public void GivenReceivablesTabIsOpened()
         {
             accountingPage.ClickReceivablesTab();
+        }
+
+        [When(@"the user opens the Payables tab")]
+        public void WhenTheUserOpensThePayablesTab()
+        {
+            accountingPage.ClickPayablesTab();
         }
 
         [Given(@"Invoices tab is opened")]
@@ -163,6 +174,20 @@ namespace Dealius.Steps
             var DealId = sct.Get<int>("dealID").ToString();
             accountingPage.InputSearchTermReceivables(DealId);
             accountingPage.ClickFilterDateRangeAllReceivables();
+        }
+
+        [When(@"searches deal ID on payables tab")]
+        public void WhenSearchesByDealID()
+        {
+            var DealId = sct.Get<int>("dealID").ToString();
+            accountingPage.InputSearchTermPayables(DealId);
+            accountingPage.ClickFilterDateRangeAllPayables();
+        }
+
+        [Then(@"Amount Due for Payee '(.*)' is (.*)\$")]
+        public void ThenAmountDueForPayeeIs(string payee, double amountDue)
+        {
+            Assert.Equal(amountDue, accountingPage.AmountDuePayables(payee));
         }
 
         [Then(@"the Total Due is (.*)\$")]
@@ -339,7 +364,7 @@ namespace Dealius.Steps
         }
 
         [Then(@"amount paid for Payee '(.*)' is (.*)\$")]
-        public void ThenAmountPaidForBrokerIs(string brokerName, int amountPaid)
+        public void ThenAmountPaidForBrokerIs(string brokerName, double amountPaid)
         {
             Assert.Equal(amountPaid, accountingPage.PayablesPayeeAmountPaid(brokerName));
         }

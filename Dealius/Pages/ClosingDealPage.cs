@@ -9,8 +9,10 @@ namespace Dealius.Pages
         private static By SubmitButton = By.XPath("//button[contains(@class,'js-close-action')][contains(text(),'SUBMIT')]");
         private By PopupSubmitButton = By.XPath("//div[@id='popup-close-request']/descendant::button[contains(text(),'SUBMIT')]");
         private By ApproveButton = By.XPath("//button[contains(text(),'APPROVE')]");
-        private By PopUpOKButton = By.CssSelector("button.btn.btn-primary.js-ok");
+        private By PopUpOKButton = By.XPath("//button[@class='btn btn-primary js-ok']");
         private By PopUpYesButton = By.CssSelector("button.btn.btn-primary.js-yes");
+        private By PooUpCloseProcessingButton = By.XPath("//div[@id='popup-close-request']/descendant::button[contains(text(),'PROCESSING...')]");
+        private By PopupCloseRequest = By.Id("popup-layout");
         #endregion
         public ClosingDealPage(IWebDriver driver) : base(driver) { }
 
@@ -20,6 +22,8 @@ namespace Dealius.Pages
         }
         public void ClickPopupSubmitButton()
         {
+            //the line below waits for CLOSE REQUEST DETAILS pop up input field (Lease Execution Date) until it is not empty
+            WaitElementDisappears(By.XPath("//input[@name='CloseDate'][contains(@class,'empty')]"));
             click(PopupSubmitButton);
         }
 
@@ -32,6 +36,11 @@ namespace Dealius.Pages
         {
             WaitElementDisplayed(By.XPath("//button[text()='PROCESSING...']"));
             WaitElementDisappears(By.XPath("//button[text()='PROCESSING...']"));
+        }
+
+        public void WaitPopUpCloseProcessingButtonToDissapear()
+        {
+            WaitElementDisappears(PooUpCloseProcessingButton);
         }
 
         public void ClickPopUpOKButton()
