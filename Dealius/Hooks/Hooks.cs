@@ -1,4 +1,5 @@
 ﻿using BoDi;
+using Dealius.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
@@ -99,6 +100,14 @@ namespace Dealius.Hooks
             {
                 Console.WriteLine("Error while taking screenshot: {0}", ex);
             }
+        }
+
+        [AfterScenario(Order = 2)]
+        public void DisposeData()
+        {
+            var db = new DbManager();
+
+            db.DeleteAllData();
         }
     }
 }
