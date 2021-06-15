@@ -1,4 +1,5 @@
 ﻿using BoDi;
+using Dealius.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
@@ -40,10 +41,18 @@ namespace Dealius.Hooks
             dealiusPage.Login(email, password);
         }
 
-        [AfterScenario]
+        [AfterScenario(Order = 1)]
         public void DisposeDriverAfterScenario()
         {
             driver.Quit();
+        }
+
+        [AfterScenario(Order = 2)]
+        public void DisposeData()
+        {
+            var db = new DbManager();
+
+            db.DeleteAllData();
         }
     }
 }
