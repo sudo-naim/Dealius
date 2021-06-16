@@ -20,7 +20,9 @@ namespace Dealius.Utils
 
         public void DeleteAllData()
         {
-            var sql = "update [Deal] set [DeletedDate] = GETUTCDATE(), [DeletedBy] = @userId";
+            var sql = @"
+                update [Company] set [DeletedDate] = GETUTCDATE(), [DeletedBy] = @userId;
+                update [Deal] set [DeletedDate] = GETUTCDATE(), [DeletedBy] = @userId;";
 
             using (var connection = new SqlConnection(_connectionString))
             {
