@@ -75,7 +75,7 @@ namespace Dealius.Pages
             click(PopUpConfirm);
             try
             {
-                WaitElementDisplayed(LoadingImage);
+                WaitElementDisplayedImmediate(LoadingImage);
             }
             catch (Exception e)
             {
@@ -120,6 +120,11 @@ namespace Dealius.Pages
             click(DeletePaymentButtonn);
         }
 
+        public void ClickTheFirstMakePaymentButton()
+        {
+            WaitElementClick(MakePaymentButton);
+        }
+
         public IWebElement OpenClearBalanceButton()
         {
             return WaitElementDisplayed(ClearOpenBalanceButton);
@@ -145,8 +150,7 @@ namespace Dealius.Pages
 
         public void ClickFilterDateRangeAllReceivables()
         {
-            WaitElementAndClick(FilterDateRangeAllReceivables);
-            WaitElementDisappears(LoadingImage);
+            WaitForElement(FilterDateRangeAllReceivables).Click();
         }
 
         public void ClickFilterDateRangeAllInvoices()
@@ -157,7 +161,7 @@ namespace Dealius.Pages
         public void ClickFilterDateRangeAllPayables()
         {
             WaitElementAndClick(FilterDateRangeAllPayables);
-            WaitElementDisappears(LoadingImage);
+            WaitForLoadingImage();
         }
 
         public void SelectAllRelevance()
@@ -336,10 +340,5 @@ namespace Dealius.Pages
             Input(ToEmailInput, "test@hotmail.com"+Keys.Enter);
         }
 
-        public void WaitForLoadingImageToDissapear()
-        {
-            WaitElementDisplayed(LoadingImage);
-            WaitElementDisappears(LoadingImage);
-        }
     }
 }

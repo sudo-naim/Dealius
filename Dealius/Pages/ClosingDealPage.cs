@@ -24,7 +24,14 @@ namespace Dealius.Pages
         {
             //the line below waits for CLOSE REQUEST DETAILS pop up input field (Lease Execution Date) until it is not empty
             WaitElementDisappears(By.XPath("//input[@name='CloseDate'][contains(@class,'empty')]"));
+            WaitElementEnabled(By.CssSelector("input[aria-invalid='false']"));
+            string inputValue = Find(By.CssSelector("input[name='CloseDate']")).GetAttribute("value");
+            if(!string.IsNullOrEmpty(inputValue))
             click(PopupSubmitButton);
+            else
+            {
+                OutputLogger.Log("Pop Up submit button is not clicked because input is empty");
+            }
         }
 
         public void ClickApproveButton()
@@ -34,7 +41,14 @@ namespace Dealius.Pages
 
         public void WaitForProcessingButtonToDissappear()
         {
-            WaitElementDisplayed(By.XPath("//button[text()='PROCESSING...']"));
+            try
+            {
+                WaitElementDisplayedImmediate(By.XPath("//button[text()='PROCESSING...']"));
+            }
+            catch (Exception e)
+            {
+                WaitElementDisappears(By.XPath("//button[text()='PROCESSING...']"));
+            }
             WaitElementDisappears(By.XPath("//button[text()='PROCESSING...']"));
         }
 

@@ -38,6 +38,5 @@ Scenario: Check house Net Value after receivable Clear Open Balance
 	| Amount |
 	| 150    |
 	When user clears open Balance for receivable
-	And the user opens the Payables tab
-	And searches deal ID on payables tab
-	And 
+	And user navigates to Payables Summary form
+	Then total house net is $60.00

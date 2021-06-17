@@ -11,7 +11,7 @@ Background:
 	And property information are entered
 	And landlord company name is entered
 	And a house broker is added
-	And payment is added on a day before todays date
+	And payment is added on 2 days before todays date
 	And the deal is closed
 	And Accounting page is opened
 

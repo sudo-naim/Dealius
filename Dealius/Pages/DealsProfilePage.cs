@@ -15,7 +15,7 @@ namespace Dealius.Pages
         private By AddNew = By.XPath("//a[text()='Add new']");
         private By NameInput = By.Id("Name");
         private By EstimatedCloseDate = By.Name("EstimatedCloseDate");
-        private By SaveButton = By.XPath("//ul/following-sibling::button[text() = 'SAVE']");
+        private By SaveButton = By.XPath("//form[@id='form-main']/descendant::button[@data-loading-text='CREATING DEAL...'][@type='submit']");
         private By SaveFormButton = By.XPath("//button/following-sibling::button[text()='SAVE']");
         private By CloseDealButton = By.XPath("//button[text()='CLOSE DEAL']");
         private By CalculateButton = By.XPath("//button[contains(text(),'Calculate')]");
@@ -41,6 +41,7 @@ namespace Dealius.Pages
         private By PopUpYesButton = By.CssSelector("button.btn.btn-primary.js-yes");
         private By PopUpNoButton = By.CssSelector("button.btn.btn-default.js-no");
         private By AddNewContactSaveButton = By.XPath("//form[@id='form-contact-details']/descendant::button[contains(text(),'SAVE')]");
+        private By NewCompanyName = By.Id("Name");
 
         private By EstimatedPaymentDate(int index) => By.Name($"DealPayments[{index}][EstimatedPaymentDate]");
         private By DealPaymentCommissionFee(int index) => By.Name($"DealPayments[{index}][CommissionUi]");
@@ -66,7 +67,7 @@ namespace Dealius.Pages
         public void InputCompanyName(string companyName)
         {
             Input(ClientName, companyName);
-            WaitElementToBeClickable(AddNew).Click();
+            WaitElementClick(AddNew);
             WaitElementToBeClickable(SaveFormButton).Click();
             WaitForElement(Find(By.CssSelector("a[title='Clear']")));
         }
@@ -88,7 +89,7 @@ namespace Dealius.Pages
         public void ClickCalculate()
         {
             ScrollToElement(CalculateButton);
-            WaitElementToBeClickable(CalculateButton).Click();
+            WaitElementClick(CalculateButton);
         }
 
         public void WaitHalfASecond()
@@ -136,8 +137,10 @@ namespace Dealius.Pages
 
         public void InputLandlordCompanyName(string companyName)
         {
-            Input(LandlordCompanyName, companyName);
-            WaitElementToBeClickable(AddNew).Click();
+            ScrollToElement(LandlordCompanyName);
+            click(LandlordCompanyName);
+            WaitElementClick(AddNew);
+            Input(NewCompanyName, companyName);
             WaitElementToBeClickable(SaveFormButton).Click();
         }
 
@@ -208,8 +211,6 @@ namespace Dealius.Pages
         public void ClickSaveButton()
         {
             click(By.XPath("//button[contains(@class,'btn-success')][text()='SAVE']"));
-            WaitElementDisplayed(By.XPath("//button[text()='SAVING...']"));
-            WaitElementDisappears(By.XPath("//button[text()='SAVING...']"));
             WaitElementDisplayed(By.XPath("//span[contains(text(),'Deal updated')]"));
             WaitElementDisappears(By.XPath("//span[contains(text(),'Deal updated')]"));
         }
@@ -253,7 +254,7 @@ namespace Dealius.Pages
         public void InputSellerInformation(string companyName)
         {
             Input(OppositeSideName, companyName);
-            WaitElementToBeClickable(AddNew).Click();
+            WaitElementClick(AddNew);
             WaitElementToBeClickable(SaveFormButton).Click();
             //WaitForElement(Find(By.CssSelector("a[title='Clear']")));
         }

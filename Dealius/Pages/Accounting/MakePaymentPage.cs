@@ -16,6 +16,7 @@ namespace Dealius.Pages
         private static By PaymentMethod = By.XPath("//select[contains(@name,'[Payments][0][MethodId]')]");
         private static By ReferenceInput = By.XPath("//input[contains(@name,'[Payments][0][ReferenceNumber]')]");
         private static By PaymentRows = By.XPath("//div[@class='row d-flex payment-row']");
+        private static By TotalHouseNet = By.CssSelector("label[data-name='TotalHouseNet']");
 
         #endregion
         public MakePaymentPage(IWebDriver driver) : base(driver) { }
@@ -53,6 +54,12 @@ namespace Dealius.Pages
         {
             Input(AmoountPayablesInput, Keys.Control + 'a');
             Input(AmoountPayablesInput, amount.ToString());
+        }
+
+        public double TotalHouseNetAmount()
+        {
+
+            return double.Parse(WaitElementDisplayed(TotalHouseNet).Text.TrimStart('$'));
         }
     }
 }

@@ -92,11 +92,11 @@ namespace Dealius.Steps
             dealsProfilePage.InputPaymentCommissionFee("100");
         }
 
-        [Given(@"payment is added on a day before todays date")]
-        public void GivenPaymentIsAddedOnThePastFromTodays()
+        [Given(@"payment is added on (.*) days before todays date")]
+        public void GivenPaymentIsAddedOnThePastFromTodays(int days)
         {
             dealsProfilePage.ClickAddPaymentButton();
-            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today.AddDays(-1));
+            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today.AddDays(-days));
             dealsProfilePage.InputPaymentCommissionFee("100");
         }
 
@@ -107,15 +107,13 @@ namespace Dealius.Steps
             dealsProfilePage.ClickSaveButton();
             dealsProfilePage.ClickCloseDealButton();
 
-            //if(dealsProfilePage.PopUpYesButtonIsDisplayed())
-            //dealsProfilePage.ClickPopUpYesButton();
-
             closingDealPage.ClickSubmitButton();
             closingDealPage.ClickPopupSubmitButton();
-            //closingDealPage.WaitPopUpCloseProcessingButtonToDissapear();
             closingDealPage.ClickPopUpOKButton();
+
             closingDealPage.ClickApproveButton();
             closingDealPage.WaitForProcessingButtonToDissappear();
+
             closingDealPage.ClickPopUpOKButton();
         }
 
@@ -149,7 +147,7 @@ namespace Dealius.Steps
             var DealId = sct.Get<int>("dealID").ToString();
             accountingPage.InputSearchTermInvoices(DealId);
             accountingPage.ClickFilterDateRangeAllInvoices();
-            accountingPage.WaitForLoadingImageToDissapear();
+            accountingPage.WaitForLoadingImage();
         }
 
         [Then(@"invoice status of that deal is (.*)")]
@@ -164,7 +162,7 @@ namespace Dealius.Steps
             accountingPage.ClickEmailInvoice();
             accountingPage.InputPopUpToEmail();
             accountingPage.ClickPopUpSendButton();
-            accountingPage.WaitForLoadingImageToDissapear();
+            accountingPage.WaitForLoadingImage();
         }
 
         [When(@"the user filters the closed Deal")]
@@ -182,6 +180,31 @@ namespace Dealius.Steps
             var DealId = sct.Get<int>("dealID").ToString();
             accountingPage.InputSearchTermPayables(DealId);
             accountingPage.ClickFilterDateRangeAllPayables();
+            accountingPage.WaitForLoadingImage();
+        }
+
+        [When(@"opens make payment page")]
+        public void WhenOpensMakePaymentPage()
+        {
+            accountingPage.ClickTheFirstMakePaymentButton();
+        }
+
+
+        [When(@"user navigates to Payables Summary form")]
+        public void WhenUserNavigatesToPayablesSummaryForm()
+        {
+            var DealId = sct.Get<int>("dealID").ToString();
+
+            accountingPage.ClickPayablesTab();
+            accountingPage.InputSearchTermPayables(DealId);
+            accountingPage.ClickFilterDateRangeAllPayables();
+            accountingPage.ClickTheFirstMakePaymentButton();
+        }
+
+        [Then(@"total house net is \$(.*)")]
+        public void ThenTotalHouseNetIs(double houseNet)
+        {
+            Assert.Equal(houseNet, makePaymentPage.TotalHouseNetAmount());
         }
 
         [Then(@"Amount Due for Payee '(.*)' is (.*)\$")]
@@ -222,6 +245,7 @@ namespace Dealius.Steps
             dynamic receipt = table.CreateDynamicInstance();
 
             accountingPage.SelectAllRelevance();
+            accountingPage.WaitForLoadingImage();
             accountingPage.ClickAddReceiptButton();
             addReceiptPage.SelectPaymentMethod();
             addReceiptPage.InputReference();
@@ -237,6 +261,7 @@ namespace Dealius.Steps
             dynamic receipt = table.CreateDynamicInstance();
 
             accountingPage.SelectAllRelevance();
+            accountingPage.WaitForLoadingImage();
             accountingPage.ClickAddReceiptButton();
             addReceiptPage.SelectPaymentMethod();
             addReceiptPage.InputReference();
@@ -260,6 +285,10 @@ namespace Dealius.Steps
             addReceiptPage.InputAmount(0);
             addReceiptPage.ClickSaveButton();
             addReceiptPage.ClickPopUpYesButton();
+            // additional waits
+            accountingPage.WaitForLoadingImage();
+            addReceiptPage.WaitForPopUpWriteOffPayablesDisplay();
+            //
             addReceiptPage.ClickSecondPopUpSaveButton();
         }
 
@@ -335,6 +364,7 @@ namespace Dealius.Steps
             var DealId = sct.Get<int>("dealID").ToString();
             accountingPage.InputSearchTermReceivables(DealId);
             accountingPage.ClickFilterDateRangeAllReceivables();
+            accountingPage.WaitForLoadingImage();
             accountingPage.ClickAddReceiptButton();
             addReceiptPage.SelectPaymentMethod();
             addReceiptPage.InputReference();

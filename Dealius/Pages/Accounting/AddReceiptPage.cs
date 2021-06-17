@@ -44,7 +44,7 @@ namespace Dealius.Pages
 
         public void ClickSecondPopUpSaveButton()
         {
-            click(SecondPopUpYesButton);
+            WaitElementClick(SecondPopUpYesButton);
         }
 
         public void ClickSaveButton()
@@ -80,6 +80,9 @@ namespace Dealius.Pages
             return Find(PopUpConfirm);
         }
 
-
+        public void WaitForPopUpWriteOffPayablesDisplay()
+        {
+            WaitElementDisplayed(By.XPath("//table[@id='payables']"));
+        }
     }
 }
