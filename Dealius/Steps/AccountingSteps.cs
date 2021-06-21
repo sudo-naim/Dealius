@@ -103,6 +103,18 @@ namespace Dealius.Steps
             dealsProfilePage.InputPaymentCommissionFee(100, 1);
         }
 
+        [Given(@"expense is added")]
+        public void GivenExpenseIsAdded(Table table)
+        {
+            dynamic expense = table.CreateDynamicInstance();
+
+            dealsProfilePage.ClickAddExpense();
+            dealsProfilePage.SelectDealExpenseByText(expense.ExpenseType, 1);
+            dealsProfilePage.InputExpenseVendorName(expense.VendorName, 1);
+            dealsProfilePage.InputExpenseAmount(expense.ExpenseAmount, 1);
+        }
+
+
         [Given(@"payment is added on (.*) days before todays date")]
         public void GivenPaymentIsAddedOnThePastFromTodays(int days)
         {
@@ -395,6 +407,19 @@ namespace Dealius.Steps
             accountingPage.SelectAllRelevancePayables();
             accountingPage.ClickFilterDateRangeAllPayables();
         }
+
+        [When(@"a user clicks make payment")]
+        public void WhenAUserClicksMakePayment()
+        {
+            accountingPage.ClickTheFirstMakePaymentButton();
+        }
+
+        [When(@"user click payment for payee '(.*)'")]
+        public void WhenUserClickPaymentForPayee(string payee)
+        {
+            accountingPage.ClickPayableMakePayment(payee);
+        }
+
 
         [When(@"a user adds payment details for the (.*)st payable")]
         [When(@"a user adds payment details for the (.*)nd payable")]

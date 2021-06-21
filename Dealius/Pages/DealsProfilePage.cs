@@ -44,7 +44,11 @@ namespace Dealius.Pages
         private By NewCompanyName = By.Id("Name");
         private By EditButton = By.XPath("//div[@class='page-header']/descendant::button[contains(text(),'EDIT DEAL')]");
         private By SetSplitsButton = By.CssSelector("button[class='btn btn-primary btn-sm btn-add-split']");
+        private By AddExpenseButton = By.XPath("//button/span[contains(text(),'Add Expense')]/..");
         private By GreenPaidLabel = By.XPath("//div[@id='popup-deal_split']/descendant::span[contains(text(),'Paid')]");
+        private By ExpensesVendorName(int index) => By.Name($"DealExpenses[{index}][VendorName]");
+        private By ExpensesAmount(int index) => By.Name($"DealExpenses[{index}][Amount]");
+        private By ExpenseTypeSelect(int index) => By.Name($"DealExpenses[{index}][ExpenseTypeID]");
 
         private By EstimatedPaymentDate(int index) => By.Name($"DealPayments[{index}][EstimatedPaymentDate]");
         private By DealPaymentCommissionFee(int index) => By.Name($"DealPayments[{index}][CommissionUi]");
@@ -264,12 +268,32 @@ namespace Dealius.Pages
             click(SetSplitsButton);
         }
 
+        public void ClickAddExpense()
+        {
+            click(AddExpenseButton);
+        }
+
         public IWebElement PaidLabel()
         {
            WaitElementDisplayed(By.Id("tab0"));
            return Find(GreenPaidLabel);
         }
 
+        public void SelectDealExpenseByText(string text, int rowNumber)
+        {
+            var select = new SelectElement(WaitElementEnabled(ExpenseTypeSelect(rowNumber - 1)));
+            select.SelectByText(text);
+        }
+
+        public void InputExpenseVendorName(string name, int rowNumber)
+        {
+            Input(ExpensesVendorName(rowNumber-1), name);
+        }
+        
+        public void InputExpenseAmount(double amount, int rowNumber)
+        {
+            Input(ExpensesAmount(rowNumber-1), amount.ToString());
+        }
         public void InputSellerInformation(string companyName)
         {
             Input(OppositeSideName, companyName);

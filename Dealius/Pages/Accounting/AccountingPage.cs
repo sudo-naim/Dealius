@@ -32,6 +32,8 @@ namespace Dealius.Pages
         private static By RelevanceFilter = By.Name("Relevance");
         private static By InvoiceStatus = By.CssSelector("td[data-column='Status'] >span");
 
+        private static By tdMakePaymentButton = By.XPath("./td/a[@title='Make Payment']");
+
         private static By tdDealID = By.CssSelector("td[data-column='DealID'] > span");
         private static By tdDealReceivablesDueAmount = By.CssSelector("td[data-column='DealReceivablesDueAmount']");
         private static By tdDueAmount = By.CssSelector("td[data-column='DueAmount']");
@@ -126,6 +128,13 @@ namespace Dealius.Pages
             WaitElementClick(MakePaymentButton);
         }
 
+        public void ClickPayableMakePayment(string payee)
+        {
+            WaitForElement(trBroker(payee));
+            var el = Find(trBroker(payee)).FindElement(tdMakePaymentButton);
+            click(el);
+        }
+
         public IWebElement OpenClearBalanceButton()
         {
             return WaitElementDisplayed(ClearOpenBalanceButton);
@@ -145,7 +154,9 @@ namespace Dealius.Pages
 
         public void InputSearchTermPayables(string searchText)
         {
-            WaitElementEnabled(SearchTermInputPayables).SendKeys(searchText);
+            WaitElementEnabled(SearchTermInputPayables).Clear();
+            Input(SearchTermInputPayables, searchText);
+
             WaitElementDisappears(LoadingImage);
         }
 

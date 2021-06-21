@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Configs\connectionStrings.config.template" />
     <None Include="Configs\connectionStrings.config" />
     <None Include="Features\Accounting\Invoices\InvoiceStatus.feature" />
     <None Include="Features\Accounting\Invoices\OverDueInvoiceStatus.feature" />
@@ -170,6 +171,7 @@
     <None Include="Features\Accounting\Payables\AmountPaid.feature" />
     <None Include="Features\Accounting\Payables\ClearOpenBalancePayable.feature" />
     <None Include="Features\Accounting\Payables\DeletePaymentPayables.feature" />
+    <None Include="Features\Accounting\Payables\PayExpsensePayable.feature" />
     <None Include="Features\Accounting\Payables\ShiftingBalance.feature" />
     <None Include="Features\Accounting\Payables\WriteOffPayables.feature" />
     <None Include="Features\Accounting\Receivables\ClearOpenBalanceReceivable.feature" />
