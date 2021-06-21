@@ -9,6 +9,7 @@ namespace Dealius.Pages
         #region locators
         private static By ViewReceiptButtonn = By.XPath("//a[@title='View Receipt']");
         private static By DeletePaymentButtonn = By.XPath("//a[@title='Delete Payment']");
+        private static By tdDeletePaymentButtonn = By.XPath("./td/a[@title='Delete Payment']");
         private static By PrintReceiptButtonn = By.CssSelector("a[title='Print Receipt']");
         private static By MakePaymentButton = By.XPath("//a[@title='Make Payment']");
         private static By EmailInvoiceButton = By.XPath("//a[@title='Email Invoice']");
@@ -40,7 +41,7 @@ namespace Dealius.Pages
         private static By tdAmountRecevied = By.CssSelector("td[data-column='PaidAmount']");
         private static By tdAmountDue = By.CssSelector("td[data-column='AmountDue']");
         private static By tdOpenBalanceAmount = By.CssSelector("td[data-column='OpenBalanceAmount']");
-        private static By tdAmountPaid = By.XPath("//div[@data-tab='payables']/descendant::td[@data-column='PaidAmount']");
+        private static By tdAmountPaid = By.CssSelector("td[data-column='PaidAmount']");
 
         private static By trBroker(string brokerName) => By.XPath($"//td[@data-column='Payee'][contains(text(),'{brokerName}')]/..");
 
@@ -230,16 +231,50 @@ namespace Dealius.Pages
 
             WaitForElement(trBroker(payee));
 
-            var el = Find(trBroker(payee)).FindElement(tdAmountRecevied);
+            var el = Find(trBroker(payee)).FindElement(tdAmountPaid);
 
             return double.Parse(el.Text.TrimStart('$'));
+        }
+        
+        public double AmountPaidForPayeeAndPaymentNumber(string payee, string paymentNumber)
+        {
+
+            IWebElement e = WaitForElement(trBroker(payee));
+            var rows = FindElements(trBroker(payee));
+            foreach (var row in rows)
+            {
+                var element = row.FindElement(By.XPath($"./td[@data-column='DueDate']/span[@title]"));
+                if (element.GetAttribute("title") == paymentNumber)
+                {
+                    e = row.FindElement(tdAmountPaid);
+                }
+            }
+
+            return double.Parse(e.Text.TrimStart('$'));
+        }
+
+        public double OpenExpenseForPayeeAndPaymentNumber(string payee, string paymentNumber)
+        {
+
+            IWebElement e = WaitForElement(trBroker(payee));
+            var rows = FindElements(trBroker(payee));
+            foreach (var row in rows)
+            {
+                var element = row.FindElement(By.XPath($"./td[@data-column='DueDate']/span[@title]"));
+                if (element.GetAttribute("title") == paymentNumber)
+                {
+                    e = row.FindElement(tdOpenBalanceAmount);
+                }
+            }
+
+            return double.Parse(e.Text.TrimStart('$'));
         }
 
         public void ClickDeletePaymentButton(string payee)
         {
             WaitForElement(trBroker(payee));
 
-            var el = Find(trBroker(payee)).FindElement(DeletePaymentButtonn);
+            var el = Find(trBroker(payee)).FindElement(tdDeletePaymentButtonn);
 
             el.Click();
         }
@@ -306,7 +341,7 @@ namespace Dealius.Pages
         {
             try
             {
-                WaitElementDisplayed(LoadingImage);
+                WaitElementDisplayedImmediate(LoadingImage);
             }
             catch (Exception e)
             {
@@ -340,5 +375,9 @@ namespace Dealius.Pages
             Input(ToEmailInput, "test@hotmail.com"+Keys.Enter);
         }
 
+        public void ClickDealIDCell()
+        {
+            click(tdDealID);
+        }
     }
 }

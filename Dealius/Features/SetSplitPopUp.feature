@@ -1,4 +1,4 @@
-﻿Feature: OverDueInvoiceStatus
+﻿Feature: SetSplitPopUp
 
 
 Background: 
@@ -11,11 +11,14 @@ Background:
 	And property information are entered
 	And landlord company name is entered
 	And a house broker is added with commission percentage 100%
-	And payment is added on 2 days before todays date
+	And payment is added
 	And the deal is closed
 	And Accounting page is opened
+	And Receivables tab is opened
 
-Scenario: Invoice status is marked Overdue after closing deal 
-	And Invoices tab is opened
-	When user find the deal row
-	Then invoice status of that deal is Overdue
+Scenario: Amount Paid for Payee displays correct amount after making a payment
+	And receipt is added
+	When a user makes the payment
+	And opens deals profile
+	And opens set split pop up
+	Then gree Paid Label is displayed

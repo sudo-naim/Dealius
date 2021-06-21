@@ -1,4 +1,4 @@
-﻿Feature: FooterTotalOutside
+﻿Feature: OutsideBrokersTotalRow
 
 Background: Landlord & Tenant Rep column hide away if $/SF Tenant Rep Fee type is chosen
 	Given a Tenant Rep Deal is created
@@ -11,9 +11,16 @@ Background: Landlord & Tenant Rep column hide away if $/SF Tenant Rep Fee type i
 	| 01.01.2020 | Assignment | 24   | 100            |
 	And lease rate calculator page is opened
 	
-Scenario: Total Outside result when landlord rep fee is calculated in percentage
+Scenario: Check Outside Broker Total amount after generating schedule for single outside broker
 	And Rate Type option 'Per Month' is selected
 	And Rate per SF of 50$ is entered
 	And Landlord Rep Fee 5% is entered
 	When the user generates schedule
-	Then the footer Total Opposite Rep Fee Amount is $6000
+	Then Outside Brokers Total amount is $6000
+
+Scenario: Check Outside Broker Total percentage after generating schedule for single outside broker
+	And Rate Type option 'Per Month' is selected
+	And Rate per SF of 50$ is entered
+	And Landlord Rep Fee 5% is entered
+	When the user generates schedule
+	Then Outside Broker Total percentage is 100%

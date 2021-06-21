@@ -42,6 +42,9 @@ namespace Dealius.Pages
         private By PopUpNoButton = By.CssSelector("button.btn.btn-default.js-no");
         private By AddNewContactSaveButton = By.XPath("//form[@id='form-contact-details']/descendant::button[contains(text(),'SAVE')]");
         private By NewCompanyName = By.Id("Name");
+        private By EditButton = By.XPath("//div[@class='page-header']/descendant::button[contains(text(),'EDIT DEAL')]");
+        private By SetSplitsButton = By.CssSelector("button[class='btn btn-primary btn-sm btn-add-split']");
+        private By GreenPaidLabel = By.XPath("//div[@id='popup-deal_split']/descendant::span[contains(text(),'Paid')]");
 
         private By EstimatedPaymentDate(int index) => By.Name($"DealPayments[{index}][EstimatedPaymentDate]");
         private By DealPaymentCommissionFee(int index) => By.Name($"DealPayments[{index}][CommissionUi]");
@@ -183,9 +186,9 @@ namespace Dealius.Pages
             click(AddNewContactSaveButton);
         }
 
-        public void InputCommissionPercentage(string percentage)
+        public void InputCommissionPercentage(double percentage)
         {
-            Input(BrokerPercentage, percentage);
+            Input(BrokerPercentage, percentage.ToString());
         }
         
         public void InputCommissionPercentageForSecondBroker(string percentage)
@@ -198,14 +201,14 @@ namespace Dealius.Pages
             click(AddPaymentButton);
         }
 
-        public void InputEstimatedPaymentDate(DateTime paymentDate)
+        public void InputEstimatedPaymentDate(DateTime paymentDate, int paymentNumber)
         {
-            Input(EstimatedPaymentDate(0), paymentDate.ToString("MM/dd/yyyy")+ Keys.Enter);
+            Input(EstimatedPaymentDate(paymentNumber-1), paymentDate.ToString("MM/dd/yyyy")+ Keys.Enter);
         }
 
-        public void InputPaymentCommissionFee(string percentage)
+        public void InputPaymentCommissionFee(int percentage, int paymentNumber)
         {
-            Input(DealPaymentCommissionFee(0), percentage);
+            Input(DealPaymentCommissionFee(paymentNumber-1), percentage.ToString());
         }
 
         public void ClickSaveButton()
@@ -249,6 +252,22 @@ namespace Dealius.Pages
         public void InputBuyerRepFee(double price)
         {
             Input(BuyerRepFeeInput, price.ToString());
+        }
+
+        public void ClickEditButton()
+        {
+            click(EditButton);
+        }
+        
+        public void ClickSetSplitsButton()
+        {
+            click(SetSplitsButton);
+        }
+
+        public IWebElement PaidLabel()
+        {
+           WaitElementDisplayed(By.Id("tab0"));
+           return Find(GreenPaidLabel);
         }
 
         public void InputSellerInformation(string companyName)

@@ -1,5 +1,4 @@
-﻿Feature: ClearOpenBalance
-
+﻿Feature: WriteOffPayables
 
 Background: 
 	Given a Tenant Rep Deal is created
@@ -16,27 +15,22 @@ Background:
 	And Accounting page is opened
 	And Receivables tab is opened
 
-Scenario: Clear Open Balance when open balance is a positive number (underpayed)
+Scenario: Clear Open Balance for payable with Payee
 	And the closed Deal is filtered out
 	And receipt for payment is added
 	| Amount |
 	| 50     |
-	When user clears open Balance for receivable
-	Then Open Balance is $0.00
+	When a user marks payables as write off
+	And the user opens the Payables tab
+	And searches deal ID on payables tab
+	Then open expense for Payee 'User Broker' is $0.00
 
-Scenario: Clear Open Balance when open balance is a negative number (overpayed)
+Scenario: Clear Open Balance for payable Fr. Fee
 	And the closed Deal is filtered out
-	And receipt for over payment is added
+	And receipt for payment is added
 	| Amount |
-	| 150    |
-	When user clears open Balance for receivable
-	Then Open Balance is $0.00
-
-Scenario: Check house Net Value after receivable Clear Open Balance
-	And the closed Deal is filtered out
-	And receipt for over payment is added
-	| Amount |
-	| 150    |
-	When user clears open Balance for receivable
-	And user navigates to Payables Summary form
-	Then total house net is $60.00
+	| 50     |
+	When a user marks payables as write off
+	And the user opens the Payables tab
+	And searches deal ID on payables tab
+	Then open expense for Payee 'Fr. Fee' is $0.00

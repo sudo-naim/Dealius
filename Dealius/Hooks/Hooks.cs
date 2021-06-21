@@ -38,7 +38,7 @@ namespace Dealius.Hooks
             var password = ConfigurationManager.AppSettings.Get("UserPasswordOfficeAdmin");
 
             var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArguments("headless");
+            //chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("--disable-gpu");
             chromeOptions.AddArguments("--window-size=1920,1080");
             chromeOptions.AddArguments("start-maximized");
@@ -65,7 +65,7 @@ namespace Dealius.Hooks
             }
         }
 
-        [AfterTestRun]
+        //[AfterTestRun]
         public static void DisposeData()
         {
             var db = new DbManager();

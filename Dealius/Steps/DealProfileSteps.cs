@@ -18,6 +18,7 @@ namespace Dealius.Steps
         DealsPage dealsPage;
         DealsProfilePage dealsProfilePage;
         RentCalculationPage _rentCalculationPage;
+        AccountingPage accountingPage;
         private CalculatorDealInfo Deal { get; set; }
         private LeaseVariables leaseVariables { get; set; } = new LeaseVariables();
         ScenarioContext sct { get; set; }
@@ -31,6 +32,7 @@ namespace Dealius.Steps
             dealsPage = new DealsPage(driver);
             dealsProfilePage = new DealsProfilePage(driver);
             _rentCalculationPage = new RentCalculationPage(driver);
+            accountingPage = new AccountingPage(driver);
             this.objectContainer = objectContainer;
             OutputLogger.Initialize(objectContainer);
         }
@@ -54,9 +56,30 @@ namespace Dealius.Steps
         public void GivenBuyerRepDealPaymentIsAdded()
         {
             dealsProfilePage.ClickAddPaymentButton();
-            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Parse("02.20.2021"));
-            dealsProfilePage.InputPaymentCommissionFee("100");
+            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Parse("02.20.2021"), 1);
+            dealsProfilePage.InputPaymentCommissionFee(100, 1);
         }
+
+        [When(@"opens deals profile")]
+        public void WhenOpensDealsProfile()
+        {
+            accountingPage.ClickDealIDCell();
+        }
+
+        [When(@"opens set split pop up")]
+        public void WhenOpensSetSplitPopUp()
+        {
+            dealsProfilePage.ClickExpandAll();
+            dealsProfilePage.ClickEditButton();
+            dealsProfilePage.ClickSetSplitsButton();
+        }
+
+        [Then(@"gree Paid Label is displayed")]
+        public void ThenGreePaidLabelIsDisplayed()
+        {
+            Assert.True(dealsProfilePage.PaidLabel().Displayed);
+        }
+
 
     }
 }

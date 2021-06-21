@@ -76,28 +76,39 @@ namespace Dealius.Steps
             dealsProfilePage.InputLandlordCompanyName("RandomCompany");
         }
         
-        [Given(@"a house broker is added")]
-        public void GivenAHouseBrokerIsAdded()
+        [Given(@"a house broker is added with commission percentage (.*)%")]
+        public void GivenAHouseBrokerIsAdded(double percentage)
         {
             dealsProfilePage.ClickAddHouseBrokerButton();
             dealsProfilePage.SelectBroker(ConfigurationManager.AppSettings.Get("BrokerName"));  //pre-requisite used
-            dealsProfilePage.InputCommissionPercentage("100");
+            dealsProfilePage.InputCommissionPercentage(percentage);
         }
-        
+
+        [Given(@"(.*)% of fee on (.*)nd payment is added")]
+        [Given(@"(.*)% of fee on (.*)st payment is added")]
+        [Given(@"(.*)% of fee on (.*)d payment is added")]
+        [Given(@"(.*)% of fee on (.*)th payment is added")]
+        public void GivenSecondPaymentIsAdded(int percentage, int paymentNumber)
+        {
+            dealsProfilePage.ClickAddPaymentButton();
+            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today, paymentNumber);
+            dealsProfilePage.InputPaymentCommissionFee(percentage, paymentNumber);
+        }
+
         [Given(@"payment is added")]
         public void GivenPaymentIsAdded()
         {
             dealsProfilePage.ClickAddPaymentButton();
-            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today);
-            dealsProfilePage.InputPaymentCommissionFee("100");
+            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today, 1);
+            dealsProfilePage.InputPaymentCommissionFee(100, 1);
         }
 
         [Given(@"payment is added on (.*) days before todays date")]
         public void GivenPaymentIsAddedOnThePastFromTodays(int days)
         {
             dealsProfilePage.ClickAddPaymentButton();
-            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today.AddDays(-days));
-            dealsProfilePage.InputPaymentCommissionFee("100");
+            dealsProfilePage.InputEstimatedPaymentDate(DateTime.Today.AddDays(-days), 1);
+            dealsProfilePage.InputPaymentCommissionFee(100, 1);
         }
 
 
@@ -179,8 +190,8 @@ namespace Dealius.Steps
         {
             var DealId = sct.Get<int>("dealID").ToString();
             accountingPage.InputSearchTermPayables(DealId);
+            accountingPage.SelectAllRelevancePayables();
             accountingPage.ClickFilterDateRangeAllPayables();
-            accountingPage.WaitForLoadingImage();
         }
 
         [When(@"opens make payment page")]
@@ -279,6 +290,7 @@ namespace Dealius.Steps
 
         [Given(@"a receivable is writen off")]
         [When(@"a user marks receivable as write off")]
+        [When(@"a user marks payables as write off")]
         public void WhenAUserMarksReceivableAsWriteOff()
         {
             accountingPage.ClickViewReceiptButton();
@@ -341,7 +353,7 @@ namespace Dealius.Steps
         [Then(@"Amount Received is empty")]
         public void ThenAmountReceivedIsEmpty()
         {
-            Assert.True(String.IsNullOrEmpty(accountingPage.AmountReceviedReceivableText()));
+            Assert.True(String.IsNullOrEmpty(accountingPage.AmountReceviedReceivableText()), "Amount Received is expected to be null or empty");
         }
 
         [When(@"user clears open Balance for receivable")]
@@ -376,12 +388,41 @@ namespace Dealius.Steps
         {
             var DealId = sct.Get<int>("dealID").ToString();
 
-            makePaymentPage.SelectPaymentMethod();
-            makePaymentPage.InputReference();
+            makePaymentPage.SelectPaymentMethodForAllPayees();
+            makePaymentPage.InputReferenceForAllPayees();
             makePaymentPage.ClickSaveButton();
             accountingPage.InputSearchTermPayables(DealId);
             accountingPage.SelectAllRelevancePayables();
             accountingPage.ClickFilterDateRangeAllPayables();
+        }
+
+        [When(@"a user adds payment details for the (.*)st payable")]
+        [When(@"a user adds payment details for the (.*)nd payable")]
+        [When(@"a user adds payment details for the (.*)d payable")]
+        [When(@"a user adds payment details for the (.*)th payable")]
+        public void WhenAUserAddsPaymentDetailsForTheStPayable(int payableNumber, Table table)
+        {
+            dynamic payment = table.CreateDynamicInstance();
+
+            makePaymentPage.SelectPayableMethodForPayee(payableNumber, payment.PaymentMethod);
+            makePaymentPage.InputReferenceForPayee(payableNumber, payment.Reference);
+            makePaymentPage.InputAmountForPayee(payableNumber, payment.Amount);
+
+        }
+
+        [When(@"user shifts open balance")]
+        public void WhenUserShiftsOpenBalance()
+        {
+            makePaymentPage.ClickSaveButton();
+            makePaymentPage.ClickYesButton();
+
+        }
+
+        [When(@"user does not shift open balance")]
+        public void WhenUserDoesNotShiftOpenBalance()
+        {
+            makePaymentPage.ClickSaveButton();
+            makePaymentPage.ClickNoButton();
         }
 
         [When(@"a user enters payment details")]
@@ -389,14 +430,26 @@ namespace Dealius.Steps
         {
             var DealId = sct.Get<int>("dealID").ToString();
 
-            makePaymentPage.SelectPaymentMethod();
-            makePaymentPage.InputReference();
+            makePaymentPage.SelectPaymentMethodForAllPayees();
+            makePaymentPage.InputReferenceForAllPayees();
         }
 
-        [Then(@"amount paid for Payee '(.*)' is (.*)\$")]
-        public void ThenAmountPaidForBrokerIs(string brokerName, double amountPaid)
+        [Then(@"Amount Paid for Payee '(.*)' of (.*) is (.*)\$")]
+        public void ThenAmountPaidForBrokerIs(string brokerName, string paymentNumber, double amountPaid)
+        {
+            Assert.Equal(amountPaid, accountingPage.AmountPaidForPayeeAndPaymentNumber(brokerName, paymentNumber));
+        }
+
+        [Then(@"Amount Paid for Payee '(.*)' is (.*)\$")]
+        public void ThenAmountPaidForPayeeIs(string brokerName, double amountPaid)
         {
             Assert.Equal(amountPaid, accountingPage.PayablesPayeeAmountPaid(brokerName));
+        }
+
+        [Then(@"Open Expense for Payee '(.*)' of (.*) is (.*)\$")]
+        public void ThenOpenExpenseForBrokerIs(string brokerName, string paymentNumber, double OpenBalance)
+        {
+            Assert.Equal(OpenBalance, accountingPage.OpenExpenseForPayeeAndPaymentNumber(brokerName, paymentNumber));
         }
 
         [When(@"delets payment of payee '(.*)'")]
@@ -410,25 +463,25 @@ namespace Dealius.Steps
         [Then(@"Amount Paid for payee '(.*)' is cleared")]
         public void ThenAmountPaidIsCleared(string payee)
         {
-            Assert.True(String.IsNullOrEmpty(accountingPage.AmountPaidPayablesText(payee)));
+            Assert.True(String.IsNullOrEmpty(accountingPage.AmountPaidPayablesText(payee)),"Amount Paid is expected to be null or empty");
         }
 
         [Then(@"Payment Method for payee '(.*)' is cleared")]
         public void ThenPaymentMethodForPayeeIsCleared(string payee)
         {
-            Assert.True(String.IsNullOrEmpty(accountingPage.PaymentMethodPayablesText(payee)));
+            Assert.True(String.IsNullOrEmpty(accountingPage.PaymentMethodPayablesText(payee)), "Payment Method is expected to be null or empty");
         }
 
         [Then(@"Payment Reference for payee '(.*)' is cleared")]
         public void ThenPaymentReferenceForPayeeIsCleared(string payee)
         {
-            Assert.True(String.IsNullOrEmpty(accountingPage.PaymentReferencePayablesText(payee)));
+            Assert.True(String.IsNullOrEmpty(accountingPage.PaymentReferencePayablesText(payee)), "Payment Reference is expected to be null or empty");
         }
 
         [Then(@"Payment Date for payee '(.*)' is cleared")]
         public void ThenPaymentDateForPayeeIsCleared(string payee)
         {
-            Assert.True(String.IsNullOrEmpty(accountingPage.PaidDatePayablesText(payee)));
+            Assert.True(String.IsNullOrEmpty(accountingPage.PaidDatePayablesText(payee)), "Payment Date is expected to be null or empty");
         }
 
         [When(@"refreshes the page")]
@@ -443,6 +496,18 @@ namespace Dealius.Steps
             var DealId = sct.Get<int>("dealID").ToString();
 
             makePaymentPage.InputFirstPaymentAmount(amount);
+            makePaymentPage.ClickSaveButton();
+            accountingPage.InputSearchTermPayables(DealId);
+            accountingPage.SelectAllRelevancePayables();
+            accountingPage.ClickFilterDateRangeAllPayables();
+        }
+
+        [When(@"inputs amount (.*)\$ for second payment")]
+        public void WhenUserInputsAmountForSecondPayment(double amount)
+        {
+            var DealId = sct.Get<int>("dealID").ToString();
+
+            makePaymentPage.InputSecondPaymentAmount(amount);
             makePaymentPage.ClickSaveButton();
             accountingPage.InputSearchTermPayables(DealId);
             accountingPage.SelectAllRelevancePayables();

@@ -10,7 +10,7 @@ Background:
 	| 01.01.2020 | Assignment | 24   | 100            | 10          | 5             |
 	And property information are entered
 	And landlord company name is entered
-	And a house broker is added
+	And a house broker is added with commission percentage 100%
 	And payment is added
 	And the deal is closed
 	And Accounting page is opened

@@ -566,5 +566,59 @@ namespace Dealius.Steps
             Assert.Equal(totalCommission, _rentCalculationPage.FooterTotalCommissionAmount());
         }
 
+        [Then(@"House Broker Total percentage is (.*)%")]
+        public void ThenHouseBrokerPercentageTotalIs(double percentage)
+        {
+            Assert.Equal(percentage, _rentCalculationPage.HouseBrokerTotalPercentageOfDeal());
+        }
+        
+        [Then(@"House Broker Total amount is \$(.*)")]
+        public void ThenHouseBrokerTotalAmountIs(double amount)
+        {
+            Assert.Equal(amount, _rentCalculationPage.HouseBrokerTotalAmountOfDeal());
+        }
+
+        [Then(@"percentage of House Broker on first row is (.*)%")]
+        public void ThenPercentageOfHouseBrokerOnFirstRowIs(double percentage)
+        {
+            Assert.Equal(percentage, _rentCalculationPage.FirstHouseBrokerPercentageofDeal());
+        }
+
+        [Then(@"amount earned of House Broker on first row is \$(.*)")]
+        public void ThenAmountEarnedOfHouseBrokerOnFirstRowIs(double amountEarned)
+        {
+            Assert.Equal(amountEarned, _rentCalculationPage.FirstHouseBrokerAmountOfDeal());
+        }
+
+        [Then(@"Outside Brokers Total amount is \$(.*)")]
+        public void ThenOutsideBrokersTotalAmountIs(double amount)
+        {
+            Assert.Equal(amount, _rentCalculationPage.OutsideBrokersTotalAmountEarnedOfDeal());
+        }
+
+        [Then(@"Outside Broker Total percentage is (.*)%")]
+        public void ThenOutsideBrokerTotalPercentageIs(double percentage)
+        {
+            Assert.Equal(percentage, _rentCalculationPage.OutsideBrokersTotalPercentageOfDeal());
+        }
+
+        [Then(@"percentage of Outside Broker on first row is (.*)%")]
+        public void ThenPercentageOfOutsideBrokerOnFirstRowIs(double percentage)
+        {
+            Assert.Equal(percentage, _rentCalculationPage.FirstRowOutsideBrokersPercentageOfDeal());
+        }
+
+        [Then(@"amount earned of Outside Broker on first row is \$(.*)")]
+        public void ThenAmountEarnedOfOutsideBrokerOnFirstRowIs(double amount)
+        {
+            Assert.Equal(amount, _rentCalculationPage.FirstRowOutsideBrokersAmountOfDeal());
+        }
+
+        [Then(@"total commission is \$(.*)")]
+        public void ThenTotalCommissionIs(double totalCommission)
+        {
+            Assert.Equal(totalCommission, _rentCalculationPage.TotalCommissionAmount());
+        }
+
     }
 }

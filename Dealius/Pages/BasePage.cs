@@ -19,7 +19,7 @@ namespace Dealius.Pages
         public BasePage(IWebDriver driver) 
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(120));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
             waitImmediate = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
             js = driver as IJavaScriptExecutor;
         }

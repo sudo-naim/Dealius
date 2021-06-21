@@ -55,6 +55,15 @@ namespace Dealius.Pages
         private static By FooterTotalExpenses = By.CssSelector("td[data-name='RentsTotalExpensesAmount']");
         private static By FooterTotalCommisionAmount = By.CssSelector("td[data-name='RentsTotalCommissionAmount']");
         private static By ColumnTitle(string title) => By.XPath($"//descendant::th[contains(text(),'{title}')][@data-bind]");
+        private static By HouseBrokerTotalPercentage = By.CssSelector("span[data-name='BrokersGroup3PercentageOfDeal']");
+        private static By OutsideBrokerTotalPercentage = By.CssSelector("span[data-name='BrokersGroup4PercentageOfDeal']");
+        private static By HouseBrokerTotalAmount = By.CssSelector("span[data-name='BrokersGroup3AmountEarned']");
+        private static By OutsideBrokerTotalAmount = By.CssSelector("span[data-name='BrokersGroup4AmountEarned']");
+        private static By FirstRowHouseBrokerPercentage = By.CssSelector("div[data-name='Brokers3[0][PercentageOfDeal]']");
+        private static By FirstRowOutsideBrokerPercentage = By.CssSelector("div[data-name='Brokers4[0][PercentageOfDeal]']");
+        private static By FirstRowHouseBrokerAmount = By.CssSelector("div[data-name='Brokers3[0][AmountEarned]']");
+        private static By FirstRowOutsideBrokerAmount = By.CssSelector("div[data-name='Brokers4[0][AmountEarned]']");
+        private static By TotalCommission = By.CssSelector("span[data-name='GrandTotalBrokersAmountEarned']");
         //====================================================================
         private static By tdMonthsInput = By.XPath(".//input[(contains(@name,'[Months]'))]");
         private static By tdRentPerSfInput = By.XPath(".//input[(contains(@name,'[RentPerSf]'))]");
@@ -458,6 +467,68 @@ namespace Dealius.Pages
             return double.Parse(totalExpenses);
         }
 
+        public double HouseBrokerTotalPercentageOfDeal()
+        {
+            var percentage = WaitElementDisplayed(HouseBrokerTotalPercentage).Text.TrimEnd('%');
+
+            return double.Parse(percentage);
+        }
+        
+        public double FirstHouseBrokerPercentageofDeal()
+        {
+            var percentage = WaitElementDisplayed(FirstRowHouseBrokerPercentage).Text.TrimEnd('%');
+
+            return double.Parse(percentage);
+        }
+
+        public double HouseBrokerTotalAmountOfDeal()
+        {
+            var totalAmount = WaitElementDisplayed(HouseBrokerTotalAmount).Text.TrimStart('$');
+
+            return double.Parse(totalAmount);
+        }
+        
+        public double FirstHouseBrokerAmountOfDeal()
+        {
+            var amount = WaitElementDisplayed(FirstRowHouseBrokerAmount).Text.TrimStart('$');
+
+            return double.Parse(amount);
+        }
+
+        public double OutsideBrokersTotalAmountEarnedOfDeal()
+        {
+            var amount = WaitElementDisplayed(OutsideBrokerTotalAmount).Text.TrimStart('$');
+
+            return double.Parse(amount);
+        }
+
+        public double OutsideBrokersTotalPercentageOfDeal()
+        {
+            var amount = WaitElementDisplayed(OutsideBrokerTotalPercentage).Text.TrimEnd('%');
+
+            return double.Parse(amount);
+        }
+
+        public double FirstRowOutsideBrokersPercentageOfDeal()
+        {
+            var percentage = WaitElementDisplayed(FirstRowOutsideBrokerPercentage).Text.TrimEnd('%');
+
+            return double.Parse(percentage);
+        }
+
+        public double FirstRowOutsideBrokersAmountOfDeal()
+        {
+            var amount = WaitElementDisplayed(FirstRowOutsideBrokerAmount).Text.TrimStart('$');
+
+            return double.Parse(amount);
+        }
+
+        public double TotalCommissionAmount()
+        {
+            var totalCommission = WaitElementDisplayed(TotalCommission).Text.TrimStart('$');
+
+            return double.Parse(totalCommission);
+        }
         public void ClickAddRent()
         {
             click(AddRentButton);

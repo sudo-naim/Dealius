@@ -9,7 +9,7 @@ Background:
 Scenario: create a new buyer rep deal
 	And property information are entered
 	And seller commpany name is entered
-	And a house broker is added
+	And a house broker is added with commission percentage 100%
 	And financial details are added
 	| PurchasePrice | BuyerRepFee |
 	| 200000        | 5           |
