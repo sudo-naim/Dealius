@@ -163,10 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Configs\connectionStrings.config.template" />
-    <None Include="Configs\connectionStrings.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Configs\connectionStrings.config" />
     <None Include="Features\Accounting\Invoices\InvoiceStatus.feature" />
     <None Include="Features\Accounting\Invoices\OverDueInvoiceStatus.feature" />
     <None Include="Features\Accounting\Payables\AmountDue.feature" />
