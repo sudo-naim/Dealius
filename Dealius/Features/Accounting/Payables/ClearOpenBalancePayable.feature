@@ -18,7 +18,7 @@ Background:
 Scenario: Clear open balance for payables payment when open balance is a negative number (overpayed)
 	And receipt is added
 	When a user enters payment details
-	And inputs amount 100$ for first payment
+	And saves payment for first payable with amount 100$
 	And user clears open Balance payable for Payee 'User Broker'
 	Then Amount Paid for Payee 'User Broker' is 100$
 	Then open expense for Payee 'User Broker' is $0.00
@@ -26,7 +26,7 @@ Scenario: Clear open balance for payables payment when open balance is a negativ
 Scenario: Clear open balance for payables payment when open balance is a positive number (underpayed)
 	And receipt is added
 	When a user enters payment details
-	And inputs amount 20$ for first payment
+	And saves payment for first payable with amount 20$
 	And user clears open Balance payable for Payee 'User Broker'
 	Then Amount Paid for Payee 'User Broker' is 20$
 	Then open expense for Payee 'User Broker' is $0.00
@@ -46,7 +46,7 @@ Scenario: Clear open balance for Fr. Fee payable payment when open balance is a 
 Scenario: Check Total House Net after clear open balance for payable
 	And receipt is added
 	When a user enters payment details
-	And inputs amount 20$ for first payment
+	And saves payment for first payable with amount 20$
 	And user clears open Balance payable for Payee 'User Broker'
 	And opens make payment page
 	Then total house net is $80.00

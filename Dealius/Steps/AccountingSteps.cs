@@ -515,7 +515,7 @@ namespace Dealius.Steps
             accountingPage.refreshPage();
         }
 
-        [When(@"inputs amount (.*)\$ for first payment")]
+        [When(@"saves payment for first payable with amount (.*)\$")]
         public void WhenUserInputsAmountForFirstPayment(double amount)
         {
             var DealId = sct.Get<int>("dealID").ToString();

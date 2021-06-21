@@ -28,9 +28,18 @@ Background:
 Scenario: Payable for expense is displayed with correct amount due
 	Then Amount Due for Payee 'Expense1' is 50$
 
-Scenario: Delete expense payable
+Scenario: Clear Open Balance for expense payable
 	When user click payment for payee 'Expense1'
-	And a user makes the payment
+	And a user enters payment details
+	And saves payment for first payable with amount 40$
+	And user clears open Balance payable for Payee 'Expense1'
+	Then Amount Paid for Payee 'Expense1' is 40$
+	Then open expense for Payee 'Expense1' is $0.00
+
+Scenario: Delete payable expenses resets row data
+	When user click payment for payee 'Expense1'
+	And a user enters payment details
+	And saves payment for first payable with amount 40$
 	And delets payment of payee 'Expense1'
 	And refreshes the page
 	Then Amount Paid for payee 'Expense1' is cleared

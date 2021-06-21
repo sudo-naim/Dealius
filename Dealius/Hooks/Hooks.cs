@@ -65,7 +65,7 @@ namespace Dealius.Hooks
             }
         }
 
-        //[AfterTestRun]
+        [AfterTestRun]
         public static void DisposeData()
         {
             var db = new DbManager();
