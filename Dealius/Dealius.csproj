@@ -177,6 +177,7 @@
     <None Include="Features\Accounting\Receivables\DeletePayment.feature" />
     <None Include="Features\Accounting\Receivables\ReceivableColumnsCellData.feature" />
     <None Include="Features\Accounting\Receivables\WriteOffReceivable.feature" />
+    <None Include="Features\SellerRep.feature" />
     <None Include="Features\SetSplitPopUp.feature" />
     <None Include="Features\BuyerRep.feature" />
     <None Include="Features\LeaseRateCalculator\CommissionFormFooter\HouseBrokerRow.feature" />

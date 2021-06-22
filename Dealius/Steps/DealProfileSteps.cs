@@ -43,7 +43,8 @@ namespace Dealius.Steps
             dynamic finance = table.CreateDynamicInstance();
 
             dealsProfilePage.InputPurchasePrice(finance.PurchasePrice);
-            dealsProfilePage.InputBuyerRepFee(finance.BuyerRepFee);
+            dealsProfilePage.ClientRepFeePercentage(finance.ClientRepFee);
+            dealsProfilePage.OppositeSideRepFeePercentage(finance.OppositeSideRepFee);
         }
 
         [Given(@"seller commpany name is entered")]
@@ -59,6 +60,19 @@ namespace Dealius.Steps
             dealsProfilePage.InputEstimatedPaymentDate(DateTime.Parse("02.20.2021"), 1);
             dealsProfilePage.InputPaymentCommissionFee(100, 1);
         }
+
+        [Then(@"Client Rep Commission is (.*)\$")]
+        public void ThenBuyerRepCommissionIs(double buyerRepCommission)
+        {
+            Assert.Equal(buyerRepCommission, dealsProfilePage.ClientRepCommissionAmount());
+        }
+
+        [Then(@"Opposite Side Rep Commission is (.*)\$")]
+        public void ThenSellerRepCommissionIs(double sellerRepCommission)
+        {
+            Assert.Equal(sellerRepCommission, dealsProfilePage.OppositeSideRepCommissionAmount());
+        }
+
 
         [When(@"opens deals profile")]
         public void WhenOpensDealsProfile()

@@ -32,7 +32,8 @@ namespace Dealius.Pages
         private By AddHouseBrokerButton = By.XPath("//span[contains(text(),'Add House Broker')]");
         private By AddOutsideBrokerButton = By.XPath("//span[contains(text(),'Add Outside Broker')]");
         private By PurchasePriceInput = By.CssSelector("input[name='PurchasePrice']");
-        private By BuyerRepFeeInput = By.CssSelector("input[name='ClientRepFee']");
+        private By ClientRepFeePercentageInput = By.CssSelector("input[name='ClientRepFee']");
+        private By OppositeSideRepFeePercentageInput = By.CssSelector("input[name='OppositeSideRepFee']");
         private By AddPaymentButton = By.XPath("//span[contains(text(),'Add Payment')]");
         private By BrokerName = By.Name("DealBrokers[0][BrokerName]");
         private By SecondBrokerName = By.Name("DealBrokers[1][BrokerName]");
@@ -46,6 +47,8 @@ namespace Dealius.Pages
         private By SetSplitsButton = By.CssSelector("button[class='btn btn-primary btn-sm btn-add-split']");
         private By AddExpenseButton = By.XPath("//button/span[contains(text(),'Add Expense')]/..");
         private By GreenPaidLabel = By.XPath("//div[@id='popup-deal_split']/descendant::span[contains(text(),'Paid')]");
+        private By ClientRepFeeAmountInput = By.Name("ClientRepFeeAmount");
+        private By OppositeSideRepFeeAmountInput = By.Name("OppositeSideRepFeeAmount");
         private By ExpensesVendorName(int index) => By.Name($"DealExpenses[{index}][VendorName]");
         private By ExpensesAmount(int index) => By.Name($"DealExpenses[{index}][Amount]");
         private By ExpenseTypeSelect(int index) => By.Name($"DealExpenses[{index}][ExpenseTypeID]");
@@ -253,9 +256,14 @@ namespace Dealius.Pages
             Input(PurchasePriceInput, price.ToString());
         }
 
-        public void InputBuyerRepFee(double price)
+        public void ClientRepFeePercentage(double price)
         {
-            Input(BuyerRepFeeInput, price.ToString());
+            Input(ClientRepFeePercentageInput, price.ToString());
+        }
+
+        public void OppositeSideRepFeePercentage(double price)
+        {
+            Input(OppositeSideRepFeePercentageInput, price.ToString());
         }
 
         public void ClickEditButton()
@@ -294,6 +302,19 @@ namespace Dealius.Pages
         {
             Input(ExpensesAmount(rowNumber-1), amount.ToString());
         }
+
+        public double ClientRepCommissionAmount()
+        {
+
+            return double.Parse(WaitElementDisplayed(ClientRepFeeAmountInput).GetAttribute("value").TrimStart('$'));
+        }
+
+        public double OppositeSideRepCommissionAmount()
+        {
+
+            return double.Parse(WaitElementDisplayed(OppositeSideRepFeeAmountInput).GetAttribute("value").TrimStart('$'));
+        }
+
         public void InputSellerInformation(string companyName)
         {
             Input(OppositeSideName, companyName);
